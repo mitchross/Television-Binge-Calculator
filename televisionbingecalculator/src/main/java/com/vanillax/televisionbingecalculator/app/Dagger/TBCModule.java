@@ -1,6 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.Dagger;
 
-import com.vanillax.televisionbingecalculator.app.API.ShowInfoAPI;
+import com.vanillax.televisionbingecalculator.app.ShowInfoAPI;
 import com.vanillax.televisionbingecalculator.app.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.TelevisionBingeCalculator;
 
@@ -22,7 +22,9 @@ import retrofit.RestAdapter;
 		{
 				LandingActivityMain.class,
 				TelevisionBingeCalculator.class
-		}
+		},
+
+		complete = false
 )
 
 

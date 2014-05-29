@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.API;
+package com.vanillax.televisionbingecalculator.app;
 
 import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule;
 import com.vanillax.televisionbingecalculator.app.Models.SeasonSummary;

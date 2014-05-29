@@ -16,7 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    packagingOptions{
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
+
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -24,5 +31,6 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.5.1'
     compile 'com.squareup.dagger:dagger:1.2.1'
     compile 'com.jakewharton:butterknife:5.1.0'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.1'
 
 }

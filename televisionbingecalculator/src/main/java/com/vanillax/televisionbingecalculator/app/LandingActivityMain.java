@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.vanillax.televisionbingecalculator.app.API.ShowInfoAPI;
 import com.vanillax.televisionbingecalculator.app.Models.SeasonSummary;
 
 import java.util.List;
@@ -33,8 +32,8 @@ public class LandingActivityMain extends Activity {
 	protected void onResume()
 	{
 		super.onResume();
-		//testList = showInfoAPI.searchShow( "Friends" );
-		//Log.d("Mitch", testList.toString());
+	//	testList = showInfoAPI.searchShow( "Friends" );
+	//	Log.d( "Mitch", testList.toString() );
 	}
 
 
