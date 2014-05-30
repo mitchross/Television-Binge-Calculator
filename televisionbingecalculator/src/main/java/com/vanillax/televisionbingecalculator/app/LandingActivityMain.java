@@ -5,19 +5,24 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.vanillax.televisionbingecalculator.app.Models.SeasonSummary;
+import com.vanillax.televisionbingecalculator.app.Models.SeasonSummaryResponse;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import roboguice.util.Ln;
 
-public class LandingActivityMain extends Activity {
+
+public class LandingActivityMain extends Activity  {
 
 	@Inject
 	ShowInfoAPI showInfoAPI;
 
-	List<SeasonSummary> testList;
+	List<SeasonSummaryResponse> testList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +37,7 @@ public class LandingActivityMain extends Activity {
 	protected void onResume()
 	{
 		super.onResume();
-	//	testList = showInfoAPI.searchShow( "Friends" );
-	//	Log.d( "Mitch", testList.toString() );
+		 showInfoAPI.searchShow( "Friends", new ShowSummaryResponseCallback() );
 	}
 
 
@@ -55,4 +59,20 @@ public class LandingActivityMain extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+	protected class ShowSummaryResponseCallback implements Callback< List<SeasonSummaryResponse> >
+	{
+
+		@Override
+		public void success( List<SeasonSummaryResponse> seasonSummaryResponse, Response response )
+		{
+			Ln.d( "Test" );
+		}
+
+		@Override
+		public void failure( RetrofitError retrofitError )
+		{
+			Ln.d("fail");
+		}
+	}
 }

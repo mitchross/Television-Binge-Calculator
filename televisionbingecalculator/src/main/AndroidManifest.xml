@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vanillax.televisionbingecalculator.app" >
 
-    <application
+	<uses-permission android:name="android.permission.INTERNET" />
+
+	<application
 		android:name=".TelevisionBingeCalculator"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

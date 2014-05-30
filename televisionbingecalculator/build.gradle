@@ -32,5 +32,6 @@ dependencies {
     compile 'com.squareup.dagger:dagger:1.2.1'
     compile 'com.jakewharton:butterknife:5.1.0'
     compile 'com.squareup.dagger:dagger-compiler:1.2.1'
+    compile 'org.roboguice:roboguice:3.0b-experimental'
 
 }
