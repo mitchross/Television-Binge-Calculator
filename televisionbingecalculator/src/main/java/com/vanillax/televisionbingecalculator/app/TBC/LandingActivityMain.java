@@ -1,11 +1,13 @@
-package com.vanillax.televisionbingecalculator.app;
+package com.vanillax.televisionbingecalculator.app.TBC;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.vanillax.televisionbingecalculator.app.Models.SeasonSummaryResponse;
+import com.vanillax.televisionbingecalculator.app.R;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
 
 import java.util.List;
 
@@ -19,15 +21,16 @@ import roboguice.util.Ln;
 
 public class LandingActivityMain extends Activity  {
 
-	@Inject
-	ShowInfoAPI showInfoAPI;
 
-	List<SeasonSummaryResponse> testList;
+
+	@Inject
+	ShowQueryMasterAPI showQueryMasterAPI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landing_activity_main);
+        setContentView( R.layout.activity_landing_activity_main);
 		TelevisionBingeCalculator.inject( this );
 
 
@@ -37,7 +40,7 @@ public class LandingActivityMain extends Activity  {
 	protected void onResume()
 	{
 		super.onResume();
-		 showInfoAPI.searchShow( "Friends", new ShowSummaryResponseCallback() );
+		showQueryMasterAPI.queryShow( "Crisis" , true , new ShowQueryMasterResponseCallback() );
 	}
 
 
@@ -60,13 +63,14 @@ public class LandingActivityMain extends Activity  {
         return super.onOptionsItemSelected(item);
     }
 
-	protected class ShowSummaryResponseCallback implements Callback< List<SeasonSummaryResponse> >
+
+	public class ShowQueryMasterResponseCallback implements Callback< List<ShowQueryMasterResponse> >
 	{
 
 		@Override
-		public void success( List<SeasonSummaryResponse> seasonSummaryResponse, Response response )
+		public void success( List<ShowQueryMasterResponse> showQueryMasterResponses, Response response )
 		{
-			Ln.d( "Test" );
+			Ln.d( "test" );
 		}
 
 		@Override
@@ -75,4 +79,5 @@ public class LandingActivityMain extends Activity  {
 			Ln.d("fail");
 		}
 	}
+
 }

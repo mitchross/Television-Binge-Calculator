@@ -1,8 +1,8 @@
 package com.vanillax.televisionbingecalculator.app.Dagger;
 
-import com.vanillax.televisionbingecalculator.app.ShowInfoAPI;
-import com.vanillax.televisionbingecalculator.app.LandingActivityMain;
-import com.vanillax.televisionbingecalculator.app.TelevisionBingeCalculator;
+import com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
+import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 
 import javax.inject.Singleton;
 
@@ -22,6 +22,7 @@ import retrofit.RestAdapter;
 		{
 				LandingActivityMain.class,
 				TelevisionBingeCalculator.class
+
 		},
 
 		complete = false
@@ -32,18 +33,18 @@ public class TBCModule
 {
 	public static final String API_KEY = "fc4a94f471d92ae34988bf5e135bb25d";
 
+
 	@Provides
 	@Singleton
-	ShowInfoAPI providesShowInfoAPI()
+	ShowQueryMasterAPI providesShowQueryMasterAPI()
 	{
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint( "http://api.trakt.tv/search" )
 				.setLogLevel( RestAdapter.LogLevel.FULL )
 				.build();
+		ShowQueryMasterAPI showQueryMasterAPI = restAdapter.create( ShowQueryMasterAPI.class );
+		return showQueryMasterAPI;
 
-		ShowInfoAPI showInfoAPI = restAdapter.create( ShowInfoAPI.class );
-
-		return showInfoAPI;
 	}
 
 

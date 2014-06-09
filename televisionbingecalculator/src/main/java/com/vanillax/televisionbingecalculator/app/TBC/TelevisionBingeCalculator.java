@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app;
+package com.vanillax.televisionbingecalculator.app.TBC;
 
 import android.app.Application;
 
