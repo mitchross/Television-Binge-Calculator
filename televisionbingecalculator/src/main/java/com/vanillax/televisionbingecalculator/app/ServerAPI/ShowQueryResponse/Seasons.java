@@ -10,9 +10,9 @@ import java.util.List;
 public class Seasons
 {
 	@SerializedName( "season"  )
-	int seasonList;
+	public int seasonList;
 
 	@SerializedName( "episodes" )
-	List<Episodes> episodesList;
+	public List<Episodes> episodesList;
 
 }

@@ -11,12 +11,15 @@ public class ShowQueryMasterResponse
 {
 
 	@SerializedName( "title" )
-	String title;
+	public String title;
 
 	@SerializedName( "runtime" )
-	int runtime;
+	public int runtime;
 
 	@SerializedName( "seasons" )
-	List<Seasons> seasons;
+	public List<Seasons> seasons;
+
+	@SerializedName( "images" )
+	public ImageType images;
 
 }

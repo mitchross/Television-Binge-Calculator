@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 public class Episodes
 {
 	@SerializedName( "season" )
-	int season;
+	public int season;
 
 	@SerializedName( "number" )
-	int number;
+	public int number;
 }
