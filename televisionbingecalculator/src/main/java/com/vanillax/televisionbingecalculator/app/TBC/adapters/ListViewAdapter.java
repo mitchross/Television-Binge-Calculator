@@ -18,7 +18,7 @@ import butterknife.InjectView;
 /**
  * Created by mitch on 6/15/14.
  */
-public class SpinnerAdapter extends ArrayAdapter<String>
+public class ListViewAdapter extends ArrayAdapter<String>
 {
 
 	@InjectView( R.id.spinner_row_image )
@@ -33,8 +33,8 @@ public class SpinnerAdapter extends ArrayAdapter<String>
 	private List<String> myRowTextList;
 
 
-	public SpinnerAdapter(Context context, int textViewResourceId,
-						   List<String> myRowTextList, List<String> iconUrlList) {
+	public ListViewAdapter( Context context, int textViewResourceId,
+							List<String> myRowTextList, List<String> iconUrlList ) {
 		super(context, textViewResourceId, myRowTextList);
 		this.context = context;
 		this.spinnerImageList = iconUrlList;
@@ -60,6 +60,8 @@ public class SpinnerAdapter extends ArrayAdapter<String>
 		spinnerRowText.setText( myRowTextList.get( position ).toString() );
 		spinnerRowImage = (ImageView) row.findViewById( R.id.spinner_row_image );
 		Picasso.with( getContext() ).load( spinnerImageList.get( position ) ).into( spinnerRowImage );
+
+
 
 
 

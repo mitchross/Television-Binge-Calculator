@@ -1,20 +1,20 @@
 package com.vanillax.televisionbingecalculator.app.TBC;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.Seasons;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
-import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpinnerAdapter;
+import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
+import com.vanillax.televisionbingecalculator.app.TBC.adapters.ListViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -32,22 +33,27 @@ import roboguice.util.Ln;
 
 public class LandingActivityMain extends Activity  {
 
+	public static final String NUMBER_SEASONS = "NumberOfSeasons";
+	public static final String EPISDOE_COUNT = "EpisodeCount";
+	public static final String BINGE_HOURS = "bingHours";
+	public static final String IMAGE_URL = "imageURL";
+
+	ListViewAdapter mySpinnerAdapter;
+	ShowQueryMasterResponse myShow;
+	List<ShowQueryMasterResponse> myShows;
+
+	int runTime;
+	int SeasonCount;
+	String imageURL;
+	int totalEpisodes = 0;
+	int totalBingTime;
+
 
 
 	@Inject
 	ShowQueryMasterAPI showQueryMasterAPI;
 
-	@InjectView(R.id.poster_image)
-	ImageView posterImage;
 
-	@InjectView(R.id.seasons_count)
-	TextView seasonsCountTextView;
-
-	@InjectView(R.id.episode_total)
-	TextView episdoeCountTextView;
-
-	@InjectView(R.id.binge_time)
-	TextView bingTimeText;
 
 	@InjectView( R.id.search_field )
 	EditText searchField;
@@ -59,17 +65,16 @@ public class LandingActivityMain extends Activity  {
 		showQueryMasterAPI.queryShow( showToSearch , true , new ShowQueryMasterResponseCallback() );
 	}
 
-	@InjectView( R.id.spinner )
-	Spinner spinner;
+	@InjectView( R.id.list_view )
+	ListView listView;
 
-
-	int runTime;
-	int SeasonCount;
-	String imageURL;
-	int totalEpisodes = 0;
-	int totalBingTime;
-	ShowQueryMasterResponse myShow;
-	SpinnerAdapter mySpinnerAdapter;
+	@OnItemClick(R.id.list_view) void onItemClick(int position)
+	{
+		Toast.makeText( this, "You clicked: " + mySpinnerAdapter.getItem( position ), Toast.LENGTH_SHORT ).show();
+		ShowQueryMasterResponse selectedShow;
+		selectedShow = myShows.get( position );
+		calculateBingeTimeAndNavigate( selectedShow );
+	}
 
 
 	@Override
@@ -78,9 +83,6 @@ public class LandingActivityMain extends Activity  {
         setContentView( R.layout.activity_landing_activity_main);
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
-
-
-
 
     }
 
@@ -112,8 +114,9 @@ public class LandingActivityMain extends Activity  {
         return super.onOptionsItemSelected(item);
     }
 
-	protected void updateViews()
+	protected void calculateBingeTimeAndNavigate(ShowQueryMasterResponse myShow)
 	{
+
 		runTime = myShow.runtime;
 		SeasonCount = myShow.seasons.size();
 		imageURL = myShow.images.posterUrl;
@@ -126,20 +129,23 @@ public class LandingActivityMain extends Activity  {
 			totalEpisodes += mySeason.episodesList.size();
 		}
 
-		seasonsCountTextView.setText( "Seasons " + ( myShow.seasons.size() - 1 ) );
-		episdoeCountTextView.setText( " Total Episodes of all seasons " +totalEpisodes );
-		totalBingTime = runTime * totalEpisodes;
-		bingTimeText.setText( "Total binge time hours " + totalBingTime / 60 );
+		String numberOfSeasons = ( "Seasons " + ( myShow.seasons.size() - 1 ) );
+		String episodeCount = ( " Total Episodes of all seasons " +totalEpisodes );
+		int totalBingTime = runTime * totalEpisodes;
+ 		int bingHours = ( totalBingTime / 60 );
 
-
-
-		Picasso.with( getApplicationContext() ).load( imageURL ).into( posterImage  );
-
-		spinner.setAdapter( mySpinnerAdapter );
+		Intent intent = new Intent( getApplicationContext(), ShowDetailsActivity.class );
+		intent.putExtra( NUMBER_SEASONS , numberOfSeasons );
+		intent.putExtra( EPISDOE_COUNT, episodeCount );
+		intent.putExtra( BINGE_HOURS , bingHours );
+		intent.putExtra( IMAGE_URL, imageURL );
+		startActivity ( intent );
 
 
 
 	}
+
+
 
 
 	public class ShowQueryMasterResponseCallback implements Callback< List<ShowQueryMasterResponse> >
@@ -148,11 +154,10 @@ public class LandingActivityMain extends Activity  {
 		@Override
 		public void success( List<ShowQueryMasterResponse> showQueryMasterResponses, Response response )
 		{
-			myShow = showQueryMasterResponses.get( 0 );
+			myShows = showQueryMasterResponses;
+
 			ArrayList<String> showTitles = new ArrayList<String>(  );
 			ArrayList<String> showPosters =  new ArrayList<String>(  );
-
-
 
 
 			for ( ShowQueryMasterResponse show : showQueryMasterResponses)
@@ -162,10 +167,9 @@ public class LandingActivityMain extends Activity  {
 
 			}
 
-
-
-			mySpinnerAdapter = new SpinnerAdapter( getApplicationContext() ,R.layout.spinnerrow , showTitles , showPosters  );
-			updateViews();
+			mySpinnerAdapter = new ListViewAdapter( getApplicationContext() , R.layout.spinnerrow , showTitles , showPosters  );
+			listView.setAdapter( mySpinnerAdapter );
+			//updateViews();
 
 		}
 
