@@ -37,5 +37,6 @@ dependencies {
     compile 'com.squareup.dagger:dagger-compiler:1.2.1'
     compile 'org.roboguice:roboguice:3.0b-experimental'
     compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.0'
 
 }

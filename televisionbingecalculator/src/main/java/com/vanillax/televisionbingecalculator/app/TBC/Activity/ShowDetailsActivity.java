@@ -42,6 +42,10 @@ public class ShowDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_show_details);
 		ButterKnife.inject( this );
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
 		Bundle extras = getIntent().getExtras();
 		String numberSeasons = getIntent().getStringExtra( LandingActivityMain.NUMBER_SEASONS );
 		String episodeCount = getIntent().getStringExtra( LandingActivityMain.EPISDOE_COUNT );
@@ -50,7 +54,7 @@ public class ShowDetailsActivity extends Activity {
 
 		seasonsCountTextView.setText( numberSeasons );
 		episdoeCountTextView.setText( episodeCount );
-		bingTimeText.setText( "Total binge time hours " + bingeTime );
+		bingTimeText.setText( "" + bingeTime );
 
 		Picasso.with( getApplicationContext() )
 				.load( imageUrl )
@@ -72,44 +76,19 @@ public class ShowDetailsActivity extends Activity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onOptionsItemSelected( MenuItem item )
+	{
+			switch ( item.getItemId() )
+			{
+				case android.R.id.home:
+					finish();
+					return true;
+			}
 
-//	protected void updateViews()
-//	{
-//		runTime = myShow.runtime;
-//		SeasonCount = myShow.seasons.size();
-//		imageURL = myShow.images.posterUrl;
-//
-//		totalEpisodes = 0;
-//
-//		for ( Seasons mySeason : myShow.seasons)
-//		{
-//			Ln.d( "Season " + mySeason.seasonList + "Size " + mySeason.episodesList.size() ) ;
-//			totalEpisodes += mySeason.episodesList.size();
-//		}
-//
-//		seasonsCountTextView.setText( "Seasons " + ( myShow.seasons.size() - 1 ) );
-//		episdoeCountTextView.setText( " Total Episodes of all seasons " +totalEpisodes );
-//		totalBingTime = runTime * totalEpisodes;
-//		bingTimeText.setText( "Total binge time hours " + totalBingTime / 60 );
-//
-//
-//
-//		Picasso.with( getApplicationContext() ).load( imageURL ).into( posterImage  );
-//
-//
-//
-//
-//
-//	}
+		return super.onOptionsItemSelected( item );
+	}
+
+
+
 }

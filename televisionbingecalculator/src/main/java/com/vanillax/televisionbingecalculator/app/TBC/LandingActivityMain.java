@@ -3,10 +3,12 @@ package com.vanillax.televisionbingecalculator.app.TBC;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vanillax.televisionbingecalculator.app.R;
@@ -58,6 +60,10 @@ public class LandingActivityMain extends Activity  {
 	@InjectView( R.id.search_field )
 	EditText searchField;
 
+
+
+
+
 	@OnClick( R.id.search_button )
 	protected void searchShow()
 	{
@@ -83,6 +89,20 @@ public class LandingActivityMain extends Activity  {
         setContentView( R.layout.activity_landing_activity_main);
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
+
+		// set up the action listener for the text field
+		searchField.setOnEditorActionListener( new EditText.OnEditorActionListener()
+		{
+			@Override
+			public boolean onEditorAction( final TextView searchTextView, int actionID, KeyEvent event )
+			{
+				Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
+				String showToSearch = searchField.getText().toString();
+				showQueryMasterAPI.queryShow( showToSearch , true , new ShowQueryMasterResponseCallback() );
+				return true;
+			}
+
+		} );
 
     }
 
@@ -129,8 +149,8 @@ public class LandingActivityMain extends Activity  {
 			totalEpisodes += mySeason.episodesList.size();
 		}
 
-		String numberOfSeasons = ( "Seasons " + ( myShow.seasons.size() - 1 ) );
-		String episodeCount = ( " Total Episodes of all seasons " +totalEpisodes );
+		String numberOfSeasons = ( "" + ( myShow.seasons.size() - 1 ) );
+		String episodeCount = ( "" +totalEpisodes );
 		int totalBingTime = runTime * totalEpisodes;
  		int bingHours = ( totalBingTime / 60 );
 
@@ -169,14 +189,12 @@ public class LandingActivityMain extends Activity  {
 
 			mySpinnerAdapter = new ListViewAdapter( getApplicationContext() , R.layout.spinnerrow , showTitles , showPosters  );
 			listView.setAdapter( mySpinnerAdapter );
-			//updateViews();
 
 		}
 
 		@Override
 		public void failure( RetrofitError retrofitError )
 		{
-
 			Ln.d("fail");
 		}
 	}

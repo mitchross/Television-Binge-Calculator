@@ -8,23 +8,55 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity">
 
+
+	<TextView
+			android:layout_below="@id/search_field"
+			android:id="@+id/seasons_count_label"
+			android:text="Seasons:"
+			android:textSize="20sp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+
 	<TextView
 			android:layout_below="@id/search_field"
 			android:id="@+id/seasons_count"
-			android:text="Unknown"
+			tools:text="2"
+			android:layout_toRightOf="@id/seasons_count_label"
+			android:textSize="20sp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+
+	<TextView
+			android:id="@+id/episode_total_label"
+			android:layout_below="@id/seasons_count"
+			android:text="Total Episodes:"
+			android:textSize="20sp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
 
 	<TextView
 			android:id="@+id/episode_total"
 			android:layout_below="@id/seasons_count"
-			android:text="Unknown"
+			tools:text="12"
+			android:layout_toRightOf="@id/episode_total_label"
+			android:textSize="20sp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
+
+	<TextView
+			android:id="@+id/binge_time_label"
+			android:layout_below="@id/episode_total"
+			android:text="Total Bing Time In Hours:"
+			android:textSize="20sp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+
 	<TextView
 			android:id="@+id/binge_time"
 			android:layout_below="@id/episode_total"
-			android:text="Unknown"
+			android:layout_toRightOf="@id/binge_time_label"
+			tools:text="200"
+			android:textSize="20sp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
 
@@ -32,6 +64,7 @@
 			android:id="@+id/poster_image"
 			android:layout_below="@id/binge_time"
 			android:layout_marginTop="20dp"
+			android:layout_centerInParent="true"
 			android:layout_width="match_parent"
 			android:layout_height="350dp" />
 
