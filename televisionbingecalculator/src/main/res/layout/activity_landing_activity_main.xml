@@ -9,24 +9,41 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context="com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain">
 
+	<TextView
+			android:id="@+id/title_search_show"
+			android:textColor="@android:color/white"
+			android:text="Enter a TV show in the Search Field"
+			style="@style/TextViewCustomFont"
+			android:textSize="17sp"
+			android:textStyle="bold"
+			android:layout_centerHorizontal="true"
+			android:layout_marginBottom="10dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+
 	<EditText
 			android:id="@+id/search_field"
+			android:layout_below="@id/title_search_show"
 			android:layout_width="200dp"
 			android:layout_height="30dp"
 			android:maxLines="1"
+			android:singleLine="true"
 			android:layout_marginBottom="10dp"
 			android:textColor="@android:color/white"
+			style="@style/TextViewCustomFont"
 			android:background="@android:color/holo_blue_dark"/>
 
 	<Button
 			android:id="@+id/search_button"
-			android:layout_alignParentRight="true"
+			android:layout_marginLeft="15dp"
 			android:layout_width="100dp"
 			android:layout_height="30dp"
 			android:text="Search"
+			style="@style/TextViewCustomFont"
 			android:background="@color/blue_normal"
 			android:textColor="@android:color/white"
-			/>
+			android:layout_below="@+id/title_search_show"
+			android:layout_toRightOf="@+id/search_field" />
 
 
 	<ListView
@@ -34,6 +51,7 @@
 			android:clipToPadding="false"
 			android:layout_below="@id/search_button"
 			android:layout_marginTop="10dp"
+			style="@style/TextViewCustomFont"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 

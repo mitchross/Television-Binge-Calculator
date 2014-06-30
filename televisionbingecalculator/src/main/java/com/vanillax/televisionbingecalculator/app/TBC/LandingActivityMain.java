@@ -2,6 +2,7 @@ package com.vanillax.televisionbingecalculator.app.TBC;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -37,7 +38,8 @@ public class LandingActivityMain extends Activity  {
 
 	public static final String NUMBER_SEASONS = "NumberOfSeasons";
 	public static final String EPISDOE_COUNT = "EpisodeCount";
-	public static final String BINGE_HOURS = "bingHours";
+	public static final String EPISDOE_RUNTIME = "EpisodeRuntime";
+	public static final String BINGE_TIME = "bingeTime";
 	public static final String IMAGE_URL = "imageURL";
 
 	ListViewAdapter mySpinnerAdapter;
@@ -96,10 +98,11 @@ public class LandingActivityMain extends Activity  {
 			@Override
 			public boolean onEditorAction( final TextView searchTextView, int actionID, KeyEvent event )
 			{
-				Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
-				String showToSearch = searchField.getText().toString();
-				showQueryMasterAPI.queryShow( showToSearch , true , new ShowQueryMasterResponseCallback() );
-				return true;
+
+					Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
+					String showToSearch = searchField.getText().toString();
+					showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
+					return true;
 			}
 
 		} );
@@ -149,15 +152,19 @@ public class LandingActivityMain extends Activity  {
 			totalEpisodes += mySeason.episodesList.size();
 		}
 
-		String numberOfSeasons = ( "" + ( myShow.seasons.size() - 1 ) );
+
+
+		String numberOfSeasons = ( "" + (  myShow.seasons.size() <= 1 ? 1 :  (myShow.seasons.size() - 1 )  ) );
 		String episodeCount = ( "" +totalEpisodes );
 		int totalBingTime = runTime * totalEpisodes;
- 		int bingHours = ( totalBingTime / 60 );
+
+		String bingeTime = convertToDaysHoursMins( totalBingTime );
 
 		Intent intent = new Intent( getApplicationContext(), ShowDetailsActivity.class );
 		intent.putExtra( NUMBER_SEASONS , numberOfSeasons );
 		intent.putExtra( EPISDOE_COUNT, episodeCount );
-		intent.putExtra( BINGE_HOURS , bingHours );
+		intent.putExtra( EPISDOE_RUNTIME , runTime );
+		intent.putExtra( BINGE_TIME , bingeTime );
 		intent.putExtra( IMAGE_URL, imageURL );
 		startActivity ( intent );
 
@@ -165,6 +172,27 @@ public class LandingActivityMain extends Activity  {
 
 	}
 
+	protected String convertToDaysHoursMins( int timeInMinutes )
+	{
+		double  minutes, hours , days;
+		final Resources resources = getResources();
+
+
+		days =  Math.floor( timeInMinutes / 1440 );
+		double temp = timeInMinutes - ( days * 1440 );
+		hours =  Math.floor( temp / 60 );
+		minutes =  (temp - ( hours * 60 ));
+
+		String daysText = String.format( resources.getQuantityString( R.plurals.day,  (int) days ,  (int)days ));
+		String hoursText = String.format(resources.getQuantityString( R.plurals.hours,  (int)hours, (int)hours ));
+		String minsText = String.format(resources.getQuantityString( R.plurals.mins,  (int) minutes  , (int)minutes ));
+
+		String result =   daysText + " " +  hoursText + " " +minsText;
+
+		return result;
+
+
+	}
 
 
 

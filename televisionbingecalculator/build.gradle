@@ -5,7 +5,7 @@ android {
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -38,5 +38,8 @@ dependencies {
     compile 'org.roboguice:roboguice:3.0b-experimental'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.0'
+    compile 'com.squareup.okhttp:okhttp:1.6.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
+    compile 'uk.co.chrisjenx:calligraphy:0.7.+'
 
 }

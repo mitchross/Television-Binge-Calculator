@@ -13,6 +13,7 @@ import com.vanillax.televisionbingecalculator.app.R;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
@@ -21,11 +22,7 @@ import butterknife.InjectView;
 public class ListViewAdapter extends ArrayAdapter<String>
 {
 
-	@InjectView( R.id.spinner_row_image )
-	ImageView spinnerRowImage;
 
-	@InjectView( R.id.spinner_row_text )
-	TextView spinnerRowText;
 
 
 	Context context;
@@ -52,19 +49,40 @@ public class ListViewAdapter extends ArrayAdapter<String>
 		return getCustomView(position, convertView, parent);
 	}
 
-	public View getCustomView(int position, View convertView, ViewGroup parent) {
+	public View getCustomView(int position, View view, ViewGroup parent) {
 
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		View row = inflater.inflate( R.layout.spinnerrow, parent, false);
-		spinnerRowText = (TextView) row.findViewById( R.id.spinner_row_text );
-		spinnerRowText.setText( myRowTextList.get( position ).toString() );
-		spinnerRowImage = (ImageView) row.findViewById( R.id.spinner_row_image );
-		Picasso.with( getContext() ).load( spinnerImageList.get( position ) ).into( spinnerRowImage );
+		ViewHolder myView;
+
+		if ( view == null )
+		{
+			view = LayoutInflater.from ( getContext() ).inflate( R.layout.spinnerrow , parent , false );
+			myView = new ViewHolder( view );
+			view.setTag( myView );
+		}
+		else
+		{
+			myView = (ViewHolder)view.getTag();
+		}
 
 
+		myView.spinnerRowText.setText( myRowTextList.get( position ).toString() );
+		Picasso.with( getContext() ).load( spinnerImageList.get( position ) ).into( myView.spinnerRowImage );
 
+		return view;
+	}
 
+	protected static class ViewHolder
+	{
+		@InjectView( R.id.spinner_row_image )
+		ImageView spinnerRowImage;
 
-		return row;
+		@InjectView( R.id.spinner_row_text )
+		TextView spinnerRowText;
+
+		public ViewHolder ( View view )
+		{
+			ButterKnife.inject( this, view );
+		}
+
 	}
 }

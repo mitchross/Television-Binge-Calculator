@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
+              android:gravity="center_vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
 	<ImageView
 			android:id="@+id/spinner_row_image"
-			android:layout_width="50dp"
-			android:layout_height="50dp" />
+			android:layout_width="70dp"
+			android:layout_height="70dp" />
 
 	<TextView
 			android:id="@+id/spinner_row_text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textSize="20dp"
-			android:gravity="center_vertical"
-			android:text="test"/>
+			style="@style/TextViewCustomFont"
+			android:gravity="center_horizontal"
+			android:ellipsize="end"
+			android:textColor="@android:color/white"
+			android:maxLines="1"
+			tools:text="Test that is a test that is a very long text"/>
 
 </LinearLayout>
