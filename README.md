@@ -1,4 +1,5 @@
 TBC
 ===
 
-Just a app to learn to mimic Tiii.me
+Link to playstore
+https://play.google.com/store/apps/details?id=com.vanillax.televisionbingecalculator.app&hl=en
