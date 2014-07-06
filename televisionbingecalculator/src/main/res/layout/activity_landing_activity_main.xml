@@ -40,7 +40,7 @@
 			android:layout_height="30dp"
 			android:text="Search"
 			style="@style/TextViewCustomFont"
-			android:background="@color/blue_normal"
+			android:background="@android:color/holo_blue_dark"
 			android:textColor="@android:color/white"
 			android:layout_below="@+id/title_search_show"
 			android:layout_toRightOf="@+id/search_field" />
