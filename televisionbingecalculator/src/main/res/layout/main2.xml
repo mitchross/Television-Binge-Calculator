@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                tools:context="com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain">
+
+	<LinearLayout
+			android:id="@+id/search_bar"
+			android:layout_width="match_parent"
+			android:layout_height="60dp"
+			android:background="@color/material_blue">
+
+		<EditText
+				android:id="@+id/search_field"
+				android:layout_below="@id/title_search_show"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:maxLines="1"
+				android:singleLine="true"
+				android:layout_margin="10dp"
+				android:hint="Search for a show to begin"
+				android:gravity="center"
+				android:textColor="@android:color/darker_gray"
+				style="@style/TextViewCustomFont"
+				android:background="@android:color/white"/>
+
+
+			</LinearLayout>
+
+
+	<fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+			android:id="@+id/progress_bar"
+			android:visibility="gone"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:indeterminate="true"
+			app:spb_sections_count="4"
+			app:spb_color="#5677fc"
+			app:spb_speed="1.0"
+			app:spb_stroke_width="4dp"
+			app:spb_stroke_separator_length="2dp"
+			app:spb_reversed="true"
+			app:spb_mirror_mode="true"
+			app:spb_progressiveStart_activated="true"
+			app:spb_progressiveStart_speed="1.5"
+			app:spb_progressiveStop_speed="3.4"
+			android:layout_below="@+id/search_bar"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentStart="true" />
+
+	<ListView
+
+			android:id="@+id/list_view"
+			android:clipToPadding="false"
+			android:layout_below="@id/search_bar"
+			android:layout_marginTop="10dp"
+			style="@style/TextViewCustomFont"
+			android:layout_width="wrap_content"
+			android:divider="@null"
+			android:layout_height="wrap_content">
+
+	</ListView>
+
+</RelativeLayout>

@@ -42,4 +42,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:1.6.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
     compile 'uk.co.chrisjenx:calligraphy:0.7.+'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.5.2'
 }

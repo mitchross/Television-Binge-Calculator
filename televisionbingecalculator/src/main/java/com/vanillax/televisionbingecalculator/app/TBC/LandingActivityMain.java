@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.Optional;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -39,6 +42,7 @@ public class LandingActivityMain extends Activity  {
 	public static final String EPISDOE_RUNTIME = "EpisodeRuntime";
 	public static final String BINGE_TIME = "bingeTime";
 	public static final String IMAGE_URL = "imageURL";
+	public static final String SHOW_TITLE = "showTitle";
 
 	ListViewAdapter mySpinnerAdapter;
 	ShowQueryMasterResponse myShow;
@@ -49,21 +53,22 @@ public class LandingActivityMain extends Activity  {
 	String imageURL;
 	int totalEpisodes = 0;
 	int totalBingTime;
-
+	String showTitle;
 
 
 	@Inject
 	ShowQueryMasterAPI showQueryMasterAPI;
 
 
-
 	@InjectView( R.id.search_field )
 	EditText searchField;
 
+	@InjectView( R.id.progress_bar )
+	SmoothProgressBar progressBar;
 
 
 
-
+	@Optional
 	@OnClick( R.id.search_button )
 	protected void searchShow()
 	{
@@ -86,7 +91,7 @@ public class LandingActivityMain extends Activity  {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_landing_activity_main);
+        setContentView( R.layout.main2);
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
 
@@ -96,7 +101,7 @@ public class LandingActivityMain extends Activity  {
 			@Override
 			public boolean onEditorAction( final TextView searchTextView, int actionID, KeyEvent event )
 			{
-
+					progressBar.setVisibility( View.VISIBLE );
 					Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
 					String showToSearch = searchField.getText().toString();
 					showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
@@ -123,6 +128,7 @@ public class LandingActivityMain extends Activity  {
 		runTime = myShow.runtime;
 		SeasonCount = myShow.seasons.size();
 		imageURL = myShow.images.posterUrl;
+		showTitle = myShow.title;
 
 		totalEpisodes = 0;
 
@@ -146,7 +152,8 @@ public class LandingActivityMain extends Activity  {
 		intent.putExtra( EPISDOE_RUNTIME , runTime );
 		intent.putExtra( BINGE_TIME , bingeTime );
 		intent.putExtra( IMAGE_URL, imageURL );
-		startActivity ( intent );
+		intent.putExtra ( SHOW_TITLE , showTitle );
+		startActivity( intent );
 
 
 
@@ -182,6 +189,8 @@ public class LandingActivityMain extends Activity  {
 		@Override
 		public void success( List<ShowQueryMasterResponse> showQueryMasterResponses, Response response )
 		{
+			progressBar.setVisibility( View.GONE );
+
 			myShows = showQueryMasterResponses;
 
 			ArrayList<String> showTitles = new ArrayList<String>(  );
@@ -203,6 +212,7 @@ public class LandingActivityMain extends Activity  {
 		@Override
 		public void failure( RetrofitError retrofitError )
 		{
+			progressBar.setVisibility( View.GONE );
 			Ln.d("fail");
 		}
 	}
