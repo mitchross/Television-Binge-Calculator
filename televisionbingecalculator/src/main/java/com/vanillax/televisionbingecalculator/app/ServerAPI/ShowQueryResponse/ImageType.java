@@ -9,4 +9,7 @@ public class ImageType
 {
 	@SerializedName( "poster" )
 	public String posterUrl;
+
+	@SerializedName( "fanart" )
+	public String fanArt;
 }

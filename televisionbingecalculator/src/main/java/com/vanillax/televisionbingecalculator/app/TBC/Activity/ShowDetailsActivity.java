@@ -34,7 +34,7 @@ public class ShowDetailsActivity extends Activity {
 	@InjectView( R.id.show_title )
 	TextView showTitle;
 
-	
+
 
 	@OnClick( R.id.arrow )
 	protected void goBack()

@@ -135,7 +135,11 @@ public class LandingActivityMain extends Activity  {
 		for ( Seasons mySeason : myShow.seasons)
 		{
 			Ln.d( "Season " + mySeason.seasonList + "Size " + mySeason.episodesList.size() ) ;
-			totalEpisodes += mySeason.episodesList.size();
+			if (mySeason.seasonList != 0 )
+			{
+				totalEpisodes += mySeason.episodesList.size();
+			}
+			
 		}
 
 
