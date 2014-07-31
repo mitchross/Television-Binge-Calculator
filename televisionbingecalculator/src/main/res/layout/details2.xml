@@ -47,7 +47,7 @@
 						android:id="@+id/arrow"
 						android:background="@null"
 						android:layout_gravity="center_vertical"
-						 />
+						/>
 
 				<TextView
 						android:id="@+id/show_title"
@@ -58,9 +58,9 @@
 						android:textSize="20sp"
 						android:textColor="@android:color/white"
 						android:maxLines="1"
-				        android:layout_gravity="center_vertical"
-				        android:layout_marginLeft="10dp"
-						 />
+						android:layout_gravity="center_vertical"
+						android:layout_marginLeft="10dp"
+						/>
 
 
 
@@ -68,7 +68,7 @@
 
 
 
-				</RelativeLayout>
+		</RelativeLayout>
 
 
 
@@ -92,8 +92,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignBottom="@+id/cal_icon"
-					android:layout_alignLeft="@+id/total_binge_label"
-					android:layout_alignStart="@+id/total_binge_label"
+					android:layout_toRightOf="@id/cal_icon"
 					android:layout_marginLeft="20dp"/>
 
 
@@ -126,8 +125,8 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignBottom="@+id/movie_icon"
-					android:layout_alignRight="@+id/total_binge_label"
-					android:layout_alignEnd="@+id/total_binge_label" />
+					android:layout_alignLeft="@+id/seasons_count_label"
+					android:layout_alignStart="@+id/seasons_count_label" />
 
 
 			<TextView
@@ -152,14 +151,14 @@
 					android:layout_marginTop="20dp"/>
 
 			<TextView
-				android:id="@+id/episode_length_label"
-				android:text="Episode Length"
-				android:textSize="16sp"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignBottom="@+id/clock_icon"
-				android:layout_alignLeft="@+id/episode_total_label"
-				android:layout_alignStart="@+id/episode_total_label" />
+					android:id="@+id/episode_length_label"
+					android:text="Episode Length"
+					android:textSize="16sp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignBottom="@+id/clock_icon"
+					android:layout_alignLeft="@+id/episode_total_label"
+					android:layout_alignStart="@+id/episode_total_label" />
 
 			<TextView
 					android:id="@+id/episode_length"
@@ -174,35 +173,38 @@
 					android:layout_alignLeft="@+id/episode_total"
 					android:layout_alignStart="@+id/episode_total" />
 
-			<TextView
-					android:id="@+id/total_binge_label"
-					android:text="Total Binge Time"
-					android:textSize="16sp"
-					android:layout_below="@id/episode_length_label"
+			<LinearLayout
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="20dp"
-					android:layout_marginLeft="50dp"/>
+					android:layout_alignParentBottom="true"
+					android:layout_centerHorizontal="true"
+					android:layout_marginBottom="20dp">
 
-			<TextView
-					android:id="@+id/binge_time"
-					tools:text="3 days 7 hours 0 mins"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_toEndOf="@+id/episode_total"
-					android:textColor="@android:color/holo_red_dark"
-					android:layout_alignBaseline="@+id/total_binge_label"
-					android:layout_alignBottom="@+id/total_binge_label"
-					android:layout_alignLeft="@+id/episode_length"
-					android:layout_alignStart="@+id/episode_length" />
+				<TextView
+						android:id="@+id/total_binge_label"
+						android:text="Total Binge Time"
+						android:textSize="16sp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 
+						/>
 
+				<TextView
+						android:id="@+id/binge_time"
+						tools:text="3 days 7 hours 0 mins"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@android:color/holo_red_dark"
+						android:layout_marginLeft="20dp"
+						/>
+
+			</LinearLayout>
 
 
 		</RelativeLayout>
 
 
 	</LinearLayout>
-	
+
 
 </LinearLayout>
