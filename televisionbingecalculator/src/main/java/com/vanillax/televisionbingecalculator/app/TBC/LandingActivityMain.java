@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
@@ -81,7 +80,6 @@ public class LandingActivityMain extends Activity  {
 
 	@OnItemClick(R.id.list_view) void onItemClick(int position)
 	{
-		Toast.makeText( this, "You clicked: " + mySpinnerAdapter.getItem( position ), Toast.LENGTH_SHORT ).show();
 		ShowQueryMasterResponse selectedShow;
 		selectedShow = myShows.get( position );
 		calculateBingeTimeAndNavigate( selectedShow );
