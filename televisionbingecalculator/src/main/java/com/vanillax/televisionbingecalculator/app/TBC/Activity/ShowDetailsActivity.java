@@ -8,10 +8,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vanillax.televisionbingecalculator.app.R;
-import com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain;
+import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
+import com.vanillax.televisionbingecalculator.app.TBC.Utils.IntentHelper;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class ShowDetailsActivity extends Activity {
@@ -49,18 +51,33 @@ public class ShowDetailsActivity extends Activity {
 		finish();
 	}
 
+	@OnCheckedChanged( R.id.commercial_checkbox )
+	protected void checkChanged(boolean checked)
+	{
+		if(checked)
+		{
+			//WOW this is really hacky, gross, fix later...
+			bingTimeText.setText( CalculatorUtils.calcBingeTimeWithNoCommercials( this, runtime, Integer.valueOf( episodeCount ), true ) );
+		}
+		else
+		{
+			bingTimeText.setText( CalculatorUtils.calcBingeTimeWithNoCommercials( this, runtime, Integer.valueOf( episodeCount ), false ) );
+		}
+	}
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.details2 );
+        setContentView( R.layout.activity_show_details_material );
 		ButterKnife.inject( this );
 
-		numberSeasons = getIntent().getStringExtra( LandingActivityMain.NUMBER_SEASONS );
-		episodeCount = getIntent().getStringExtra( LandingActivityMain.EPISDOE_COUNT );
-		runtime = getIntent().getIntExtra( LandingActivityMain.EPISDOE_RUNTIME , 0  );
-		bingeTime = getIntent().getStringExtra( LandingActivityMain.BINGE_TIME );
-		imageUrl = getIntent().getStringExtra( LandingActivityMain.IMAGE_URL );
-		title = getIntent().getStringExtra( LandingActivityMain.SHOW_TITLE );
+		numberSeasons = getIntent().getStringExtra( IntentHelper.NUMBER_SEASONS );
+		episodeCount = getIntent().getStringExtra( IntentHelper.EPISDOE_COUNT );
+		runtime = getIntent().getIntExtra( IntentHelper.EPISDOE_RUNTIME , 0  );
+		bingeTime = getIntent().getStringExtra( IntentHelper.BINGE_TIME );
+		imageUrl = getIntent().getStringExtra( IntentHelper.IMAGE_URL );
+		title = getIntent().getStringExtra( IntentHelper.SHOW_TITLE );
 
 
 		episodeRunTime.setText( "" + runtime );
