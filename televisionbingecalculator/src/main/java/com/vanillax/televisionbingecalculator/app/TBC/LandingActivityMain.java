@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
@@ -83,6 +84,7 @@ public class LandingActivityMain extends Activity  {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
         setContentView( R.layout.activity_main_material );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
@@ -111,73 +113,6 @@ public class LandingActivityMain extends Activity  {
 
 
 	}
-
-
-
-//	protected void calculateBingeTimeAndNavigate(ShowQueryMasterResponse myShow)
-//	{
-//
-//		runTime = myShow.runtime;
-//		SeasonCount = myShow.seasons.size();
-//		imageURL = myShow.images.posterUrl;
-//		showTitle = myShow.title;
-//
-//		totalEpisodes = 0;
-//
-//		for ( Seasons mySeason : myShow.seasons)
-//		{
-//			Ln.d( "Season " + mySeason.seasonList + "Size " + mySeason.episodesList.size() ) ;
-//			if (mySeason.seasonList != 0 )
-//			{
-//				totalEpisodes += mySeason.episodesList.size();
-//			}
-//
-//		}
-//
-//
-//
-//		String numberOfSeasons = ( "" + (  myShow.seasons.size() <= 1 ? 1 :  (myShow.seasons.size() - 1 )  ) );
-//		String episodeCount = ( "" +totalEpisodes );
-//		int totalBingTime = runTime * totalEpisodes;
-//
-//		String bingeTime = convertToDaysHoursMins( totalBingTime );
-//
-//		Intent intent = new Intent( getApplicationContext(), ShowDetailsActivity.class );
-//		intent.putExtra( NUMBER_SEASONS , numberOfSeasons );
-//		intent.putExtra( EPISDOE_COUNT, episodeCount );
-//		intent.putExtra( EPISDOE_RUNTIME , runTime );
-//		intent.putExtra( BINGE_TIME , bingeTime );
-//		intent.putExtra( IMAGE_URL, imageURL );
-//		intent.putExtra ( SHOW_TITLE , showTitle );
-//		startActivity( intent );
-//
-//
-//
-//	}
-//
-//	protected String convertToDaysHoursMins( int timeInMinutes )
-//	{
-//		double  minutes, hours , days;
-//		final Resources resources = getResources();
-//
-//
-//		days =  Math.floor( timeInMinutes / 1440 );
-//		double temp = timeInMinutes - ( days * 1440 );
-//		hours =  Math.floor( temp / 60 );
-//		minutes =  (temp - ( hours * 60 ));
-//
-//		String daysText = String.format( resources.getQuantityString( R.plurals.day,  (int) days ,  (int)days ));
-//		String hoursText = String.format(resources.getQuantityString( R.plurals.hours,  (int)hours, (int)hours ));
-//		String minsText = String.format(resources.getQuantityString( R.plurals.mins,  (int) minutes  , (int)minutes ));
-//
-//		String result =   daysText + " " +  hoursText + " " +minsText;
-//
-//		return result;
-//
-//
-//	}
-
-
 
 	public class ShowQueryMasterResponseCallback implements Callback< List<ShowQueryMasterResponse> >
 	{
