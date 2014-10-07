@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:weightSum="6"
+			android:orientation="vertical" >
+
+
+		<RelativeLayout
+				android:layout_width="fill_parent"
+				android:layout_height="0dip"
+				android:layout_weight="3" >
+
+			<ImageView
+					android:id="@+id/poster_image"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					tools:background="@drawable/bbreakingbad"
+					android:layout_above="@+id/title_container"
+					/>
+
+
+
+			<RelativeLayout
+					android:id="@+id/title_container"
+					android:layout_width="match_parent"
+					android:layout_height="50dp"
+					android:orientation="horizontal"
+					android:background="@color/material_blue_half"
+					android:layout_alignParentBottom="true">
+
+
+
+				<ImageButton
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:src="@drawable/arrow"
+						android:padding="20dp"
+						android:id="@+id/arrow"
+						android:background="@null"
+						android:layout_gravity="center_vertical"
+						android:layout_alignParentTop="true"
+						android:layout_alignParentLeft="true"
+						android:layout_alignParentStart="true" />
+
+				<TextView
+						android:id="@+id/show_title"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						tools:text="House"
+						android:ellipsize="end"
+						android:textSize="20sp"
+						android:textColor="@android:color/white"
+						android:maxLines="1"
+						android:layout_gravity="center_vertical"
+						android:layout_centerVertical="true"
+						android:layout_toRightOf="@+id/arrow"
+						android:layout_toEndOf="@+id/arrow" />
+
+				<Switch
+						android:id="@+id/commercialSwitch"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignTop="@+id/show_title"
+						android:text="commercials"
+						android:layout_alignParentRight="true"
+						android:layout_alignParentEnd="true" />
+
+
+
+			</RelativeLayout>
+
+
+
+		</RelativeLayout>
+
+
+
+		<RelativeLayout
+				android:layout_width="fill_parent"
+				android:layout_height="0dip"
+				android:layout_weight="2"
+				android:layout_marginLeft="15dp"
+				android:layout_marginRight="15dp"
+				android:layout_marginTop="10dp">
+
+			<LinearLayout
+					android:orientation="horizontal"
+					android:id="@+id/season_row"
+					android:layout_width="match_parent"
+					android:layout_height="40dp">
+
+				<ImageView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:id="@+id/cal_icon"
+						android:src="@drawable/calendar"
+					/>
+
+				<TextView
+						android:id="@+id/seasons_count_label"
+						android:text="Seasons"
+						android:textSize="16sp"
+						android:layout_marginLeft="20dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"/>
+
+
+
+				<TextView
+						android:id="@+id/seasons_count"
+						tools:text="5"
+						android:textSize="16sp"
+						android:layout_marginLeft="60dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@android:color/darker_gray" />
+
+
+			</LinearLayout>
+
+			<LinearLayout
+					android:id="@+id/episode_row"
+					android:layout_below="@id/season_row"
+					android:layout_width="match_parent"
+					android:layout_height="40dp">
+
+				<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/movie_icon"
+				android:src="@drawable/movieicon"
+/>
+
+				<TextView
+				android:id="@+id/episode_total_label"
+				android:text="Total Episodes"
+				android:textSize="16sp"
+				android:layout_marginLeft="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+
+				<TextView
+				android:id="@+id/episode_total"
+				tools:text="79"
+				android:textSize="16sp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="15dp"
+				android:textColor="@android:color/darker_gray" />
+
+
+			</LinearLayout>
+
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="40dp"
+					android:id="@+id/episode_length_row"
+					android:layout_below="@id/episode_row">
+
+				<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/clock_icon"
+				android:src="@drawable/clock"/>
+
+				<TextView
+				android:id="@+id/episode_length_label"
+				android:text="Episode Length"
+				android:layout_marginLeft="20dp"
+				android:textSize="16sp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+
+				<TextView
+				android:id="@+id/episode_length"
+				tools:text="60 min"
+				android:textSize="16sp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="12dp"
+				android:textColor="@android:color/darker_gray" />
+
+
+			</LinearLayout>
+
+			<LinearLayout
+					android:id="@+id/total_bing_row"
+					android:layout_width="match_parent"
+					android:layout_below="@id/episode_length_row"
+					android:layout_height="40dp">
+
+				<TextView
+				android:id="@+id/total_binge_label"
+				android:text="Total Binge Time"
+				android:textSize="16sp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+
+				/>
+
+				<TextView
+				android:id="@+id/binge_time"
+				tools:text="3 days 7 hours 0 mins"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@android:color/holo_red_dark"
+				android:layout_marginLeft="20dp"
+				/>
+
+
+			</LinearLayout>
+
+
+		</RelativeLayout>
+
+
+	</LinearLayout>
+
+
+</LinearLayout>

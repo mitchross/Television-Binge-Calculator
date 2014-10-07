@@ -34,6 +34,13 @@ public class ShowDetailsActivity extends Activity {
 	@InjectView( R.id.show_title )
 	TextView showTitle;
 
+	protected String numberSeasons;
+	protected String episodeCount;
+	protected int runtime;
+	protected String bingeTime;
+	protected String imageUrl;
+	protected String title;
+
 
 
 	@OnClick( R.id.arrow )
@@ -48,12 +55,12 @@ public class ShowDetailsActivity extends Activity {
         setContentView( R.layout.details2 );
 		ButterKnife.inject( this );
 
-		String numberSeasons = getIntent().getStringExtra( LandingActivityMain.NUMBER_SEASONS );
-		String episodeCount = getIntent().getStringExtra( LandingActivityMain.EPISDOE_COUNT );
-		int runtime = getIntent().getIntExtra( LandingActivityMain.EPISDOE_RUNTIME , 0  );
-		String bingeTime = getIntent().getStringExtra( LandingActivityMain.BINGE_TIME );
-		String imageUrl = getIntent().getStringExtra( LandingActivityMain.IMAGE_URL );
-		String title = getIntent().getStringExtra( LandingActivityMain.SHOW_TITLE );
+		numberSeasons = getIntent().getStringExtra( LandingActivityMain.NUMBER_SEASONS );
+		episodeCount = getIntent().getStringExtra( LandingActivityMain.EPISDOE_COUNT );
+		runtime = getIntent().getIntExtra( LandingActivityMain.EPISDOE_RUNTIME , 0  );
+		bingeTime = getIntent().getStringExtra( LandingActivityMain.BINGE_TIME );
+		imageUrl = getIntent().getStringExtra( LandingActivityMain.IMAGE_URL );
+		title = getIntent().getStringExtra( LandingActivityMain.SHOW_TITLE );
 
 
 		episodeRunTime.setText( "" + runtime );
