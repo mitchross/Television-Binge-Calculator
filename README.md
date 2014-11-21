@@ -6,7 +6,7 @@ https://play.google.com/store/apps/details?id=com.vanillax.televisionbingecalcul
 
 The MIT License (MIT)
 
-Copyright (c) [year] [fullname]
+Copyright (c) 2014 Mitch Ross
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
