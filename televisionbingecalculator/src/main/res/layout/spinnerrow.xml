@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="horizontal"
-              android:gravity="center_vertical"
-              android:layout_width="match_parent"
-              android:layout_height="100dp"
-			  >
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card_view"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        card_view:cardCornerRadius="4dp">
 
-	<ImageView
-			android:id="@+id/spinner_row_image"
-			tools:background="@drawable/ic_launcher"
-			android:layout_width="90dp"
-			android:layout_height="90dp"
-			/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-	<TextView
-			android:id="@+id/spinner_row_text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="20dp"
-			style="@style/TextViewCustomFont"
-			android:gravity="center_horizontal"
-			android:ellipsize="end"
-			android:textColor="@android:color/black"
-			android:maxLines="2"
-			tools:text="Test that is a test that is a very long text"
-			android:layout_centerVertical="true"
-			android:layout_toRightOf="@+id/spinner_row_image"
-			android:layout_toEndOf="@+id/spinner_row_image" />
-	<View
-			android:layout_width="wrap_content"
-			android:layout_height="1dp"
-	        android:background="@android:color/darker_gray"
-	        android:layout_toEndOf="@+id/spinner_row_image"
-	        android:layout_below="@+id/spinner_row_image"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignParentEnd="true"
-			android:layout_marginBottom="3dp"/>
+        <ImageView
+            android:id="@+id/spinner_row_image"
+            tools:background="@drawable/ic_launcher"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/spinner_row_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+
+            android:gravity="center_horizontal"
+            android:ellipsize="end"
+            android:textColor="@android:color/black"
+            android:maxLines="2"
+            tools:text="Test that is a test that is a very long text"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/spinner_row_image"
+            android:layout_toEndOf="@+id/spinner_row_image" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

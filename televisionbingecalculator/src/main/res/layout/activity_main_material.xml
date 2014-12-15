@@ -8,15 +8,19 @@
                 xmlns:custom="http://schemas.android.com/apk/res-auto"
                 tools:context="com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
 	<LinearLayout
 			android:id="@+id/search_bar"
 			android:layout_width="match_parent"
 			android:layout_height="60dp"
-			android:background="@color/material_blue">
+			>
 
 		<EditText
 				android:id="@+id/search_field"
-				android:layout_below="@id/title_search_show"
+
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:maxLines="1"
@@ -25,7 +29,7 @@
 				android:hint="Search for a show to begin"
 				android:gravity="center"
 				android:textColor="@android:color/darker_gray"
-				style="@style/TextViewCustomFont"
+
 				android:background="@android:color/white"/>
 
 
@@ -52,17 +56,14 @@
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentStart="true" />
 
-	<ListView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_view"
+        android:clipToPadding="false"
+        android:layout_below="@id/search_bar"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:divider="@null"
+        android:layout_height="wrap_content"/>
 
-			android:id="@+id/list_view"
-			android:clipToPadding="false"
-			android:layout_below="@id/search_bar"
-			android:layout_marginTop="10dp"
-			style="@style/TextViewCustomFont"
-			android:layout_width="wrap_content"
-			android:divider="@null"
-			android:layout_height="wrap_content">
-
-	</ListView>
 
 </RelativeLayout>

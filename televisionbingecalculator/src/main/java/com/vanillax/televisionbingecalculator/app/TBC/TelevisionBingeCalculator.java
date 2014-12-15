@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import dagger.ObjectGraph;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 /**
  * Created by mitch on 5/27/14.
@@ -43,15 +42,10 @@ public class TelevisionBingeCalculator extends Application
 
 		myContext = this.getApplicationContext();
 
-		CalligraphyConfig.initDefault( "fonts/Roboto-Regular.ttf" );
 
 
 	}
 
-	@Override
-	protected void attachBaseContext(Context newBase) {
-		super.attachBaseContext(new CalligraphyContextWrapper(newBase));
-	}
 
 	public static Context getContext()
 	{

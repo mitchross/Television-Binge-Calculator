@@ -1,12 +1,13 @@
 package com.vanillax.televisionbingecalculator.app.TBC;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
@@ -14,7 +15,7 @@ import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
-import com.vanillax.televisionbingecalculator.app.TBC.adapters.ListViewAdapter;
+import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import butterknife.Optional;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import retrofit.Callback;
@@ -33,11 +33,11 @@ import retrofit.client.Response;
 import roboguice.util.Ln;
 
 
-public class LandingActivityMain extends Activity  {
+public class LandingActivityMain extends BaseActivity implements ShowRecyclerAdapter.OnShowClickListener {
 
 
 
-	ListViewAdapter mySpinnerAdapter;
+	ShowRecyclerAdapter showRecyclerAdapter;
 	ShowQueryMasterResponse myShow;
 	List<ShowQueryMasterResponse> myShows;
 
@@ -70,22 +70,19 @@ public class LandingActivityMain extends Activity  {
 	}
 
 	@InjectView( R.id.list_view )
-	ListView listView;
+    RecyclerView listView;
 
-	@OnItemClick(R.id.list_view) void onItemClick(int position)
-	{
-		ShowQueryMasterResponse selectedShow;
-		selectedShow = myShows.get( position );
-		Intent intent =  CalculatorUtils.calculateBingeTimeAndNavigate( this, selectedShow );
-		startActivity( intent );
-	}
+//	@OnItemClick(R.id.list_view) void onItemClick(int position)
+//	{
+
+//	}
 
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
-        setContentView( R.layout.activity_main_material );
+       // setContentView( R.layout.activity_landing_activity_main );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
 
@@ -104,9 +101,18 @@ public class LandingActivityMain extends Activity  {
 
 		} );
 
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.setItemAnimator(new DefaultItemAnimator());
+
+
     }
 
-	@Override
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_main_material;
+    }
+
+    @Override
 	protected void onResume()
 	{
 		super.onResume();
@@ -114,7 +120,15 @@ public class LandingActivityMain extends Activity  {
 
 	}
 
-	public class ShowQueryMasterResponseCallback implements Callback< List<ShowQueryMasterResponse> >
+    @Override
+    public void onShowClicked(int showPosition) {
+        ShowQueryMasterResponse selectedShow;
+		selectedShow = myShows.get( showPosition );
+		Intent intent =  CalculatorUtils.calculateBingeTimeAndNavigate(this, selectedShow);
+		startActivity( intent );
+    }
+
+    public class ShowQueryMasterResponseCallback implements Callback< List<ShowQueryMasterResponse> >
 	{
 
 		@Override
@@ -135,8 +149,9 @@ public class LandingActivityMain extends Activity  {
 
 			}
 
-			mySpinnerAdapter = new ListViewAdapter( getApplicationContext() , R.layout.spinnerrow , showTitles , showPosters  );
-			listView.setAdapter( mySpinnerAdapter );
+			showRecyclerAdapter = new ShowRecyclerAdapter( showTitles , showPosters , R.layout.spinnerrow , getApplicationContext() , LandingActivityMain.this);
+
+			listView.setAdapter( showRecyclerAdapter );
 
 		}
 

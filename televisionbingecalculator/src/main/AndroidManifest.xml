@@ -23,8 +23,13 @@
         <activity
             android:name=".TBC.Activity.ShowDetailsActivity"
             android:label="@string/title_activity_show_details"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".TBC.LandingActivityMain">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TBC.LandingActivityMain"/>
         </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808"/>
     </application>
 
 </manifest>
