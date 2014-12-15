@@ -17,10 +17,10 @@
     <shared>
       <config>
         <devices>
+          <device id="Nexus One" />
+          <device id="Nexus 5" />
           <device id="Nexus 7" />
           <device id="Nexus 4" />
-          <device id="Nexus 5" />
-          <device id="Nexus One" />
           <device id="Nexus S" />
           <device id="4in WVGA (Nexus S)" />
         </devices>
@@ -59,30 +59,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c64f50c-8212-430d-a289-8c342c8f0d18" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/BaseActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/adapters/ShowRecyclerAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout-sw600dp/activity_show_details_material.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/themes.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values-v21/themes.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/toolbar.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_landing_activity_main.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator-release.apk" afterPath="$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator-release.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/LandingActivityMain.java" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/LandingActivityMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/Activity/ShowDetailsActivity.java" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/Activity/ShowDetailsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TBC.iml" afterPath="$PROJECT_DIR$/TBC.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/TelevisionBingeCalculator.java" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/TelevisionBingeCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_main_material.xml" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_main_material.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details_material.xml" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details_material.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/build.gradle" afterPath="$PROJECT_DIR$/televisionbingecalculator/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/spinnerrow.xml" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/spinnerrow.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/styles.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator.iml" afterPath="$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/assets/crashlytics-build.properties" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/assets/crashlytics-build.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/dimens.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TBC.iws" />
@@ -109,33 +91,52 @@
       <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/televisionbingecalculator/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="1050">
-              <caret line="49" column="56" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1050">
+              <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShowDetailsActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/Activity/ShowDetailsActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="757" max-vertical-offset="1320">
-              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_show_details_material.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="activity_show_details_material.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details_material.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.259259" vertical-offset="644" max-vertical-offset="2970">
-              <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
-              <folding />
+            <state vertical-scroll-proportion="0.35884354" vertical-offset="179" max-vertical-offset="2985">
+              <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+              <folding>
+                <element signature="e#1603#1629#0" expanded="true" />
+                <element signature="e#2550#2576#0" expanded="true" />
+                <element signature="e#2821#2847#0" expanded="true" />
+                <element signature="e#3574#3600#0" expanded="true" />
+                <element signature="e#3810#3836#0" expanded="true" />
+                <element signature="e#4564#4590#0" expanded="true" />
+                <element signature="e#4936#4962#0" expanded="true" />
+                <element signature="e#5268#5294#0" expanded="true" />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="android-designer">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dimens.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/dimens.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
+              <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -152,10 +153,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="spinnerrow.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="spinnerrow.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/spinnerrow.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53571427" vertical-offset="0" max-vertical-offset="705">
+            <state vertical-scroll-proportion="-11.666667" vertical-offset="0" max-vertical-offset="705">
               <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
               <folding />
             </state>
@@ -173,16 +174,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ListViewAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/adapters/ListViewAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="1155">
-              <caret line="67" column="8" selection-start-line="67" selection-start-column="8" selection-end-line="68" selection-end-column="109" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -224,7 +215,7 @@
     </FindUsagesManager>
   </component>
   <component name="GenerateSignedApkSettings">
-    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../../my-release-key.keystore" />
+    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../my-release-key.keystore" />
     <option name="KEY_ALIAS" value="vanillax" />
   </component>
   <component name="Git.Settings">
@@ -1003,6 +994,10 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/televisionbingecalculator" />
+                <option name="name" value="preDexRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/televisionbingecalculator" />
                 <option name="name" value="preReleaseBuild" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -1079,10 +1074,6 @@
                 <option name="name" value="processReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/televisionbingecalculator" />
-                <option name="name" value="proguardRelease" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Displays the signing info for each variant" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/televisionbingecalculator" />
                 <option name="name" value="signingReport" />
@@ -1122,7 +1113,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4254786429000" />
+        <entry key="$PROJECT_DIR$" value="4254788406000" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1286,8 +1277,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/Models/ShowSummary.java" />
-        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/Models/SeasonSummaryResponse.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/Models/SeasonsSimpleSummary.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/ShowInfoAPI.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/Models/SimpleSeasonResponse.java" />
@@ -1320,14 +1309,12 @@
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/Utils/CalculatorUtils.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values-v21/themes.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/BaseActivity.java" />
-        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/Activity/ShowDetailsActivity.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_landing_activity_main.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/themes.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/toolbar.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details_material.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/TelevisionBingeCalculator.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/adapters/ListViewRecyclerView.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/adapters/RecyclerViewAdapter.java" />
@@ -1335,8 +1322,12 @@
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/LandingActivityMain.java" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout-sw600dp/activity_show_details_material.xml" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_main_material.xml" />
-        <option value="$PROJECT_DIR$/televisionbingecalculator/build.gradle" />
         <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/spinnerrow.xml" />
+        <option value="$PROJECT_DIR$/televisionbingecalculator/build.gradle" />
+        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values-mdpi/dimens.xml" />
+        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details_material.xml" />
       </list>
     </option>
   </component>
@@ -1827,7 +1818,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../my-release-key.keystore" />
     <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="preferences.pluginManager" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -1847,14 +1838,17 @@
     <property name="ExportedApkPath" value="$PROJECT_DIR$/../../televisionBingeCalculator1.apk" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="LayoutCode.rearrangeEntriesXML" value="false" />
+    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/televisionbingecalculator" />
+    <property name="ExportApk.Flavors" value="" />
+    <property name="ExportApk.BuildType" value="release" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/televisionbingecalculator/src/main/res/values-mdpi" />
       <recent name="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout-sw600dp" />
       <recent name="$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout" />
       <recent name="$PROJECT_DIR$/televisionbingecalculator/src/main/res/drawable-xhdpi" />
       <recent name="$PROJECT_DIR$/televisionbingecalculator/src/main/assets/fonts" />
-      <recent name="$PROJECT_DIR$/televisionbingecalculator/src/main/assets" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.vanillax.televisionbingecalculator.app" />
@@ -2032,7 +2026,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1057" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2325,18 +2319,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
-          <caret line="34" column="11" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
-          <folding>
-            <element signature="e#409#427#0" expanded="true" />
-            <element signature="e#566#584#0" expanded="true" />
-            <element signature="e#964#1001#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/java/com/vanillax/televisionbingecalculator/app/TBC/BaseActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
@@ -2406,14 +2388,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/values-w820dp/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
@@ -2469,17 +2443,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details_material.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.259259" vertical-offset="644" max-vertical-offset="2970">
-          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_main_material.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.888889" vertical-offset="144" max-vertical-offset="1110">
@@ -2505,19 +2468,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/spinnerrow.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.666667" vertical-offset="0" max-vertical-offset="705">
+          <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/televisionbingecalculator/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="375" max-vertical-offset="1050">
-          <caret line="49" column="56" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1050">
+          <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/spinnerrow.xml">
+    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53571427" vertical-offset="0" max-vertical-offset="705">
-          <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
+          <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/values/dimens.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/televisionbingecalculator/src/main/res/layout/activity_show_details_material.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35884354" vertical-offset="179" max-vertical-offset="2985">
+          <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+          <folding>
+            <element signature="e#1603#1629#0" expanded="true" />
+            <element signature="e#2550#2576#0" expanded="true" />
+            <element signature="e#2821#2847#0" expanded="true" />
+            <element signature="e#3574#3600#0" expanded="true" />
+            <element signature="e#3810#3836#0" expanded="true" />
+            <element signature="e#4564#4590#0" expanded="true" />
+            <element signature="e#4936#4962#0" expanded="true" />
+            <element signature="e#5268#5294#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
