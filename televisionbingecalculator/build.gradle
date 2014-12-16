@@ -21,8 +21,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 12
-        versionName '2.2'
+        versionCode 13
+        versionName '2.2.01'
     }
     buildTypes {
         release {
@@ -50,15 +50,15 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+'
 
-    compile 'com.squareup.retrofit:retrofit:1.5.1'
+    compile 'com.squareup.retrofit:retrofit:1.8.0'
     compile 'com.squareup.dagger:dagger:1.2.1'
     compile 'com.jakewharton:butterknife:5.1.0'
     apt 'com.jakewharton:butterknife:5.1.0'
     compile 'com.squareup.dagger:dagger-compiler:1.2.1'
     compile 'org.roboguice:roboguice:3.0b-experimental'
     compile 'com.squareup.picasso:picasso:2.3.2'
-    compile 'com.squareup.okhttp:okhttp:1.6.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.2'
     compile 'com.crashlytics.android:crashlytics:1.+'
 }

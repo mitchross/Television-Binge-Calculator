@@ -2,7 +2,7 @@ package com.vanillax.televisionbingecalculator.app.Dagger;
 
 import android.content.Context;
 
-import com.squareup.okhttp.HttpResponseCache;
+import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain;
@@ -54,14 +54,14 @@ public class TBCModule
 		OkHttpClient okHttpClient = new OkHttpClient();
 		File cacheDir = new File( context.getCacheDir(), UUID.randomUUID().toString() );
 
-		HttpResponseCache cache = null;
+		Cache cache = null;
 		try {
-			cache = new HttpResponseCache(cacheDir, 8L * 1024 * 1024);
+			cache = new Cache(cacheDir, 8L * 1024 * 1024);
 		} catch (IOException e) {
 			Ln.e( e );
 		}
 
-		okHttpClient.setResponseCache( cache );
+		okHttpClient.setCache( cache );
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setClient( new OkClient(okHttpClient) )
