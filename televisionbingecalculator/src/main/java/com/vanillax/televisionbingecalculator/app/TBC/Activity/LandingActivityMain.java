@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.TBC;
+package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
+import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
+import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapter;
 
@@ -59,6 +62,12 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@InjectView( R.id.progress_bar )
 	SmoothProgressBar progressBar;
 
+	@InjectView( R.id.default_listview_text )
+	TextView defaultText;
+
+	@InjectView( R.id.tv_icon )
+	ImageView tvIcon;
+
 
 
 	@Optional
@@ -72,10 +81,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@InjectView( R.id.list_view )
     RecyclerView listView;
 
-//	@OnItemClick(R.id.list_view) void onItemClick(int position)
-//	{
 
-//	}
 
 
 	@Override
@@ -117,6 +123,12 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	{
 		super.onResume();
 
+		if ( myShows == null  )
+		{
+			defaultText.setVisibility( View.VISIBLE );
+			tvIcon.setVisibility( View.VISIBLE );
+		}
+
 
 	}
 
@@ -136,6 +148,12 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		{
 			progressBar.setVisibility( View.GONE );
 
+			if ( showQueryMasterResponses !=null  )
+			{
+				defaultText.setVisibility( View.GONE );
+				tvIcon.setVisibility( View.GONE );
+			}
+
 			myShows = showQueryMasterResponses;
 
 			ArrayList<String> showTitles = new ArrayList<String>(  );
@@ -145,7 +163,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 			for ( ShowQueryMasterResponse show : showQueryMasterResponses)
 			{
 				showTitles.add( show.title );
-				showPosters.add( show.images.posterUrl );
+				showPosters.add( CalculatorUtils.getShowPosterThumbnail( show.images.posterUrl ) );
 
 			}
 

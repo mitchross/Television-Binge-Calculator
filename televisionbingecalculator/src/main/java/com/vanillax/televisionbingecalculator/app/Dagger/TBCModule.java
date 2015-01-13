@@ -5,7 +5,7 @@ import android.content.Context;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
-import com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain;
+import com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 
 import java.io.File;

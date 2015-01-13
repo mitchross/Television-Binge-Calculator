@@ -39,7 +39,7 @@ MERGED from com.github.castorflex.smoothprogressbar:library:0.5.2:4:5
 		ADDED from AndroidManifest.xml:17:9
 	android:name
 		ADDED from AndroidManifest.xml:12:9
-activity#com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain
+activity#com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain
 ADDED from AndroidManifest.xml:18:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:21:13

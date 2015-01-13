@@ -21,7 +21,7 @@ public class CalculatorUtils
 
 		int runTime = myShow.runtime;
 		int SeasonCount = myShow.seasons.size();
-		String imageURL = myShow.images.posterUrl;
+		String imageURL = myShow.images.fanart;
 		String showTitle = myShow.title;
 
 		int totalEpisodes = 0;
@@ -47,28 +47,28 @@ public class CalculatorUtils
 
 	}
 
-	public static String calcBingeTimeWithNoCommercials(Context context, int runTime ,int totalEpisodes , boolean hasCommercials  )
-	{
 
+	public static String calcFineTuneTime(Context context, int totalEpisodes , int runtime ,  int openingCreditTime , int closingCreditTime , boolean hasCommercials )
+	{
+		int newRunTime = runtime;
 
 		//Since we are taking out commercials use best guess
 		if ( hasCommercials)
 		{
-			if ( runTime == 30 )
+			if ( newRunTime == 30 )
 			{
-				runTime = 22;
+				newRunTime = 22;
 			}
-			else if ( runTime == 60 )
+			else if ( newRunTime == 60 )
 			{
-				runTime = 45;
+				newRunTime = 45;
 			}
-			else
-			{
-				runTime = runTime;
-			}
+
 		}
 
-		int totalBingTime = runTime * totalEpisodes;
+		int runtimeMinusCredits =  newRunTime -  (openingCreditTime + closingCreditTime);
+
+		int totalBingTime = runtimeMinusCredits * totalEpisodes;
 
 		return convertToDaysHoursMins( context, totalBingTime );
 
@@ -95,5 +95,17 @@ public class CalculatorUtils
 		return result;
 
 
+	}
+
+	//A little risky hack to convert original listview poster images to a smaller version for performance
+	//doing this until I switch to API v2
+	public static String getShowPosterThumbnail ( String originalUrl )
+	{
+		if ( originalUrl !=null )
+		{
+			String newUrl = originalUrl.replace( "original", "thumb" );
+			return newUrl;
+		}
+		return null;
 	}
 }

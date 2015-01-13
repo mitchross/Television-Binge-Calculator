@@ -6,7 +6,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 xmlns:custom="http://schemas.android.com/apk/res-auto"
-                tools:context="com.vanillax.televisionbingecalculator.app.TBC.LandingActivityMain">
+                tools:context="com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain">
 
     <include
         android:id="@+id/toolbar"
@@ -64,6 +64,26 @@
         android:layout_width="wrap_content"
         android:divider="@null"
         android:layout_height="wrap_content"/>
+
+	<TextView
+			android:id="@+id/default_listview_text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_below="@id/toolbar"
+			android:paddingTop="20dp"
+			android:textSize="24sp"
+			android:gravity="center"
+			android:text="To begin, type in a show in the search bar above!"/>
+
+	<ImageView
+			android:id="@+id/tv_icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/ic_tv_icon"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

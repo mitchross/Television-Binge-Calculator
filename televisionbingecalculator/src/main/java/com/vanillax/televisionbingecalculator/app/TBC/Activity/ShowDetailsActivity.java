@@ -1,7 +1,12 @@
 package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +18,7 @@ import com.vanillax.televisionbingecalculator.app.TBC.Utils.IntentHelper;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 
 public class ShowDetailsActivity extends BaseActivity {
 
@@ -34,25 +39,51 @@ public class ShowDetailsActivity extends BaseActivity {
 
 
 	protected String numberSeasons;
-	protected String episodeCount;
-	protected int runtime;
+	public String episodeCount;
+	public int runtime;
 	protected String bingeTime;
 	protected String imageUrl;
 	protected String title;
 
 
-	@OnCheckedChanged( R.id.commercial_checkbox )
-	protected void checkChanged(boolean checked)
+
+
+	@OnClick( R.id.fine_tune_link )
+	 protected void showFineTune()
 	{
-		if(checked)
+		final Dialog dialog = new Dialog( this );
+		dialog.setContentView( R.layout.settings_popup );
+
+
+		Button dialogButton = (Button) dialog.findViewById( R.id.settings_done );
+		final EditText openingCreditsTime = (EditText) dialog.findViewById( R.id.opening_credits_edittext );
+		final EditText closingCreditsTime = (EditText) dialog.findViewById( R.id.closing_credits_edittext );
+		final CheckBox hasCommercialsCheckBox = (CheckBox) dialog.findViewById( R.id.commercial_checkbox );
+
+
+		dialogButton.setOnClickListener( new View.OnClickListener()
 		{
-			//WOW this is really hacky, gross, fix later...
-			bingTimeText.setText( CalculatorUtils.calcBingeTimeWithNoCommercials( this, runtime, Integer.valueOf( episodeCount ), true ) );
-		}
-		else
-		{
-			bingTimeText.setText( CalculatorUtils.calcBingeTimeWithNoCommercials( this, runtime, Integer.valueOf( episodeCount ), false ) );
-		}
+			@Override
+			public void onClick( View v )
+			{
+				int openCreditTime = openingCreditsTime.getText().toString().isEmpty() ? 0 : Integer.parseInt( openingCreditsTime.getText().toString() );
+				int closingCreditTime = closingCreditsTime.getText().toString().isEmpty() ? 0 : Integer.parseInt( closingCreditsTime.getText().toString() );
+				boolean hasCommercials = hasCommercialsCheckBox.isChecked();
+
+				String fineTuned = CalculatorUtils.calcFineTuneTime( ShowDetailsActivity.this ,
+																	Integer.parseInt( episodeCount ),
+																	runtime,
+																	openCreditTime  ,
+																	closingCreditTime ,
+																	hasCommercials  );
+				bingTimeText.setText( fineTuned );
+				dialog.dismiss();
+
+			}
+		} );
+
+		dialog.show();
+
 	}
 
 
@@ -81,11 +112,13 @@ public class ShowDetailsActivity extends BaseActivity {
 
         getSupportActionBar().setTitle( title );
 
+
+
     }
 
     @Override
     protected int getLayoutResource() {
-        return  R.layout.activity_show_details_material;
+        return  R.layout.activity_show_details_material_card;
     }
 
     @Override

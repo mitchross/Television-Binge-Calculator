@@ -10,6 +10,10 @@ public class ImageType
 	@SerializedName( "poster" )
 	public String posterUrl;
 
+	@SerializedName( "banner" )
+	public String bannerUrl;
+
 	@SerializedName( "fanart" )
-	public String fanArt;
+	public String fanart;
+
 }
