@@ -46,7 +46,6 @@ public class TelevisionBingeCalculator extends Application
 
 	}
 
-
 	public static Context getContext()
 	{
 		return myContext;

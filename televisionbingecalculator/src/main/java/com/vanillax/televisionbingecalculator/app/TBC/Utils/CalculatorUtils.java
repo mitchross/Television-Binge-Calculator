@@ -1,14 +1,10 @@
 package com.vanillax.televisionbingecalculator.app.TBC.Utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 
 import com.vanillax.televisionbingecalculator.app.R;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.Seasons;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
-
-import roboguice.util.Ln;
 
 /**
  * Created by mitch on 10/6/14.
@@ -16,34 +12,17 @@ import roboguice.util.Ln;
 public class CalculatorUtils
 {
 
-	public static Intent calculateBingeTimeAndNavigate(Context context , ShowQueryMasterResponse myShow)
+
+	public static String getTotalBingeTime( Context context ,  ShowQueryMasterResponse myShow )
 	{
+		int runTime = myShow.getRunTime();
+		int totalEpisodes = myShow.getEpisodeCount();
 
-		int runTime = myShow.runtime;
-		int SeasonCount = myShow.seasons.size();
-		String imageURL = myShow.images.fanart;
-		String showTitle = myShow.title;
-
-		int totalEpisodes = 0;
-
-		for ( Seasons mySeason : myShow.seasons)
-		{
-			Ln.d( "Season " + mySeason.seasonList + "Size " + mySeason.episodesList.size() ) ;
-			if (mySeason.seasonList != 0 )
-			{
-				totalEpisodes += mySeason.episodesList.size();
-			}
-		}
-
-
-		String numberOfSeasons = ( "" + (  myShow.seasons.size() <= 1 ? 1 :  (myShow.seasons.size() - 1 )  ) );
-		String episodeCount = ( "" +totalEpisodes );
 		int totalBingTime = runTime * totalEpisodes;
 
 		String bingeTime = convertToDaysHoursMins( context, totalBingTime );
 
-		return IntentHelper.CreateShowDetailsIntent( context , numberOfSeasons , episodeCount , runTime , bingeTime , imageURL , showTitle );
-
+		return bingeTime;
 
 	}
 
@@ -72,6 +51,13 @@ public class CalculatorUtils
 
 		return convertToDaysHoursMins( context, totalBingTime );
 
+	}
+
+	public static String calcSpecificSeason()
+	{
+
+
+		return "";
 	}
 
 

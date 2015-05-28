@@ -10,17 +10,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.vanillax.televisionbingecalculator.app.R;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
+import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
+import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
-import com.vanillax.televisionbingecalculator.app.TBC.Utils.IntentHelper;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ShowDetailsActivity extends BaseActivity {
+public class ShowDetailsActivity extends BaseActivity
+{
+
+	@Inject
+	ShowManager showManager;
+
 
 	@InjectView(R.id.poster_image)
 	ImageView posterImage;
@@ -37,6 +46,7 @@ public class ShowDetailsActivity extends BaseActivity {
 	@InjectView(R.id.binge_time)
 	TextView bingTimeText;
 
+	ShowQueryMasterResponse show;
 
 	protected String numberSeasons;
 	public String episodeCount;
@@ -66,16 +76,20 @@ public class ShowDetailsActivity extends BaseActivity {
 			@Override
 			public void onClick( View v )
 			{
-				int openCreditTime = openingCreditsTime.getText().toString().isEmpty() ? 0 : Integer.parseInt( openingCreditsTime.getText().toString() );
-				int closingCreditTime = closingCreditsTime.getText().toString().isEmpty() ? 0 : Integer.parseInt( closingCreditsTime.getText().toString() );
+				int openCreditTime = openingCreditsTime.getText().toString().isEmpty()
+									 ? 0
+									 : Integer.parseInt( openingCreditsTime.getText().toString() );
+				int closingCreditTime = closingCreditsTime.getText().toString().isEmpty()
+										? 0
+										: Integer.parseInt( closingCreditsTime.getText().toString() );
 				boolean hasCommercials = hasCommercialsCheckBox.isChecked();
 
-				String fineTuned = CalculatorUtils.calcFineTuneTime( ShowDetailsActivity.this ,
-																	Integer.parseInt( episodeCount ),
-																	runtime,
-																	openCreditTime  ,
-																	closingCreditTime ,
-																	hasCommercials  );
+				String fineTuned = CalculatorUtils.calcFineTuneTime( ShowDetailsActivity.this,
+						Integer.parseInt( episodeCount ),
+						runtime,
+						openCreditTime,
+						closingCreditTime,
+						hasCommercials );
 				bingTimeText.setText( fineTuned );
 				dialog.dismiss();
 
@@ -89,15 +103,44 @@ public class ShowDetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
 		ButterKnife.inject( this );
+		TelevisionBingeCalculator.inject( this );
+		show = showManager.getShow();
+		setUpView( show );
+    }
 
-		numberSeasons = getIntent().getStringExtra( IntentHelper.NUMBER_SEASONS );
-		episodeCount = getIntent().getStringExtra( IntentHelper.EPISDOE_COUNT );
-		runtime = getIntent().getIntExtra( IntentHelper.EPISDOE_RUNTIME , 0  );
-		bingeTime = getIntent().getStringExtra( IntentHelper.BINGE_TIME );
-		imageUrl = getIntent().getStringExtra( IntentHelper.IMAGE_URL );
-		title = getIntent().getStringExtra( IntentHelper.SHOW_TITLE );
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+	}
+
+	@Override
+    protected int getLayoutResource() {
+        return  R.layout.activity_show_details_material_card;
+    }
+
+    @Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent( intent );
+		setIntent( intent );
+	}
+
+	public void setUpView( ShowQueryMasterResponse show )
+	{
+		numberSeasons = show.getNumberOfSeasons();
+		episodeCount = String.valueOf( show.getEpisodeCount() );
+		runtime = show.getRunTime();
+		bingeTime = CalculatorUtils.getTotalBingeTime( this, show );
+		imageUrl = show.getShowDetailImageUrl();
+		title = show.getShowTitle();
 
 
 		episodeRunTime.setText( "" + runtime );
@@ -105,26 +148,13 @@ public class ShowDetailsActivity extends BaseActivity {
 		episdoeCountTextView.setText( episodeCount );
 		bingTimeText.setText(  bingeTime );
 
-		Picasso.with( getApplicationContext() )
+		Glide.with( getApplicationContext() )
 				.load( imageUrl )
-				.fit()
 				.into( posterImage );
 
-        getSupportActionBar().setTitle( title );
-
-
-
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return  R.layout.activity_show_details_material_card;
-    }
-
-    @Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
+		getSupportActionBar().setTitle( title );
 	}
+
+
 
 }

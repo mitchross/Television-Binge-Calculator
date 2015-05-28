@@ -6,6 +6,8 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain;
+import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
+import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 
 import java.io.File;
@@ -31,6 +33,7 @@ import roboguice.util.Ln;
 		injects =
 		{
 				LandingActivityMain.class,
+				ShowDetailsActivity.class,
 				TelevisionBingeCalculator.class
 
 		},
@@ -65,13 +68,21 @@ public class TBCModule
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setClient( new OkClient(okHttpClient) )
-				.setEndpoint( "http://api.trakt.tv/search" )
+				.setEndpoint( "https://api-v2launch.trakt.tv/search" )
 				.setLogLevel( RestAdapter.LogLevel.FULL )
 				.build();
 		ShowQueryMasterAPI showQueryMasterAPI = restAdapter.create( ShowQueryMasterAPI.class );
 		return showQueryMasterAPI;
 
 	}
+
+	@Provides
+	@Singleton
+	ShowManager providesShowManager()
+	{
+		return new ShowManager( );
+	}
+
 
 
 

@@ -16,6 +16,7 @@ import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
+import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapter;
@@ -55,6 +56,9 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@Inject
 	ShowQueryMasterAPI showQueryMasterAPI;
 
+	@Inject
+	ShowManager showManager;
+
 
 	@InjectView( R.id.search_field )
 	EditText searchField;
@@ -67,7 +71,6 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	@InjectView( R.id.tv_icon )
 	ImageView tvIcon;
-
 
 
 	@Optional
@@ -86,11 +89,12 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+        super.onCreate( savedInstanceState );
+        Crashlytics.start( this );
        // setContentView( R.layout.activity_landing_activity_main );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
+
 
 		// set up the action listener for the text field
 		searchField.setOnEditorActionListener( new EditText.OnEditorActionListener()
@@ -132,12 +136,21 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	}
 
-    @Override
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+	}
+
+	@Override
     public void onShowClicked(int showPosition) {
         ShowQueryMasterResponse selectedShow;
 		selectedShow = myShows.get( showPosition );
-		Intent intent =  CalculatorUtils.calculateBingeTimeAndNavigate(this, selectedShow);
+		showManager.setShow( selectedShow );
+		Intent intent = new Intent( this , ShowDetailsActivity.class );
 		startActivity( intent );
+
+
     }
 
     public class ShowQueryMasterResponseCallback implements Callback< List<ShowQueryMasterResponse> >

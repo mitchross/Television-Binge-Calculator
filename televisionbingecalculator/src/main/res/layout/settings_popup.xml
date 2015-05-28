@@ -18,6 +18,7 @@
 			android:layout_width="200dp"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="20dp"
+			android:inputType="number"
 			android:hint="i.e. 1"/>
 
 	<TextView
@@ -29,6 +30,7 @@
 			android:id="@+id/closing_credits_edittext"
 			android:layout_width="200dp"
 			android:layout_height="wrap_content"
+			android:inputType="number"
 			android:hint="i.e. 3"
 			android:layout_marginBottom="20dp"/>
 

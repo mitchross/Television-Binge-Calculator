@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.vanillax.televisionbingecalculator.app.R;
 
 import java.util.List;
@@ -74,7 +74,7 @@ public class ShowRecyclerAdapter extends RecyclerView.Adapter<ShowRecyclerAdapte
     public void onBindViewHolder(MyViewHolder myView, int position)
     {
         myView.spinnerRowText.setText( showsListings.get( position ).toString() );
-        Picasso.with(context).load( showImageUrls.get( position ) ).into(myView.spinnerRowImage);
+        Glide.with( context ).load( showImageUrls.get( position ) ).into(myView.spinnerRowImage);
     }
 
 

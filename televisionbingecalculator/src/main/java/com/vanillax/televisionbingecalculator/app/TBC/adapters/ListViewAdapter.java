@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.vanillax.televisionbingecalculator.app.R;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public class ListViewAdapter extends ArrayAdapter<String>
 
 
 		myView.spinnerRowText.setText( myRowTextList.get( position ).toString() );
-		Picasso.with( getContext() ).load( spinnerImageList.get( position ) ).into( myView.spinnerRowImage );
+		Glide.with( getContext() ).load( spinnerImageList.get( position ) ).into( myView.spinnerRowImage );
 
 		return view;
 	}
