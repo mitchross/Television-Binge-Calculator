@@ -72,6 +72,18 @@
 						android:layout_height="wrap_content"
 						android:textColor="@color/material_gray" />
 
+				<!--<Spinner-->
+						<!--android:layout_width="wrap_content"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:id="@+id/season_picker"-->
+						<!--android:layout_toRightOf="@id/seasons_count"-->
+						<!--android:layout_below="@id/poster_image"-->
+						<!--android:textColor="@color/material_gray"-->
+						<!--android:textSize="16sp"-->
+						<!--android:dropDownSelector="?android:selectableItemBackground"-->
+						<!--android:background="?android:selectableItemBackground"-->
+						<!--/>-->
+
 
 			</LinearLayout>
 

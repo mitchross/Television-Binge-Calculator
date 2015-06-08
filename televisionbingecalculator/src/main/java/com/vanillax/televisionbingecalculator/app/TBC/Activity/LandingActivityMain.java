@@ -15,6 +15,9 @@ import com.crashlytics.android.Crashlytics;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
@@ -37,8 +40,8 @@ import retrofit.client.Response;
 import roboguice.util.Ln;
 
 
-public class LandingActivityMain extends BaseActivity implements ShowRecyclerAdapter.OnShowClickListener {
-
+public class LandingActivityMain extends BaseActivity implements ShowRecyclerAdapter.OnShowClickListener
+{
 
 
 	ShowRecyclerAdapter showRecyclerAdapter;
@@ -55,6 +58,9 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	@Inject
 	ShowQueryMasterAPI showQueryMasterAPI;
+
+	@Inject
+	TVBCLoggerAPI tvbcLoggerAPI;
 
 	@Inject
 	ShowManager showManager;
@@ -77,21 +83,36 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@OnClick( R.id.search_button )
 	protected void searchShow()
 	{
-		String showToSearch = searchField.getText().toString();
-		showQueryMasterAPI.queryShow( showToSearch , true , new ShowQueryMasterResponseCallback() );
+		final String showToSearch = searchField.getText().toString();
+
+		tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
+		{
+			@Override
+			public void success( EmptyResponse emptyResponse, Response response )
+			{
+				showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
+
+			}
+
+			@Override
+			public void failure( RetrofitError error )
+			{
+				showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
+
+			}
+		} );
 	}
 
 	@InjectView( R.id.list_view )
-    RecyclerView listView;
-
-
+	RecyclerView listView;
 
 
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        Crashlytics.start( this );
-       // setContentView( R.layout.activity_landing_activity_main );
+	protected void onCreate( Bundle savedInstanceState )
+	{
+		super.onCreate( savedInstanceState );
+		Crashlytics.start( this );
+		// setContentView( R.layout.activity_landing_activity_main );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
 
@@ -102,32 +123,50 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 			@Override
 			public boolean onEditorAction( final TextView searchTextView, int actionID, KeyEvent event )
 			{
-					progressBar.setVisibility( View.VISIBLE );
-					Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
-					String showToSearch = searchField.getText().toString();
-					showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-					return true;
+				progressBar.setVisibility( View.VISIBLE );
+				Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
+				final String showToSearch = searchField.getText().toString();
+
+				tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
+				{
+					@Override
+					public void success( EmptyResponse emptyResponse, Response response )
+					{
+						showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
+
+					}
+
+					@Override
+					public void failure( RetrofitError error )
+					{
+						showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
+
+					}
+				} );
+
+				return true;
 			}
 
 		} );
 
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        listView.setItemAnimator(new DefaultItemAnimator());
+		listView.setLayoutManager( new LinearLayoutManager( this ) );
+		listView.setItemAnimator( new DefaultItemAnimator() );
 
 
-    }
+	}
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_main_material;
-    }
+	@Override
+	protected int getLayoutResource()
+	{
+		return R.layout.activity_main_material;
+	}
 
-    @Override
+	@Override
 	protected void onResume()
 	{
 		super.onResume();
 
-		if ( myShows == null  )
+		if ( myShows == null )
 		{
 			defaultText.setVisibility( View.VISIBLE );
 			tvIcon.setVisibility( View.VISIBLE );
@@ -143,17 +182,19 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	}
 
 	@Override
-    public void onShowClicked(int showPosition) {
-        ShowQueryMasterResponse selectedShow;
+	public void onShowClicked( int showPosition )
+	{
+		ShowQueryMasterResponse selectedShow;
 		selectedShow = myShows.get( showPosition );
 		showManager.setShow( selectedShow );
-		Intent intent = new Intent( this , ShowDetailsActivity.class );
+
+		Intent intent = new Intent( this, ShowDetailsActivity.class );
 		startActivity( intent );
 
 
-    }
+	}
 
-    public class ShowQueryMasterResponseCallback implements Callback< List<ShowQueryMasterResponse> >
+	public class ShowQueryMasterResponseCallback implements Callback<List<ShowQueryMasterResponse>>
 	{
 
 		@Override
@@ -161,7 +202,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		{
 			progressBar.setVisibility( View.GONE );
 
-			if ( showQueryMasterResponses !=null  )
+			if ( showQueryMasterResponses != null )
 			{
 				defaultText.setVisibility( View.GONE );
 				tvIcon.setVisibility( View.GONE );
@@ -169,18 +210,18 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 			myShows = showQueryMasterResponses;
 
-			ArrayList<String> showTitles = new ArrayList<String>(  );
-			ArrayList<String> showPosters =  new ArrayList<String>(  );
+			ArrayList<String> showTitles = new ArrayList<String>();
+			ArrayList<String> showPosters = new ArrayList<String>();
 
 
-			for ( ShowQueryMasterResponse show : showQueryMasterResponses)
+			for ( ShowQueryMasterResponse show : showQueryMasterResponses )
 			{
 				showTitles.add( show.title );
 				showPosters.add( CalculatorUtils.getShowPosterThumbnail( show.images.posterUrl ) );
 
 			}
 
-			showRecyclerAdapter = new ShowRecyclerAdapter( showTitles , showPosters , R.layout.spinnerrow , getApplicationContext() , LandingActivityMain.this);
+			showRecyclerAdapter = new ShowRecyclerAdapter( showTitles, showPosters, R.layout.spinnerrow, getApplicationContext(), LandingActivityMain.this );
 
 			listView.setAdapter( showRecyclerAdapter );
 
@@ -190,7 +231,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		public void failure( RetrofitError retrofitError )
 		{
 			progressBar.setVisibility( View.GONE );
-			Ln.d("fail");
+			Ln.d( "fail" );
 		}
 	}
 

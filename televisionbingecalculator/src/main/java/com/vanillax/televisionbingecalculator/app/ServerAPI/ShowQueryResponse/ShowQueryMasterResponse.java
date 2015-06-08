@@ -39,10 +39,10 @@ public class ShowQueryMasterResponse
 
 		for ( Seasons mySeason : seasons)
 		{
-			Ln.d( "Season " + mySeason.seasonList + "Size " + mySeason.episodesList.size() ) ;
-			if (mySeason.seasonList != 0 )
+			Ln.d( "Season " + mySeason.getSeasonNumber() + "Size " + mySeason.getSeasonEpisodeCount() ) ;
+			if ( mySeason.getSeasonNumber() != 0 )
 			{
-				totalEpisodes += mySeason.episodesList.size();
+				totalEpisodes += mySeason.getSeasonEpisodeCount();
 			}
 		}
 
@@ -63,6 +63,27 @@ public class ShowQueryMasterResponse
 	{
 		return title;
 	}
+
+	public int  getRunTimeForSeason( int seasonNumber )
+	{
+		int totalEpisodes = getNumberOfEpisodesForSeason( seasonNumber );
+
+		return totalEpisodes * runtime;
+
+	}
+
+	public int getNumberOfEpisodesForSeason( int seasonNumber )
+	{
+		for ( Seasons mySeason : seasons)
+		{
+			if ( mySeason.getSeasonNumber() == seasonNumber )
+			{
+				return mySeason.getSeasonEpisodeCount();
+			}
+		}
+		return 0;
+	}
+
 
 
 	public String getTotalBingeTime( Context context )

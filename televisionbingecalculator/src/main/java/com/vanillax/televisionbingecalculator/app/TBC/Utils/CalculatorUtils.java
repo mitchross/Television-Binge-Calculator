@@ -53,11 +53,13 @@ public class CalculatorUtils
 
 	}
 
-	public static String calcSpecificSeason()
+	public static String calcSpecificSeason( Context context,  ShowQueryMasterResponse myShow , int season)
 	{
 
+		String bingeTime = convertToDaysHoursMins( context, myShow.getRunTimeForSeason( season ) );
 
-		return "";
+		return bingeTime;
+
 	}
 
 

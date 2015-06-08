@@ -5,6 +5,7 @@ import android.content.Context;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
@@ -81,6 +82,21 @@ public class TBCModule
 	ShowManager providesShowManager()
 	{
 		return new ShowManager( );
+	}
+
+	@Provides
+	@Singleton
+	TVBCLoggerAPI providesTVBCShowQueryMasterAPI()
+	{
+		OkHttpClient okHttpClient = new OkHttpClient();
+
+		RestAdapter restAdapter = new RestAdapter.Builder()
+				.setClient( new OkClient( okHttpClient ) )
+				.setEndpoint( "https://tvbc-logger.herokuapp.com/api" )
+				.setLogLevel( RestAdapter.LogLevel.FULL )
+				.build();
+		TVBCLoggerAPI tvbcLoggerAPI = restAdapter.create( TVBCLoggerAPI.class );
+		return tvbcLoggerAPI;
 	}
 
 

@@ -13,14 +13,19 @@ import java.util.ArrayList;
 public class Seasons implements Parcelable
 {
 	@SerializedName( "season"  )
-	public int seasonList;
+	private int seasonNumber;
 
 	@SerializedName( "episodes" )
-	public ArrayList<Episodes> episodesList;
+	private ArrayList<Episodes> episodesList;
 
 	public int getSeasonEpisodeCount()
 	{
 		return episodesList.size();
+	}
+
+	public int getSeasonNumber()
+	{
+		return seasonNumber;
 	}
 
 
@@ -33,7 +38,7 @@ public class Seasons implements Parcelable
 	@Override
 	public void writeToParcel( Parcel dest, int flags )
 	{
-		dest.writeInt( this.seasonList );
+		dest.writeInt( this.seasonNumber );
 		dest.writeSerializable( this.episodesList );
 	}
 
@@ -43,7 +48,7 @@ public class Seasons implements Parcelable
 
 	private Seasons( Parcel in )
 	{
-		this.seasonList = in.readInt();
+		this.seasonNumber = in.readInt();
 		this.episodesList = (ArrayList<Episodes>) in.readSerializable();
 	}
 
