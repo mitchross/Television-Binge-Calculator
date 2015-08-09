@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
@@ -34,6 +36,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Optional;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import io.fabric.sdk.android.Fabric;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -91,6 +94,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 			public void success( EmptyResponse emptyResponse, Response response )
 			{
 				showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
+				Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
 
 			}
 
@@ -111,10 +115,11 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	protected void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate( savedInstanceState );
-		Crashlytics.start( this );
+		Fabric.with( this, new Crashlytics() );
 		// setContentView( R.layout.activity_landing_activity_main );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
+
 
 
 		// set up the action listener for the text field
@@ -133,6 +138,8 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 					public void success( EmptyResponse emptyResponse, Response response )
 					{
 						showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
+						Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
+
 
 					}
 
