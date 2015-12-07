@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.TBC;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.vanillax.televisionbingecalculator.app.R;
@@ -9,7 +9,8 @@ import com.vanillax.televisionbingecalculator.app.R;
 /**
  * Created by mitchross on 12/8/14.
  */
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends AppCompatActivity
+{
 
     private Toolbar toolbar;
 

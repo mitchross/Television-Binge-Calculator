@@ -5,21 +5,16 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.vanillax.televisionbingecalculator.app.R;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
@@ -28,19 +23,17 @@ import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapt
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
-import butterknife.Optional;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import roboguice.util.Ln;
+import rx.Observable;
+import rx.android.observables.ViewObservable;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 public class LandingActivityMain extends BaseActivity implements ShowRecyclerAdapter.OnShowClickListener
@@ -48,19 +41,12 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 
 	ShowRecyclerAdapter showRecyclerAdapter;
-	ShowQueryMasterResponse myShow;
-	List<ShowQueryMasterResponse> myShows;
+	List<TVQueryResponse.Result> shows;
 
-	int runTime;
-	int SeasonCount;
-	String imageURL;
-	int totalEpisodes = 0;
-	int totalBingTime;
-	String showTitle;
 
 
 	@Inject
-	ShowQueryMasterAPI showQueryMasterAPI;
+	TheMovieDbAPI theMovieDbAPI;
 
 	@Inject
 	TVBCLoggerAPI tvbcLoggerAPI;
@@ -81,31 +67,31 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@InjectView( R.id.tv_icon )
 	ImageView tvIcon;
 
-
-	@Optional
-	@OnClick( R.id.search_button )
-	protected void searchShow()
-	{
-		final String showToSearch = searchField.getText().toString();
-
-		tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
-		{
-			@Override
-			public void success( EmptyResponse emptyResponse, Response response )
-			{
-				showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-				Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
-
-			}
-
-			@Override
-			public void failure( RetrofitError error )
-			{
-				showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-
-			}
-		} );
-	}
+//
+//	@Optional
+//	@OnClick( R.id.search_button )
+//	protected void searchShow()
+//	{
+//		final String showToSearch = searchField.getText().toString();
+//
+//		tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
+//		{
+//			@Override
+//			public void success( EmptyResponse emptyResponse, Response response )
+//			{
+//				theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
+//				Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
+//			}
+//
+//			@Override
+//			public void failure( RetrofitError error )
+//			{
+//				theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
+//
+//			}
+//		} );
+//
+//	}
 
 	@InjectView( R.id.list_view )
 	RecyclerView listView;
@@ -116,45 +102,37 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	{
 		super.onCreate( savedInstanceState );
 		Fabric.with( this, new Crashlytics() );
-		// setContentView( R.layout.activity_landing_activity_main );
+		 setContentView( R.layout.activity_main_material );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
 
 
 
-		// set up the action listener for the text field
-		searchField.setOnEditorActionListener( new EditText.OnEditorActionListener()
-		{
-			@Override
-			public boolean onEditorAction( final TextView searchTextView, int actionID, KeyEvent event )
-			{
-				progressBar.setVisibility( View.VISIBLE );
-				Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
-				final String showToSearch = searchField.getText().toString();
-
-				tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
-				{
-					@Override
-					public void success( EmptyResponse emptyResponse, Response response )
-					{
-						showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-						Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
-
-
-					}
-
-					@Override
-					public void failure( RetrofitError error )
-					{
-						showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-
-					}
-				} );
-
-				return true;
-			}
-
-		} );
+//		// set up the action listener for the text field
+//		searchField.setOnEditorActionListener( ( searchTextView, actionID, event ) -> {
+//			progressBar.setVisibility( View.VISIBLE );
+//			Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
+//			final String showToSearch = searchField.getText().toString();
+//
+//			tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
+//			{
+//				@Override
+//				public void success( EmptyResponse emptyResponse, Response response )
+//				{
+//					theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
+//					Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
+//				}
+//
+//				@Override
+//				public void failure( RetrofitError error )
+//				{
+//					theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
+//
+//				}
+//			} );
+//
+//			return true;
+//		} );
 
 		listView.setLayoutManager( new LinearLayoutManager( this ) );
 		listView.setItemAnimator( new DefaultItemAnimator() );
@@ -173,14 +151,61 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	{
 		super.onResume();
 
-		if ( myShows == null )
+		if ( shows == null )
 		{
 			defaultText.setVisibility( View.VISIBLE );
 			tvIcon.setVisibility( View.VISIBLE );
 		}
 
 
+		Observable<EditText> searchTextObservable = ViewObservable.text(searchField);
+		searchTextObservable.debounce( 500, TimeUnit.MILLISECONDS )
+				.map( search_field ->  search_field.getText().toString()  )
+				.flatMap( searchTerm -> {
+					Observable<TVQueryResponse> tvQueryResponseObservable = null;
+					tvQueryResponseObservable = theMovieDbAPI.queryShow( searchTerm );
+					return tvQueryResponseObservable;
+
+				})
+				.observeOn( AndroidSchedulers.mainThread() )
+				.retry()
+				.subscribe( tvQueryResponseObservable -> {
+					//do something
+					updateListView( tvQueryResponseObservable );
+				});
+
 	}
+
+	private void updateListView( TVQueryResponse tvQueryResponse )
+	{
+		progressBar.setVisibility( View.GONE );
+
+		if ( tvQueryResponse != null )
+		{
+			defaultText.setVisibility( View.GONE );
+			tvIcon.setVisibility( View.GONE );
+		}
+
+		shows = tvQueryResponse.results;
+
+		ArrayList<String> showTitles = new ArrayList<String>();
+		ArrayList<String> showPosters = new ArrayList<String>();
+
+
+		for ( TVQueryResponse.Result result : tvQueryResponse.results )
+		{
+			showTitles.add( result.original_name );
+			showPosters.add( CalculatorUtils.getShowPosterThumbnail( result.posterPath ) );
+
+		}
+
+		showRecyclerAdapter = new ShowRecyclerAdapter( showTitles, showPosters, R.layout.spinnerrow, getApplicationContext(), LandingActivityMain.this );
+
+		listView.setAdapter( showRecyclerAdapter );
+	}
+
+
+
 
 	@Override
 	protected void onPause()
@@ -191,55 +216,16 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@Override
 	public void onShowClicked( int showPosition )
 	{
-		ShowQueryMasterResponse selectedShow;
-		selectedShow = myShows.get( showPosition );
-		showManager.setShow( selectedShow );
+
+		int id = shows.get( 0 ).id;
 
 		Intent intent = new Intent( this, ShowDetailsActivity.class );
+		intent.putExtra( "tvshow_id", id );
 		startActivity( intent );
 
 
 	}
 
-	public class ShowQueryMasterResponseCallback implements Callback<List<ShowQueryMasterResponse>>
-	{
 
-		@Override
-		public void success( List<ShowQueryMasterResponse> showQueryMasterResponses, Response response )
-		{
-			progressBar.setVisibility( View.GONE );
-
-			if ( showQueryMasterResponses != null )
-			{
-				defaultText.setVisibility( View.GONE );
-				tvIcon.setVisibility( View.GONE );
-			}
-
-			myShows = showQueryMasterResponses;
-
-			ArrayList<String> showTitles = new ArrayList<String>();
-			ArrayList<String> showPosters = new ArrayList<String>();
-
-
-			for ( ShowQueryMasterResponse show : showQueryMasterResponses )
-			{
-				showTitles.add( show.title );
-				showPosters.add( CalculatorUtils.getShowPosterThumbnail( show.images.posterUrl ) );
-
-			}
-
-			showRecyclerAdapter = new ShowRecyclerAdapter( showTitles, showPosters, R.layout.spinnerrow, getApplicationContext(), LandingActivityMain.this );
-
-			listView.setAdapter( showRecyclerAdapter );
-
-		}
-
-		@Override
-		public void failure( RetrofitError retrofitError )
-		{
-			progressBar.setVisibility( View.GONE );
-			Ln.d( "fail" );
-		}
-	}
 
 }

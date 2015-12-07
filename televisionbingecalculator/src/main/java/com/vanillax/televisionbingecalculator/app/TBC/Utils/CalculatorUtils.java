@@ -3,8 +3,9 @@ package com.vanillax.televisionbingecalculator.app.TBC.Utils;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule;
 import com.vanillax.televisionbingecalculator.app.R;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVShowByIdResponse;
 
 /**
  * Created by mitch on 10/6/14.
@@ -13,9 +14,9 @@ public class CalculatorUtils
 {
 
 
-	public static String getTotalBingeTime( Context context ,  ShowQueryMasterResponse myShow )
+	public static String getTotalBingeTime( Context context ,  TVShowByIdResponse myShow )
 	{
-		int runTime = myShow.getRunTime();
+		int runTime = myShow.getRunTimeAverage();
 		int totalEpisodes = myShow.getEpisodeCount();
 
 		int totalBingTime = runTime * totalEpisodes;
@@ -53,7 +54,7 @@ public class CalculatorUtils
 
 	}
 
-	public static String calcSpecificSeason( Context context,  ShowQueryMasterResponse myShow , int season)
+	public static String calcSpecificSeason( Context context,  TVShowByIdResponse myShow , int season)
 	{
 
 		String bingeTime = convertToDaysHoursMins( context, myShow.getRunTimeForSeason( season ) );
@@ -85,13 +86,11 @@ public class CalculatorUtils
 
 	}
 
-	//A little risky hack to convert original listview poster images to a smaller version for performance
-	//doing this until I switch to API v2
-	public static String getShowPosterThumbnail ( String originalUrl )
+	public static String getShowPosterThumbnail ( String path )
 	{
-		if ( originalUrl !=null )
+		if ( path !=null )
 		{
-			String newUrl = originalUrl.replace( "original", "thumb" );
+			String newUrl = TBCModule.BASE_IMAGE_PATH + path;
 			return newUrl;
 		}
 		return null;
