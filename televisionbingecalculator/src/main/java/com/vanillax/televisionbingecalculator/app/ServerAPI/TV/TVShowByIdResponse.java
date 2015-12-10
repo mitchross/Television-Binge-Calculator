@@ -28,13 +28,17 @@ public class TVShowByIdResponse
 
 	public int getRunTimeAverage()
 	{
-		int sum = 0;
-		for( int i : episodeRunTimeArray )
+		if ( episodeRunTimeArray.length == 0 )
 		{
-			sum +=i;
+			return 0;
+		}
+		int sum = 0;
+		for ( int i : episodeRunTimeArray )
+		{
+			sum += i;
 		}
 
-		return  sum / episodeRunTimeArray.length;
+		return sum / episodeRunTimeArray.length;
 
 	}
 

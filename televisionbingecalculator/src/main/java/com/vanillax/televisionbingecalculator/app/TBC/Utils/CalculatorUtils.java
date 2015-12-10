@@ -86,11 +86,11 @@ public class CalculatorUtils
 
 	}
 
-	public static String getShowPosterThumbnail ( String path )
+	public static String getShowPosterThumbnail ( String path, boolean large )
 	{
 		if ( path !=null )
 		{
-			String newUrl = TBCModule.BASE_IMAGE_PATH + path;
+			String newUrl = (large ? TBCModule.BASE_IMAGE_PATH_LARGE : TBCModule.BASE_IMAGE_PATH ) + path;
 			return newUrl;
 		}
 		return null;

@@ -155,18 +155,24 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 			@Override
 			public void success( TVShowByIdResponse tvShowByIdResponse, Response response )
 			{
-				AlertDialog.Builder builder = new AlertDialog.Builder(ShowDetailsActivity.this);
-				builder.setMessage("TV has incomplete data. Sorry about that.")
-						.setCancelable(false)
-						.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								finish();
-							}
-						});
-				AlertDialog alert = builder.create();
+
+				if (tvShowByIdResponse.seasons.size() == 0 )
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder( ShowDetailsActivity.this );
+					builder.setMessage( "TV show has incomplete data. Sorry about that." )
+							.setCancelable( false )
+							.setPositiveButton( "OK", new DialogInterface.OnClickListener()
+							{
+								public void onClick( DialogInterface dialog, int id )
+								{
+									finish();
+								}
+							} );
+					AlertDialog alert = builder.create();
 
 
-				alert.show();
+					alert.show();
+				}
 				ShowDetailsActivity.this.tvShowByIdResponse = tvShowByIdResponse;
 				setUpView();
 			}
@@ -199,7 +205,9 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		episodeDescription.setText( tvShowByIdResponse.episodeDescription );
 
 		Glide.with( getApplicationContext() )
-				.load( CalculatorUtils.getShowPosterThumbnail( imageUrl ) )
+				.load( CalculatorUtils.getShowPosterThumbnail( imageUrl, true ) )
+				.error( getResources().getDrawable( R.drawable.tv_icon ) )
+				.placeholder( getResources().getDrawable( R.drawable.tv_icon ) )
 				.into( posterImage );
 
 		getSupportActionBar().setTitle( title );

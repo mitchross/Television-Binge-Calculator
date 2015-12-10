@@ -24,7 +24,7 @@
 
 		<ImageView
 				android:id="@+id/poster_image"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				tools:background="@drawable/bbreakingbad"/>
 
@@ -35,7 +35,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:background="@color/material_gray_200"
-			android:layout_margin="8dp">
+			>
 
 	<LinearLayout
 			android:id="@+id/episode_length_container"
@@ -49,14 +49,19 @@
 		<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Episode Length:"/>
+				android:text="Episode Length:"
+				android:layout_marginTop="8dp"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"/>
 		<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="8dp"
+				android:layout_marginTop="8dp"
 				android:id="@+id/episode_length"
 				android:textColor="@color/material_gray_600"
-				tools:text="43 mins"/>
+				tools:text="43 mins"
+				android:textSize="18sp"/>
 
 	</LinearLayout>
 
@@ -73,6 +78,9 @@
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_marginTop="8dp"
+					android:layout_marginLeft="8dp"
+					android:layout_marginRight="8dp"
 					android:text="Description:"/>
 
 			<ScrollView
@@ -83,6 +91,7 @@
 					android:layout_height="wrap_content"
 					android:textColor="@color/material_gray_600"
 					android:layout_marginLeft="8dp"
+					android:layout_marginTop="8dp"
 					android:id="@+id/episode_description"
 					tools:text="The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island."/>
 
@@ -95,7 +104,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
-				android:layout_marginBottom="8dp"
+				android:layout_marginBottom="4dp"
 				android:orientation="horizontal"
 		        android:layout_below="@id/episode_description_container"
 				>
@@ -103,7 +112,7 @@
 			<CheckBox
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="8dp"
+					android:layout_marginRight="8dp"
 					android:id="@+id/select_all_checkbox"
 					android:text="Select All"
 					android:layout_gravity="right|top" />
@@ -111,10 +120,14 @@
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="left|center_vertical"
+					android:layout_marginTop="8dp"
+					android:layout_marginLeft="8dp"
+					android:layout_marginRight="8dp"
+					android:layout_gravity="left|top"
 					android:text="Season:"/>
 
 		</FrameLayout>
+
 
 		<android.support.v7.widget.RecyclerView
 				android:id="@+id/seasons_recycler_view"
@@ -131,7 +144,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/episodes_label"
-				android:layout_marginRight="5dp"
+				android:layout_marginBottom="5dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"
 				android:text="Episodes:"/>
 
 		<TextView
@@ -141,7 +157,10 @@
 				android:textColor="@color/material_gray_600"
 				android:layout_above="@id/total_binge_container"
 				tools:text="121"
-				android:id="@+id/episode_total"/>
+				android:layout_marginBottom="5dp"
+				android:id="@+id/episode_total"
+				android:textSize="18sp"
+				/>
 		<LinearLayout
 				android:id="@+id/total_binge_container"
 				android:layout_width="match_parent"
@@ -154,11 +173,15 @@
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textColor="@android:color/white"
+
 					android:text="TOTAL BINGE TIME"/>
 
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textColor="@android:color/white"
+					android:textSize="24sp"
 					android:id="@+id/binge_time"
 					tools:text="3d 14h 43m"/>
 

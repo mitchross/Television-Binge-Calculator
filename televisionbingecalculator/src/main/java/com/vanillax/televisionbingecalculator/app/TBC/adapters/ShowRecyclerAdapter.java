@@ -42,15 +42,12 @@ public class ShowRecyclerAdapter extends RecyclerView.Adapter<ShowRecyclerAdapte
         public MyViewHolder(View view , final OnShowClickListener listener) {
             super(view);
             ButterKnife.inject(this, view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ( listener != null )
-                    {
-                        listener.onShowClicked( getPosition());
-                    }
-                }
-            });
+            view.setOnClickListener( v -> {
+				if ( listener != null )
+				{
+					listener.onShowClicked( getPosition());
+				}
+			} );
         }
     }
 
@@ -74,7 +71,11 @@ public class ShowRecyclerAdapter extends RecyclerView.Adapter<ShowRecyclerAdapte
     public void onBindViewHolder(MyViewHolder myView, int position)
     {
         myView.spinnerRowText.setText( showsListings.get( position ).toString() );
-        Glide.with( context ).load( showImageUrls.get( position ) ).into(myView.spinnerRowImage);
+        Glide.with( context )
+                .load( showImageUrls.get( position ) )
+                .placeholder( myView.itemView.getResources().getDrawable( R.drawable.tv_icon ) )
+                .error( myView.itemView.getResources().getDrawable( R.drawable.tv_icon ) )
+                .into(myView.spinnerRowImage);
     }
 
 

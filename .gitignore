@@ -10,3 +10,5 @@ Meijer/.apt_generated
 .idea/
 com_crashlytics_export_strings.xml
 gradle.properties
+*.idea
+.idea/*

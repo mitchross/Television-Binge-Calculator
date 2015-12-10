@@ -2,6 +2,8 @@ package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -9,9 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
@@ -32,7 +38,6 @@ import io.fabric.sdk.android.Fabric;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import roboguice.util.Ln;
 import rx.Observable;
 import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,32 +75,6 @@ public class LandingActivityAutoComplete extends BaseActivity implements ShowRec
 	@InjectView( R.id.tv_icon )
 	ImageView tvIcon;
 
-
-//	@Optional
-//	@OnClick( R.id.search_button )
-//	protected void searchShow()
-//	{
-//		final String showToSearch = searchField.getText().toString();
-//
-//		tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
-//		{
-//			@Override
-//			public void success( EmptyResponse emptyResponse, Response response )
-//			{
-//				showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-//				Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
-//
-//			}
-//
-//			@Override
-//			public void failure( RetrofitError error )
-//			{
-//				showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-//
-//			}
-//		} );
-//	}
-
 	@InjectView( R.id.list_view )
 	RecyclerView listView;
 
@@ -105,66 +84,12 @@ public class LandingActivityAutoComplete extends BaseActivity implements ShowRec
 	{
 		super.onCreate( savedInstanceState );
 		Fabric.with( this, new Crashlytics() );
-		 setContentView( R.layout.activity_main_material );
+		setContentView( R.layout.activity_main_material );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
 
-		Observable<EditText> searchTextObservable = ViewObservable.text(searchField);
-		searchTextObservable.debounce( 500, TimeUnit.MILLISECONDS )
-				.map( search_field -> search_field.getText().toString() )
-				.flatMap( searchTerm -> {
-					Observable<List<ShowQueryMasterResponse>> showQueryResponse = null;
-
-					showQueryResponse = showQueryMasterAPI.autoCompleteQuery( searchTerm  );
-					return showQueryResponse;
-				})
-				.observeOn( AndroidSchedulers.mainThread() )
-				.subscribe( showQueryResponse ->
-				{
-					refreshListView( showQueryResponse );
-
-				},Throwable::printStackTrace);
-
-
-
-
-//		// set up the action listener for the text field
-//		searchField.setOnEditorActionListener( new EditText.OnEditorActionListener()
-//		{
-//			@Override
-//			public boolean onEditorAction( final TextView searchTextView, int actionID, KeyEvent event )
-//			{
-//				progressBar.setVisibility( View.VISIBLE );
-//				Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
-//				final String showToSearch = searchField.getText().toString();
-//
-//				tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
-//				{
-//					@Override
-//					public void success( EmptyResponse emptyResponse, Response response )
-//					{
-//						showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-//						Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
-//
-//
-//					}
-//
-//					@Override
-//					public void failure( RetrofitError error )
-//					{
-//						showQueryMasterAPI.queryShow( showToSearch, true, new ShowQueryMasterResponseCallback() );
-//
-//					}
-//				} );
-//
-//				return true;
-//			}
-//
-//		} );
-//
-//		listView.setLayoutManager( new LinearLayoutManager( this ) );
-//		listView.setItemAnimator( new DefaultItemAnimator() );
-
+		listView.setLayoutManager( new LinearLayoutManager( this ) );
+		listView.setItemAnimator( new DefaultItemAnimator() );
 
 	}
 
@@ -178,6 +103,8 @@ public class LandingActivityAutoComplete extends BaseActivity implements ShowRec
 	protected void onResume()
 	{
 		super.onResume();
+
+		initRxTextView();
 
 		if ( myShows == null )
 		{
@@ -194,15 +121,59 @@ public class LandingActivityAutoComplete extends BaseActivity implements ShowRec
 		super.onPause();
 	}
 
+	private void initRxTextView()
+	{
+		Observable<EditText> searchTextObservable = ViewObservable.text(searchField);
+		searchTextObservable.debounce( 500, TimeUnit.MILLISECONDS )
+				.map( search_field -> search_field.getText().toString() )
+				.flatMap( searchTerm -> {
+					Observable<List<ShowQueryMasterResponse>> showQueryResponse = null;
+
+					showQueryResponse = showQueryMasterAPI.autoCompleteQuery( searchTerm  );
+
+					Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", searchTerm ) );
+
+					return showQueryResponse;
+				})
+				.observeOn( AndroidSchedulers.mainThread() )
+				.subscribe( showQueryResponse ->
+				{
+					refreshListView( showQueryResponse );
+
+				},Throwable::printStackTrace);
+
+
+	}
+
 	@Override
 	public void onShowClicked( int showPosition )
 	{
+
+
 		ShowQueryMasterResponse selectedShow;
 		selectedShow = myShows.get( showPosition );
-		showManager.setShow( selectedShow );
 
-		Intent intent = new Intent( this, ShowDetailsActivity.class );
-		startActivity( intent );
+		//Just do some logging
+		tvbcLoggerAPI.postSearchTerm( new SearchTerm( selectedShow.getShowTitle() ), new Callback<EmptyResponse>()
+		{
+			@Override
+			public void success( EmptyResponse emptyResponse, Response response )
+			{
+				showManager.setShow( selectedShow );
+
+				Intent intent = new Intent( LandingActivityAutoComplete.this, ShowDetailsActivity.class );
+				startActivity( intent );
+			}
+
+			@Override
+			public void failure( RetrofitError error )
+			{
+				showManager.setShow( selectedShow );
+
+				Intent intent = new Intent( LandingActivityAutoComplete.this, ShowDetailsActivity.class );
+				startActivity( intent );
+			}
+		} );
 
 
 	}
@@ -226,7 +197,7 @@ public class LandingActivityAutoComplete extends BaseActivity implements ShowRec
 		for ( ShowQueryMasterResponse show : showQueryMasterResponses )
 		{
 			showTitles.add( show.title );
-			showPosters.add( CalculatorUtils.getShowPosterThumbnail( show.images.posterUrl ) );
+			showPosters.add( CalculatorUtils.getShowPosterThumbnail( show.images.posterUrl, false ) );
 
 		}
 
@@ -236,21 +207,4 @@ public class LandingActivityAutoComplete extends BaseActivity implements ShowRec
 
 	}
 
-	public class ShowQueryMasterResponseCallback implements Callback<List<ShowQueryMasterResponse>>
-	{
-
-		@Override
-		public void success( List<ShowQueryMasterResponse> showQueryMasterResponses, Response response )
-		{
-			refreshListView( showQueryMasterResponses );
-
-		}
-
-		@Override
-		public void failure( RetrofitError retrofitError )
-		{
-			progressBar.setVisibility( View.GONE );
-			Ln.d( "fail" );
-		}
-	}
 }

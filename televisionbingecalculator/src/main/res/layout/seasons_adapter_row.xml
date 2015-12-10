@@ -11,7 +11,7 @@
 			android:id="@+id/seasons_adapter_row_season_number"
 			android:layout_marginLeft="15dp"
 			android:layout_marginRight="15dp"
-			android:textSize="60sp"
+			android:textSize="48sp"
 			android:button="@android:color/transparent"
 			android:textColor="@color/material_gray_600"
 			tools:text="1"/>

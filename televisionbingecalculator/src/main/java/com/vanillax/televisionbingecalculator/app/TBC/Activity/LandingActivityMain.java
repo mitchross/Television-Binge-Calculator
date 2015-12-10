@@ -195,7 +195,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		for ( TVQueryResponse.Result result : tvQueryResponse.results )
 		{
 			showTitles.add( result.original_name );
-			showPosters.add( CalculatorUtils.getShowPosterThumbnail( result.posterPath ) );
+			showPosters.add( CalculatorUtils.getShowPosterThumbnail( result.posterPath, false ) );
 
 		}
 
