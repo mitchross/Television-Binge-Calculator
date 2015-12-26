@@ -1,6 +1,5 @@
 package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,45 +70,6 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	protected String title;
 
 
-
-
-//	@OnClick( R.id.fine_tune_link )
-//	 protected void showFineTune()
-//	{
-//		final Dialog dialog = new Dialog( this );
-//		dialog.setContentView( R.layout.settings_popup );
-//
-//
-//		Button dialogButton = (Button) dialog.findViewById( R.id.settings_done );
-//		final EditText openingCreditsTime = (EditText) dialog.findViewById( R.id.opening_credits_edittext );
-//		final EditText closingCreditsTime = (EditText) dialog.findViewById( R.id.closing_credits_edittext );
-//		final CheckBox hasCommercialsCheckBox = (CheckBox) dialog.findViewById( R.id.commercial_checkbox );
-//
-//
-//		dialogButton.setOnClickListener( v -> {
-//			int openCreditTime = openingCreditsTime.getText().toString().isEmpty()
-//								 ? 0
-//								 : Integer.parseInt( openingCreditsTime.getText().toString() );
-//			int closingCreditTime = closingCreditsTime.getText().toString().isEmpty()
-//									? 0
-//									: Integer.parseInt( closingCreditsTime.getText().toString() );
-//			boolean hasCommercials = hasCommercialsCheckBox.isChecked();
-//
-//			String fineTuned = CalculatorUtils.calcFineTuneTime( ShowDetailsActivity.this,
-//					Integer.parseInt( episodeCount ),
-//					runtime,
-//					openCreditTime,
-//					closingCreditTime,
-//					hasCommercials );
-//			bingTimeText.setText( fineTuned );
-//			dialog.dismiss();
-//
-//		} );
-//
-//		dialog.show();
-//
-//	}
-
 	@OnCheckedChanged( R.id.select_all_checkbox )
 	protected void onCheck(boolean checked)
 	{
@@ -119,7 +79,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		}
 		else
 		{
-			initViewsForSpecificSeason( 1 );
+			initViewsForSpecificSeason( 0 );
 		}
 	}
 
@@ -161,26 +121,24 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 					AlertDialog.Builder builder = new AlertDialog.Builder( ShowDetailsActivity.this );
 					builder.setMessage( "TV show has incomplete data. Sorry about that." )
 							.setCancelable( false )
-							.setPositiveButton( "OK", new DialogInterface.OnClickListener()
-							{
-								public void onClick( DialogInterface dialog, int id )
-								{
-									finish();
-								}
+							.setPositiveButton( "OK", ( dialog, id ) -> {
+								finish();
 							} );
 					AlertDialog alert = builder.create();
-
-
 					alert.show();
 				}
+
+
 				ShowDetailsActivity.this.tvShowByIdResponse = tvShowByIdResponse;
+
+
 				setUpView();
 			}
 
 			@Override
 			public void failure( RetrofitError error )
 			{
-
+				finish();
 			}
 		} );
 
@@ -244,6 +202,10 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		episodeRunTime.setText( "" + runtime );
 		episdoeCountTextView.setText( episodeCount );
 		bingTimeText.setText( bingeTime );
+		selectedAllCheckbox.setChecked( true );
+
+		seasonsRecyclerAdapter.setSelected( -1 );
+		seasonsRecyclerAdapter.notifyDataSetChanged();
 	}
 
 	private void initViewsForSpecificSeason( int seasonNumber )

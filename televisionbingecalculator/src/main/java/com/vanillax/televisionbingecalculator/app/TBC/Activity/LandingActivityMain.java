@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
@@ -31,6 +33,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import rx.Observable;
 import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -67,31 +72,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@InjectView( R.id.tv_icon )
 	ImageView tvIcon;
 
-//
-//	@Optional
-//	@OnClick( R.id.search_button )
-//	protected void searchShow()
-//	{
-//		final String showToSearch = searchField.getText().toString();
-//
-//		tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
-//		{
-//			@Override
-//			public void success( EmptyResponse emptyResponse, Response response )
-//			{
-//				theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
-//				Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
-//			}
-//
-//			@Override
-//			public void failure( RetrofitError error )
-//			{
-//				theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
-//
-//			}
-//		} );
-//
-//	}
+
 
 	@InjectView( R.id.list_view )
 	RecyclerView listView;
@@ -102,37 +83,9 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	{
 		super.onCreate( savedInstanceState );
 		Fabric.with( this, new Crashlytics() );
-		 setContentView( R.layout.activity_main_material );
+		setContentView( R.layout.activity_main_material );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
-
-
-
-//		// set up the action listener for the text field
-//		searchField.setOnEditorActionListener( ( searchTextView, actionID, event ) -> {
-//			progressBar.setVisibility( View.VISIBLE );
-//			Ln.d( "onEditorAction... searchTerm: %s", searchTextView.getText().toString() );
-//			final String showToSearch = searchField.getText().toString();
-//
-//			tvbcLoggerAPI.postSearchTerm( new SearchTerm( showToSearch ), new Callback<EmptyResponse>()
-//			{
-//				@Override
-//				public void success( EmptyResponse emptyResponse, Response response )
-//				{
-//					theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
-//					Answers.getInstance().logCustom( new CustomEvent( "Search Query" ).putCustomAttribute( "Search Term", showToSearch ) );
-//				}
-//
-//				@Override
-//				public void failure( RetrofitError error )
-//				{
-//					theMovieDbAPI.queryShow( showToSearch, new TVQueryResponseCallback() );
-//
-//				}
-//			} );
-//
-//			return true;
-//		} );
 
 		listView.setLayoutManager( new LinearLayoutManager( this ) );
 		listView.setItemAnimator( new DefaultItemAnimator() );
@@ -157,7 +110,12 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 			tvIcon.setVisibility( View.VISIBLE );
 		}
 
+		initRxTextView();
 
+	}
+
+	private void initRxTextView()
+	{
 		Observable<EditText> searchTextObservable = ViewObservable.text(searchField);
 		searchTextObservable.debounce( 500, TimeUnit.MILLISECONDS )
 				.map( search_field ->  search_field.getText().toString()  )
@@ -217,12 +175,26 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	public void onShowClicked( int showPosition )
 	{
 
-		int id = shows.get( 0 ).id;
+		int id = shows.get( showPosition ).id;
 
-		Intent intent = new Intent( this, ShowDetailsActivity.class );
-		intent.putExtra( "tvshow_id", id );
-		startActivity( intent );
+		tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ), new Callback<EmptyResponse>()
+		{
+			@Override
+			public void success( EmptyResponse emptyResponse, Response response )
+			{
+				Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
+				intent.putExtra( "tvshow_id", id );
+				startActivity( intent );
+			}
 
+			@Override
+			public void failure( RetrofitError error )
+			{
+				Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
+				intent.putExtra( "tvshow_id", id );
+				startActivity( intent );
+			}
+		} );
 
 	}
 

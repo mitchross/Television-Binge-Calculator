@@ -7,7 +7,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
-import com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityAutoComplete;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
@@ -37,7 +36,6 @@ import roboguice.util.Ln;
 		{
 				LandingActivityMain.class,
 				ShowDetailsActivity.class,
-				LandingActivityAutoComplete.class,
 				TelevisionBingeCalculator.class,
 
 
