@@ -1,16 +1,24 @@
 package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 
+import android.annotation.TargetApi;
+import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.actions.SearchIntents;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
@@ -48,7 +56,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	ShowRecyclerAdapter showRecyclerAdapter;
 	List<TVQueryResponse.Result> shows;
 
-
+	boolean searchInProgress;
 
 	@Inject
 	TheMovieDbAPI theMovieDbAPI;
@@ -59,13 +67,6 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@Inject
 	ShowManager showManager;
 
-
-	@InjectView( R.id.search_field )
-	EditText searchField;
-
-	@InjectView( R.id.progress_bar )
-	SmoothProgressBar progressBar;
-
 	@InjectView( R.id.default_listview_text )
 	TextView defaultText;
 
@@ -73,6 +74,15 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	ImageView tvIcon;
 
 
+	@InjectView( R.id.search_field )
+	EditText searchField;
+
+	@InjectView( R.id.progress_bar )
+	SmoothProgressBar progressBar;
+
+
+	@InjectView( R.id.results_found )
+	TextView resultsFound;
 
 	@InjectView( R.id.list_view )
 	RecyclerView listView;
@@ -87,10 +97,65 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
 
-		listView.setLayoutManager( new LinearLayoutManager( this ) );
+		listView.setLayoutManager( new GridLayoutManager( this, 3 ) );
 		listView.setItemAnimator( new DefaultItemAnimator() );
 
+		if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
+		{
+			setupWindowAnimations();
+		}
 
+		setUpEditTextListener();
+
+		handleIntent( getIntent() );
+
+	}
+
+	private void handleIntent( Intent intent )
+	{
+		initRxTextView();
+
+		String intentAction = intent.getAction();
+
+		if ( SearchIntents.ACTION_SEARCH.equals( intentAction ) )
+		{
+			String query = intent.getStringExtra( SearchManager.QUERY );
+			searchField.setText( query );
+		}
+	}
+
+	private void setUpEditTextListener()
+	{
+		searchField.addTextChangedListener( new TextWatcher()
+		{
+			@Override
+			public void beforeTextChanged( CharSequence s, int start, int count, int after )
+			{
+
+			}
+
+			@Override
+			public void onTextChanged( CharSequence s, int start, int before, int count )
+			{
+				if ( count == 0 )
+				{
+					hideListView();
+				}
+			}
+
+			@Override
+			public void afterTextChanged( Editable s )
+			{
+
+			}
+		} );
+	}
+
+	@TargetApi( Build.VERSION_CODES.LOLLIPOP )
+	private void setupWindowAnimations()
+	{
+		Transition fade = TransitionInflater.from( this ).inflateTransition( R.transition.activity_fade );
+		getWindow().setEnterTransition( fade );
 	}
 
 	@Override
@@ -116,33 +181,41 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	private void initRxTextView()
 	{
-		Observable<EditText> searchTextObservable = ViewObservable.text(searchField);
+		Observable<EditText> searchTextObservable = ViewObservable.text( searchField );
 		searchTextObservable.debounce( 500, TimeUnit.MILLISECONDS )
-				.map( search_field ->  search_field.getText().toString()  )
+				.map( search_field -> search_field.getText().toString() )
 				.flatMap( searchTerm -> {
+
 					Observable<TVQueryResponse> tvQueryResponseObservable = null;
+
 					tvQueryResponseObservable = theMovieDbAPI.queryShow( searchTerm );
 					return tvQueryResponseObservable;
 
-				})
+				} )
 				.observeOn( AndroidSchedulers.mainThread() )
 				.retry()
 				.subscribe( tvQueryResponseObservable -> {
 					//do something
 					updateListView( tvQueryResponseObservable );
-				});
+				} );
 
+	}
+
+	private void hideListView()
+	{
+		listView.setVisibility( View.GONE );
+		defaultText.setVisibility( View.GONE );
+		tvIcon.setVisibility( View.GONE );
+		resultsFound.setText( "Results Found: 0" );
 	}
 
 	private void updateListView( TVQueryResponse tvQueryResponse )
 	{
 		progressBar.setVisibility( View.GONE );
+		defaultText.setVisibility( View.GONE );
+		tvIcon.setVisibility( View.GONE );
 
-		if ( tvQueryResponse != null )
-		{
-			defaultText.setVisibility( View.GONE );
-			tvIcon.setVisibility( View.GONE );
-		}
+		listView.setVisibility( View.VISIBLE );
 
 		shows = tvQueryResponse.results;
 
@@ -150,6 +223,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		ArrayList<String> showPosters = new ArrayList<String>();
 
 
+		resultsFound.setText( String.format( "Results Found: %d", tvQueryResponse.results.size() ) );
 		for ( TVQueryResponse.Result result : tvQueryResponse.results )
 		{
 			showTitles.add( result.original_name );
@@ -157,12 +231,11 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 		}
 
-		showRecyclerAdapter = new ShowRecyclerAdapter( showTitles, showPosters, R.layout.spinnerrow, getApplicationContext(), LandingActivityMain.this );
+		showRecyclerAdapter = new ShowRecyclerAdapter( showTitles, showPosters, R.layout.grid_cell, getApplicationContext(), LandingActivityMain.this );
 
 		listView.setAdapter( showRecyclerAdapter );
+
 	}
-
-
 
 
 	@Override
@@ -174,28 +247,38 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@Override
 	public void onShowClicked( int showPosition )
 	{
-
-		int id = shows.get( showPosition ).id;
-
-		tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ), new Callback<EmptyResponse>()
+		if ( !searchInProgress )
 		{
-			@Override
-			public void success( EmptyResponse emptyResponse, Response response )
-			{
-				Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
-				intent.putExtra( "tvshow_id", id );
-				startActivity( intent );
-			}
 
-			@Override
-			public void failure( RetrofitError error )
-			{
-				Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
-				intent.putExtra( "tvshow_id", id );
-				startActivity( intent );
-			}
-		} );
+			searchInProgress = true;
 
+			int id = shows.get( showPosition ).id;
+
+			tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ), new Callback<EmptyResponse>()
+			{
+				@Override
+				public void success( EmptyResponse emptyResponse, Response response )
+				{
+					navigateToDetails( id );
+				}
+
+				@Override
+				public void failure( RetrofitError error )
+				{
+					navigateToDetails( id );
+				}
+			} );
+		}
+
+	}
+
+	private void navigateToDetails( int id )
+	{
+		searchInProgress = false;
+
+		Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
+		intent.putExtra( "tvshow_id", id );
+		startActivity( intent );
 	}
 
 

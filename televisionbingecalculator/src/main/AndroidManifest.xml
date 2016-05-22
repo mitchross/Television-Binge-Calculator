@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vanillax.televisionbingecalculator.app" >
+          package="com.vanillax.televisionbingecalculator.app">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.INTERNET" />
 
-    <supports-screens
-    android:smallScreens= "false" >
-    </supports-screens>
+	<supports-screens android:smallScreens="false">
+	</supports-screens>
 
-    <application
-        android:name=".TBC.TelevisionBingeCalculator"
-        android:hardwareAccelerated="true"
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".TBC.Activity.LandingActivityMain"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application
+			android:name=".TBC.TelevisionBingeCalculator"
+			android:allowBackup="true"
+			android:hardwareAccelerated="true"
+			android:icon="@mipmap/ic_launcher"
+			android:label="@string/app_name"
+			android:theme="@style/AppTheme">
+		<activity
+				android:name=".TBC.Activity.SplashActivity"
+				android:label="@string/app_name"
+				android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity
+				android:name=".TBC.Activity.ShowDetailsActivity"
+				android:label="@string/title_activity_show_details"
+				android:parentActivityName=".TBC.Activity.LandingActivityMain"
+				android:screenOrientation="portrait">
+			<meta-data
+					android:name="android.support.PARENT_ACTIVITY"
+					android:value=".TBC.Activity.LandingActivityMain" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+		</activity>
 
-        <activity
-            android:name=".TBC.Activity.ShowDetailsActivity"
-            android:label="@string/title_activity_show_details"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".TBC.Activity.LandingActivityMain">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".TBC.Activity.LandingActivityMain"/>
-        </activity>
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808"/>
-    </application>
+		<meta-data
+				android:name="com.crashlytics.ApiKey"
+				android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808" />
+
+		<activity android:name=".TBC.Activity.LandingActivityMain">
+
+
+			<intent-filter>
+				<action android:name="com.google.android.gms.actions.SEARCH_ACTION"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+	</application>
 
 </manifest>

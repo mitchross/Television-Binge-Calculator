@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/material_blue"
+
+		>
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:gravity="center_horizontal"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="8dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="50dp">
+
+	<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:background="@drawable/tv_icon_whote"/>
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Television Binge Calculator"
+			android:layout_marginBottom="5dp"
+			android:layout_marginTop="5dp"
+			android:textStyle="bold"
+			android:gravity="center"
+			android:textSize="36sp"
+			android:textColor="@android:color/white"/>
+
+	<EditText
+			android:id="@+id/default_view_edit_text"
+			android:clickable="true"
+			android:layout_width="360dp"
+			android:layout_height="40dp"
+			android:background="@android:color/white"
+			android:gravity="center"
+			android:inputType="none"
+			android:transitionName="test"
+			android:hint="Search for a show to begin"/>
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@android:color/white"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="10dp"
+			android:drawablePadding="6dp"
+			android:textSize="22dp"
+			android:drawableLeft="@drawable/search_icon"
+			android:text="Search for your favorite show"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@android:color/white"
+			android:layout_marginBottom="10dp"
+			android:drawablePadding="6dp"
+			android:textSize="22dp"
+			android:drawableLeft="@drawable/chart_icon"
+			android:text="Let the app do the math"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@android:color/white"
+			android:drawablePadding="6dp"
+			android:textSize="22dp"
+			android:drawableLeft="@drawable/couch_icon"
+			android:text="Sit back and enjoy"/>
+
+	</LinearLayout>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="8sp"
+			android:textColor="@android:color/white"
+			android:layout_alignParentBottom="true"
+			android:gravity="center"
+			android:text="Television Binge Calculator is the intellectual property of Vanilla X Apps.  All data and media related to television shows are property of their respective owners.  Vanilla X Apps in no way claims ownership for third party content."/>
+
+
+
+</RelativeLayout>
