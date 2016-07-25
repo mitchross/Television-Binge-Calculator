@@ -254,12 +254,15 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 			int id = shows.get( showPosition ).id;
 
+
+			navigateToDetails( id );
+
 			tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ), new Callback<EmptyResponse>()
 			{
 				@Override
 				public void success( EmptyResponse emptyResponse, Response response )
 				{
-					navigateToDetails( id );
+					// we dont really care if it fails or succeeeds, just want the app to be fast
 				}
 
 				@Override
