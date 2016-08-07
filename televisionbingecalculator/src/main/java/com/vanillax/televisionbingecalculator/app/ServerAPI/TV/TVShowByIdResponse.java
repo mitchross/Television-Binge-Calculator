@@ -23,6 +23,12 @@ public class TVShowByIdResponse
 	@SerializedName( "overview" )
 	public String episodeDescription;
 
+	@SerializedName( "number_of_seasons" )
+	public int numberOfSeasons;
+
+	@SerializedName( "number_of_episodes" )
+	public int numberOfEpisodes;
+
 	public List<Seasons> seasons;
 
 
@@ -44,7 +50,8 @@ public class TVShowByIdResponse
 
 	public int numberOfSeasons()
 	{
-		return seasons.size() - 1;
+
+		return seasons.size() == 1 ? 1 : seasons.size() - 1;
 	}
 
 	public int getEpisodeCount( )
@@ -75,7 +82,7 @@ public class TVShowByIdResponse
 	{
 		for ( Seasons s : seasons)
 		{
-			if ( s.seasonNumber == seasonNumber )
+			if ( s.seasonNumber == seasonNumber + 1 )
 			{
 				return s.episodeCount;
 			}

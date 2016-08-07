@@ -1,6 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.text.TextWatcher;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +41,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
 import retrofit.Callback;
@@ -86,6 +89,14 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	@InjectView( R.id.list_view )
 	RecyclerView listView;
+
+	@OnClick( R.id.root_view )
+	protected void onTap()
+	{
+		//hack
+		InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService( Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow( this.getCurrentFocus().getWindowToken(), 0);
+	}
 
 
 	@Override

@@ -101,7 +101,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	@Override
 	protected int getLayoutResource()
 	{
-		return R.layout.activity_show_details_material_card_3;
+		return R.layout.activity_show_details;
 
 	}
 
@@ -174,12 +174,12 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 
 	private void initSeasonsRecyclerView()
 	{
-		int totalSeasons = tvShowByIdResponse.numberOfSeasons();
+		int totalSeasons = tvShowByIdResponse.numberOfSeasons;
 
 		ArrayList<Integer> seasons = new ArrayList<>(  );
 
 
-		for ( int i = 1; i < totalSeasons + 1; i++)
+		for ( int i = 1; i < totalSeasons + 1 ; i++)
 		{
 			seasons.add( i);
 		}

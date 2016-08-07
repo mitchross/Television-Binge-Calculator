@@ -6,6 +6,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/root_view"
+                android:clickable="true"
                 xmlns:custom="http://schemas.android.com/apk/res-auto"
                 tools:context="com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain">
 
@@ -25,7 +26,6 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:maxLines="1"
-				android:singleLine="true"
 				android:layout_margin="10dp"
 				android:hint="Search for a show to begin"
 				android:gravity="left|center_vertical"
@@ -72,7 +72,7 @@
         android:clipToPadding="false"
         android:layout_below="@id/results_found"
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:divider="@null"
         android:layout_height="wrap_content" />
 
