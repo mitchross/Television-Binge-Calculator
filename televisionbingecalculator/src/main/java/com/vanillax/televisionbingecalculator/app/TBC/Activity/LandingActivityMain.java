@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.actions.SearchIntents;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
@@ -44,12 +45,10 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import rx.Observable;
-import rx.android.observables.ViewObservable;
+import roboguice.util.Ln;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class LandingActivityMain extends BaseActivity implements ShowRecyclerAdapter.OnShowClickListener
@@ -192,24 +191,37 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	private void initRxTextView()
 	{
-		Observable<EditText> searchTextObservable = ViewObservable.text( searchField );
-		searchTextObservable.debounce( 500, TimeUnit.MILLISECONDS )
-				.map( search_field -> search_field.getText().toString() )
-				.flatMap( searchTerm -> {
-
-					Observable<TVQueryResponse> tvQueryResponseObservable = null;
-
-					tvQueryResponseObservable = theMovieDbAPI.queryShow( searchTerm );
-					return tvQueryResponseObservable;
-
-				} )
+		RxTextView.textChangeEvents(searchField)
+		.debounce( 500, TimeUnit.MILLISECONDS )
+				.map( search_field -> searchField.getText().toString() )
+				.flatMap( searchTerm -> theMovieDbAPI.queryShow( searchTerm ) )
 				.observeOn( AndroidSchedulers.mainThread() )
 				.retry()
-				.subscribe( tvQueryResponseObservable -> {
-					//do something
-					updateListView( tvQueryResponseObservable );
-				} );
+				.subscribe( new Subscriber<TVQueryResponse>()
+				{
+					@Override
+					public void onCompleted()
+					{
 
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						try {
+								//other code
+							Ln.d( e.toString() );
+						} catch (Exception e1) {
+							Ln.d( e1.toString());
+						}
+					}
+
+					@Override
+					public void onNext( TVQueryResponse tvQueryResponse )
+					{
+						updateListView( tvQueryResponse );
+					}
+				} );
+		
 	}
 
 	private void hideListView()
@@ -261,37 +273,52 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		if ( !searchInProgress )
 		{
 
+			startActivity( new Intent( this, TestActivity.class ) );
+
 			searchInProgress = true;
 
 			int id = shows.get( showPosition ).id;
+			String path = shows.get( showPosition ).posterPath;
+			String posterUrl = CalculatorUtils.getShowPosterThumbnail( path, false );
 
 
-			navigateToDetails( id );
+			navigateToDetails( id, posterUrl );
 
-			tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ), new Callback<EmptyResponse>()
-			{
-				@Override
-				public void success( EmptyResponse emptyResponse, Response response )
-				{
-					// we dont really care if it fails or succeeeds, just want the app to be fast
-				}
+			tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ) )
+					.subscribeOn( Schedulers.newThread() )
+					.observeOn( AndroidSchedulers.mainThread() )
+					.subscribe( new Subscriber<EmptyResponse>()
+					{
+						@Override
+						public void onCompleted()
+						{
 
-				@Override
-				public void failure( RetrofitError error )
-				{
-					navigateToDetails( id );
-				}
-			} );
+						}
+
+						@Override
+						public void onError( Throwable e )
+						{
+
+						}
+
+						@Override
+						public void onNext( EmptyResponse emptyResponse )
+						{
+
+						}
+					} );
+
+
 		}
-
 	}
 
-	private void navigateToDetails( int id )
+	private void navigateToDetails( int id, String posterUrl )
 	{
 		searchInProgress = false;
 
 		Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
 		intent.putExtra( "tvshow_id", id );
+		intent.putExtra( "tvshow_thumbnail", posterUrl );
 		startActivity( intent );
 	}
 

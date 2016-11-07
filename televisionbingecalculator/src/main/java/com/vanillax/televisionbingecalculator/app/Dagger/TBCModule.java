@@ -2,8 +2,7 @@ package com.vanillax.televisionbingecalculator.app.Dagger;
 
 import android.content.Context;
 
-import com.squareup.okhttp.Cache;
-import com.squareup.okhttp.OkHttpClient;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
@@ -13,16 +12,18 @@ import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import roboguice.util.Ln;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by mitch on 5/27/14.
@@ -52,28 +53,20 @@ public class TBCModule
 	public static final String BASE_IMAGE_PATH = "http://image.tmdb.org/t/p/w500/";
 	public static final String BASE_IMAGE_PATH_LARGE = "http://image.tmdb.org/t/p/w1280/";
 
+	public static final String GUIDE_BOX_API_KEY = "rKvQ35M0UKOUDTOz9tD1C7IObWtRh4py";
+
 
 
 	@Provides
 	@Singleton
 	TheMovieDbAPI providesTheMovieDbAPI ( @ForApplication Context context)
 	{
-		OkHttpClient okHttpClient = new OkHttpClient();
-		File cacheDir = new File( context.getCacheDir(), UUID.randomUUID().toString() );
 
-		Cache cache = null;
-		try {
-			cache = new Cache(cacheDir, 8L * 1024 * 1024);
-		} catch (IOException e) {
-			Ln.e( e );
-		}
-
-		okHttpClient.setCache( cache );
-
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setClient( new OkClient(okHttpClient) )
-				.setEndpoint( "http://api.themoviedb.org/3" )
-				.setLogLevel( RestAdapter.LogLevel.FULL )
+		Retrofit restAdapter = new Retrofit.Builder()
+				.baseUrl( "http://api.themoviedb.org/3/" )
+				.client( getOkHttpClient( context ))
+				.addConverterFactory( GsonConverterFactory.create() )
+				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
 				.build();
 
 		TheMovieDbAPI theMovieDbAPI = restAdapter.create( TheMovieDbAPI.class );
@@ -87,23 +80,14 @@ public class TBCModule
 													Context context)
 	{
 
-		OkHttpClient okHttpClient = new OkHttpClient();
-		File cacheDir = new File( context.getCacheDir(), UUID.randomUUID().toString() );
-
-		Cache cache = null;
-		try {
-			cache = new Cache(cacheDir, 8L * 1024 * 1024);
-		} catch (IOException e) {
-			Ln.e( e );
-		}
-
-		okHttpClient.setCache( cache );
-
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setClient( new OkClient(okHttpClient) )
-				.setEndpoint( "api.themoviedb.org/3/" )
-				.setLogLevel( RestAdapter.LogLevel.FULL )
+		Retrofit restAdapter = new Retrofit.Builder()
+				.baseUrl( "https://api.themoviedb.org/3/" )
+				.client( getOkHttpClient( context ))
+				.addConverterFactory( GsonConverterFactory.create() )
+				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
 				.build();
+
+
 		ShowQueryMasterAPI showQueryMasterAPI = restAdapter.create( ShowQueryMasterAPI.class );
 		return showQueryMasterAPI;
 
@@ -118,21 +102,63 @@ public class TBCModule
 
 	@Provides
 	@Singleton
-	TVBCLoggerAPI providesTVBCShowQueryMasterAPI()
+	TVBCLoggerAPI providesTVBCShowQueryMasterAPI(@ForApplication Context context)
 	{
 		OkHttpClient okHttpClient = new OkHttpClient();
 
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setClient( new OkClient( okHttpClient ) )
-				.setEndpoint( "https://tvbc-logger.herokuapp.com/api" )
-				.setLogLevel( RestAdapter.LogLevel.FULL )
+		Retrofit restAdapter = new Retrofit.Builder()
+				.baseUrl( "https://tvbc-logger.herokuapp.com/api/" )
+				.client( getOkHttpClient( context ))
+				.addConverterFactory( GsonConverterFactory.create() )
+				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
 				.build();
+
+
 		TVBCLoggerAPI tvbcLoggerAPI = restAdapter.create( TVBCLoggerAPI.class );
 		return tvbcLoggerAPI;
 	}
 
 
+	@Provides
+	@Singleton
+	GuideBoxApi providesGuideBoxAPI( @ForApplication Context context)
+	{
 
+		Retrofit restAdapter = new Retrofit.Builder()
+				.baseUrl( "https://api-public.guidebox.com/v1.43/US/" + GUIDE_BOX_API_KEY + "/" )
+				.client( getOkHttpClient( context ))
+				.addConverterFactory( GsonConverterFactory.create() )
+				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
+				.build();
+
+		GuideBoxApi guideBoxAPI = restAdapter.create( GuideBoxApi.class );
+		return guideBoxAPI;
+	}
+
+
+
+
+	private OkHttpClient getOkHttpClient( Context context)
+	{
+		OkHttpClient.Builder okClientBuilder = new OkHttpClient.Builder();
+		HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+		httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BASIC);
+		okClientBuilder.addInterceptor(httpLoggingInterceptor);
+
+
+
+		final File baseDir = context.getCacheDir();
+		if (baseDir != null)
+		{
+			final File cacheDir = new File(baseDir, "HttpResponseCache");
+
+			okClientBuilder.cache(new Cache(cacheDir, 8L * 1024 * 1024));
+		}
+		okClientBuilder.connectTimeout(12, TimeUnit.SECONDS);
+		okClientBuilder.readTimeout(12, TimeUnit.SECONDS);
+		okClientBuilder.writeTimeout(12, TimeUnit.SECONDS);
+		return okClientBuilder.build();
+	}
 
 
 }

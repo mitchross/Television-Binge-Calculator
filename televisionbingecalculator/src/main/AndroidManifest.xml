@@ -20,6 +20,7 @@
 				android:screenOrientation="portrait">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
+
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
@@ -31,22 +32,22 @@
 			<meta-data
 					android:name="android.support.PARENT_ACTIVITY"
 					android:value=".TBC.Activity.LandingActivityMain" />
-
 		</activity>
 
 		<meta-data
 				android:name="com.crashlytics.ApiKey"
 				android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808" />
 
-		<activity android:name=".TBC.Activity.LandingActivityMain"
+		<activity
+				android:name=".TBC.Activity.LandingActivityMain"
 				android:windowSoftInputMode="adjustNothing">
-
-
 			<intent-filter>
-				<action android:name="com.google.android.gms.actions.SEARCH_ACTION"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-			</intent-filter>
+				<action android:name="com.google.android.gms.actions.SEARCH_ACTION" />
 
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".TBC.Activity.TestActivity">
 		</activity>
 	</application>
 

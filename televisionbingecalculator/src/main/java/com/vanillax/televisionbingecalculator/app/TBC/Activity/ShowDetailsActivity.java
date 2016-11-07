@@ -3,13 +3,13 @@ package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.CheckBox;
+import android.support.v7.widget.SwitchCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vanillax.televisionbingecalculator.app.R;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVShowByIdResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
@@ -23,16 +23,19 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnCheckedChanged;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 
 public class ShowDetailsActivity extends BaseActivity implements SeasonsRecyclerAdapter.OnShowClickListener
 {
 
 	@Inject
 	TheMovieDbAPI theMovieDbAPI;
+
+	@Inject
+	GuideBoxApi guideBoxApi;
 
 
 	@InjectView(R.id.poster_image)
@@ -41,17 +44,20 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	@InjectView(R.id.episode_total)
 	TextView episdoeCountTextView;
 
-	@InjectView( R.id.episode_length )
-	TextView episodeRunTime;
+//	@InjectView( R.id.episode_length )
+//	TextView episodeRunTime;
+
+	@InjectView( R.id.thumbnail )
+	ImageView thumbnail;
 
 	@InjectView(R.id.binge_time)
 	TextView bingTimeText;
 
-	@InjectView( R.id.seasons_recycler_view )
-	RecyclerView seasonsRecyclerView;
+//	@InjectView( R.id.seasons_recycler_view )
+//	RecyclerView seasonsRecyclerView;
 
-	@InjectView( R.id.select_all_checkbox )
-	CheckBox selectedAllCheckbox;
+	@InjectView( R.id.switch_toggle )
+	SwitchCompat selectedAllCheckbox;
 
 	@InjectView( R.id.episode_description )
 	TextView episodeDescription;
@@ -68,20 +74,21 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	protected String bingeTime;
 	protected String imageUrl;
 	protected String title;
+	protected String thumbnailUrl;
 
 
-	@OnCheckedChanged( R.id.select_all_checkbox )
-	protected void onCheck(boolean checked)
-	{
-		if (checked)
-		{
-			initViewsForTotalBingeMode();
-		}
-		else
-		{
-			initViewsForSpecificSeason( 0 );
-		}
-	}
+//	@OnCheckedChanged( R.id.select_all_checkbox )
+//	protected void onCheck(boolean checked)
+//	{
+//		if (checked)
+//		{
+//			initViewsForTotalBingeMode();
+//		}
+//		else
+//		{
+//			initViewsForSpecificSeason( 0 );
+//		}
+//	}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +96,12 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		ButterKnife.inject( this );
 		TelevisionBingeCalculator.inject( this );
 		linearLayoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
-		seasonsRecyclerView.setLayoutManager( linearLayoutManager );
-		seasonsRecyclerView.setAdapter( seasonsRecyclerAdapter );
+//		seasonsRecyclerView.setLayoutManager( linearLayoutManager );
+//		seasonsRecyclerView.setAdapter( seasonsRecyclerAdapter );
 
 
 		showId = getIntent().getIntExtra( "tvshow_id" , 0 );
+		thumbnailUrl = getIntent().getStringExtra( "tvshow_thumbnail" );
 
 
     }
@@ -101,7 +109,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	@Override
 	protected int getLayoutResource()
 	{
-		return R.layout.activity_show_details;
+		return R.layout.activity_show_details_2;
 
 	}
 
@@ -110,38 +118,47 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	{
 		super.onResume();
 
-		theMovieDbAPI.queryShowDetails( String.valueOf( showId ), new Callback<TVShowByIdResponse>()
-		{
-			@Override
-			public void success( TVShowByIdResponse tvShowByIdResponse, Response response )
-			{
+		//getStreamingSources();
 
-				if (tvShowByIdResponse.seasons.size() == 0 )
+		theMovieDbAPI.queryShowDetails( String.valueOf( showId ) )
+				.subscribeOn( Schedulers.newThread() )
+				.observeOn( AndroidSchedulers.mainThread() )
+				.subscribe( new Subscriber<TVShowByIdResponse>()
 				{
-					AlertDialog.Builder builder = new AlertDialog.Builder( ShowDetailsActivity.this );
-					builder.setMessage( "TV show has incomplete data. Sorry about that." )
-							.setCancelable( false )
-							.setPositiveButton( "OK", ( dialog, id ) -> {
-								finish();
-							} );
-					AlertDialog alert = builder.create();
-					alert.show();
-				}
+					@Override
+					public void onCompleted()
+					{
+
+					}
+
+					@Override
+					public void onError( Throwable e )
+					{
+						finish();
+					}
+
+					@Override
+					public void onNext( TVShowByIdResponse tvShowByIdResponse )
+					{
+						if (tvShowByIdResponse.seasons.size() == 0 )
+						{
+							AlertDialog.Builder builder = new AlertDialog.Builder( ShowDetailsActivity.this );
+							builder.setMessage( "TV show has incomplete data. Sorry about that." )
+									.setCancelable( false )
+									.setPositiveButton( "OK", ( dialog, id ) -> {
+										finish();
+									} );
+							AlertDialog alert = builder.create();
+							alert.show();
+						}
 
 
-				ShowDetailsActivity.this.tvShowByIdResponse = tvShowByIdResponse;
+						ShowDetailsActivity.this.tvShowByIdResponse = tvShowByIdResponse;
 
 
-				setUpView();
-			}
-
-			@Override
-			public void failure( RetrofitError error )
-			{
-				finish();
-			}
-		} );
-
+						setUpView();
+					}
+				} );
 
 	}
 
@@ -151,7 +168,33 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		super.onPause();
 	}
 
-
+//
+//	private void getStreamingSources()
+//	{
+//		guideBoxApi.translateTheMovieDBID( String.valueOf( showId ) )
+//				.subscribeOn( Schedulers.newThread())
+//				.observeOn( AndroidSchedulers.mainThread() )
+//				.flatMap( new Func1<GuideBoxShowTranslatorResponse, Observable<?>>()
+//				{
+//					@Override
+//					public Observable<?> call( GuideBoxShowTranslatorResponse guideBoxShowTranslatorResponse )
+//					{
+//						return guideBoxApi.getAvailableContent( String.valueOf( guideBoxShowTranslatorResponse.id ));
+//					}
+//
+//				})
+//				.subscribe( new Action1<Object>()
+//				{
+//				} );
+//
+//
+//
+//		////
+//
+//
+//
+//
+//	}
 
 
 	private void setUpView()
@@ -167,6 +210,13 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 				.error( getResources().getDrawable( R.drawable.tv_icon ) )
 				.placeholder( getResources().getDrawable( R.drawable.tv_icon ) )
 				.into( posterImage );
+
+
+		Glide.with( getApplicationContext() )
+				.load( thumbnailUrl )
+				.error( getResources().getDrawable( R.drawable.tv_icon ) )
+				.placeholder( getResources().getDrawable( R.drawable.tv_icon ) )
+				.into( thumbnail );
 
 		getSupportActionBar().setTitle( title );
 
@@ -186,7 +236,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 
 
 		seasonsRecyclerAdapter = new SeasonsRecyclerAdapter( seasons, R.layout.seasons_adapter_row, this , this );
-		seasonsRecyclerView.setAdapter( seasonsRecyclerAdapter );
+		//seasonsRecyclerView.setAdapter( seasonsRecyclerAdapter );
 		initViewsForTotalBingeMode();
 	}
 
@@ -199,7 +249,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		title = tvShowByIdResponse.title;
 
 
-		episodeRunTime.setText( "" + runtime );
+		//episodeRunTime.setText( "" + runtime );
 		episdoeCountTextView.setText( episodeCount );
 		bingTimeText.setText( bingeTime );
 		selectedAllCheckbox.setChecked( true );
@@ -217,7 +267,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		title = tvShowByIdResponse.title;
 
 
-		episodeRunTime.setText( "" + runtime );
+		//episodeRunTime.setText( "" + runtime );
 		episdoeCountTextView.setText( episodeCount );
 		bingTimeText.setText( bingeTime );
 
