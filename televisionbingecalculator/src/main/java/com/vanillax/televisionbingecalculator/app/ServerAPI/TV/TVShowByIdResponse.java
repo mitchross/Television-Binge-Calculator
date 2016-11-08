@@ -29,6 +29,8 @@ public class TVShowByIdResponse
 	@SerializedName( "number_of_episodes" )
 	public int numberOfEpisodes;
 
+
+
 	public List<Seasons> seasons;
 
 
@@ -82,7 +84,7 @@ public class TVShowByIdResponse
 	{
 		for ( Seasons s : seasons)
 		{
-			if ( s.seasonNumber == seasonNumber + 1 )
+			if ( s.seasonNumber == seasonNumber  )
 			{
 				return s.episodeCount;
 			}

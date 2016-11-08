@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,7 +22,6 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.actions.SearchIntents;
-import com.jakewharton.rxbinding.widget.RxTextView;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
@@ -36,7 +36,6 @@ import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapt
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -45,7 +44,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
-import roboguice.util.Ln;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -191,37 +189,40 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	private void initRxTextView()
 	{
-		RxTextView.textChangeEvents(searchField)
-		.debounce( 500, TimeUnit.MILLISECONDS )
-				.map( search_field -> searchField.getText().toString() )
-				.flatMap( searchTerm -> theMovieDbAPI.queryShow( searchTerm ) )
-				.observeOn( AndroidSchedulers.mainThread() )
-				.retry()
-				.subscribe( new Subscriber<TVQueryResponse>()
-				{
-					@Override
-					public void onCompleted()
-					{
 
-					}
+		searchField.setOnEditorActionListener( ( v, actionId, event ) -> {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH  || actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_DONE) {
 
-					@Override
-					public void onError(Throwable e) {
-						try {
-								//other code
-							Ln.d( e.toString() );
-						} catch (Exception e1) {
-							Ln.d( e1.toString());
-						}
-					}
 
-					@Override
-					public void onNext( TVQueryResponse tvQueryResponse )
-					{
-						updateListView( tvQueryResponse );
-					}
-				} );
-		
+				theMovieDbAPI.queryShow( String.valueOf( v.getText().toString() ) )
+						.subscribeOn( Schedulers.newThread() )
+						.observeOn( AndroidSchedulers.mainThread() )
+						.subscribe( new Subscriber<TVQueryResponse>()
+						{
+							@Override
+							public void onCompleted()
+							{
+
+							}
+
+							@Override
+							public void onError( Throwable e )
+							{
+								finish();
+							}
+
+							@Override
+							public void onNext( TVQueryResponse response )
+							{
+								updateListView( response );
+							}
+						} );
+
+				return true;
+			}
+			return false;
+		} );
+
 	}
 
 	private void hideListView()

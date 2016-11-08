@@ -4,12 +4,18 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SwitchCompat;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.GuideBoxAvailableContentResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.GuideBoxShowTranslatorResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVShowByIdResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
@@ -23,12 +29,16 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
+import roboguice.util.Ln;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
-public class ShowDetailsActivity extends BaseActivity implements SeasonsRecyclerAdapter.OnShowClickListener
+public class ShowDetailsActivity extends BaseActivity implements SeasonsRecyclerAdapter.OnShowClickListener, Spinner.OnItemSelectedListener
 {
 
 	@Inject
@@ -59,8 +69,20 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	@InjectView( R.id.switch_toggle )
 	SwitchCompat selectedAllCheckbox;
 
+	@InjectView( R.id.season_spinner )
+	Spinner seasonSpinner;
+
 	@InjectView( R.id.episode_description )
 	TextView episodeDescription;
+
+	@InjectView( R.id.title )
+	TextView showtitle;
+
+	@InjectView( R.id.category_title )
+	TextView categoryTitle;
+
+	@InjectView( R.id.year )
+	TextView year;
 
 	LinearLayoutManager linearLayoutManager;
 	SeasonsRecyclerAdapter seasonsRecyclerAdapter;
@@ -77,18 +99,18 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	protected String thumbnailUrl;
 
 
-//	@OnCheckedChanged( R.id.select_all_checkbox )
-//	protected void onCheck(boolean checked)
-//	{
-//		if (checked)
-//		{
-//			initViewsForTotalBingeMode();
-//		}
-//		else
-//		{
-//			initViewsForSpecificSeason( 0 );
-//		}
-//	}
+	@OnCheckedChanged( R.id.switch_toggle )
+	protected void onCheck(boolean checked)
+	{
+		if (checked)
+		{
+			initViewsForTotalBingeMode();
+		}
+		else
+		{
+			initViewsForSpecificSeason( 0 );
+		}
+	}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +140,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	{
 		super.onResume();
 
-		//getStreamingSources();
+		getStreamingSources();
 
 		theMovieDbAPI.queryShowDetails( String.valueOf( showId ) )
 				.subscribeOn( Schedulers.newThread() )
@@ -168,41 +190,79 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		super.onPause();
 	}
 
-//
-//	private void getStreamingSources()
-//	{
-//		guideBoxApi.translateTheMovieDBID( String.valueOf( showId ) )
-//				.subscribeOn( Schedulers.newThread())
-//				.observeOn( AndroidSchedulers.mainThread() )
-//				.flatMap( new Func1<GuideBoxShowTranslatorResponse, Observable<?>>()
-//				{
-//					@Override
-//					public Observable<?> call( GuideBoxShowTranslatorResponse guideBoxShowTranslatorResponse )
-//					{
-//						return guideBoxApi.getAvailableContent( String.valueOf( guideBoxShowTranslatorResponse.id ));
-//					}
-//
-//				})
-//				.subscribe( new Action1<Object>()
-//				{
-//				} );
-//
-//
-//
-//		////
-//
-//
-//
-//
-//	}
+
+	private void initSpinners()
+	{
+		int seasons =  tvShowByIdResponse.numberOfSeasons;
+
+		ArrayList<String> items = new ArrayList<>(  );
+
+		String allSeasons = "All (" + seasons + ")";
+		items.add( allSeasons );
+
+		for ( int i = 1; i < seasons + 1; i++)
+		{
+			items.add( String.valueOf( i ) );
+		}
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.season_spinner_row, items);
+		seasonSpinner.setAdapter( adapter );
+		seasonSpinner.setOnItemSelectedListener( this );
+	}
+
+
+
+	private void getStreamingSources()
+	{
+		guideBoxApi.translateTheMovieDBID( String.valueOf( showId ) )
+				.subscribeOn( Schedulers.newThread())
+				.observeOn( Schedulers.io() )
+				.flatMap( new Func1<GuideBoxShowTranslatorResponse, Observable<GuideBoxAvailableContentResponse>>()
+						  {
+							  @Override
+							  public Observable<GuideBoxAvailableContentResponse> call( GuideBoxShowTranslatorResponse guideBoxShowTranslatorResponse )
+							  {
+								  return guideBoxApi.getAvailableContent( String.valueOf( guideBoxShowTranslatorResponse.id ) );
+							  }
+						  })
+				.subscribe( new Subscriber<GuideBoxAvailableContentResponse>()
+				{
+					@Override
+					public void onCompleted()
+					{
+
+					}
+
+					@Override
+					public void onError( Throwable e )
+					{
+
+					}
+
+					@Override
+					public void onNext( GuideBoxAvailableContentResponse guideBoxAvailableContentResponse )
+					{
+						Ln.d( guideBoxAvailableContentResponse);
+					}
+				} );
+
+
+						////
+
+
+	}
 
 
 	private void setUpView()
 	{
 		initSeasonsRecyclerView();
+		initSpinners();
 
 		imageUrl = tvShowByIdResponse.imageUrl;
 		title = tvShowByIdResponse.title;
+		showtitle.setText( title );
+
+
 		episodeDescription.setText( tvShowByIdResponse.episodeDescription );
 
 		Glide.with( getApplicationContext() )
@@ -283,4 +343,26 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		initViewsForSpecificSeason( showPosition );
 		seasonsRecyclerAdapter.notifyDataSetChanged();
 	}
+
+
+
+	@Override
+	public void onItemSelected( AdapterView<?> parent, View view, int position, long id )
+	{
+		if ( position == 0 )
+		{
+			initViewsForTotalBingeMode();
+		}
+		else
+		{
+			initViewsForSpecificSeason( position );
+		}
+	}
+
+	@Override
+	public void onNothingSelected( AdapterView<?> parent )
+	{
+
+	}
+
 }

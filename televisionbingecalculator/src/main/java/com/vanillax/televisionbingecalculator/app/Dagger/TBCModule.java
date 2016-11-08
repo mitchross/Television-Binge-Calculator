@@ -142,7 +142,7 @@ public class TBCModule
 	{
 		OkHttpClient.Builder okClientBuilder = new OkHttpClient.Builder();
 		HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-		httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BASIC);
+		httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY);
 		okClientBuilder.addInterceptor(httpLoggingInterceptor);
 
 
