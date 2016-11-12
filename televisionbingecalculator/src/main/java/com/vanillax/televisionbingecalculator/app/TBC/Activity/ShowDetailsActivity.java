@@ -3,6 +3,7 @@ package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,9 +22,10 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
-import com.vanillax.televisionbingecalculator.app.TBC.adapters.SeasonsRecyclerAdapter;
+import com.vanillax.televisionbingecalculator.app.TBC.adapters.StreamingSourceRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,7 +40,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
-public class ShowDetailsActivity extends BaseActivity implements SeasonsRecyclerAdapter.OnShowClickListener, Spinner.OnItemSelectedListener
+public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemSelectedListener
 {
 
 	@Inject
@@ -63,8 +65,8 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	@InjectView(R.id.binge_time)
 	TextView bingTimeText;
 
-//	@InjectView( R.id.seasons_recycler_view )
-//	RecyclerView seasonsRecyclerView;
+	@InjectView( R.id.steaming_logo_recycler_view )
+	RecyclerView streamingLogoRecyclerView;
 
 	@InjectView( R.id.switch_toggle )
 	SwitchCompat selectedAllCheckbox;
@@ -85,7 +87,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	TextView year;
 
 	LinearLayoutManager linearLayoutManager;
-	SeasonsRecyclerAdapter seasonsRecyclerAdapter;
+	StreamingSourceRecyclerAdapter seasonsRecyclerAdapter;
 
 	int showId;
 	TVShowByIdResponse tvShowByIdResponse;
@@ -112,14 +114,19 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		}
 	}
 
-    @Override
+	@Override
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+	}
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
 		ButterKnife.inject( this );
 		TelevisionBingeCalculator.inject( this );
 		linearLayoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
-//		seasonsRecyclerView.setLayoutManager( linearLayoutManager );
-//		seasonsRecyclerView.setAdapter( seasonsRecyclerAdapter );
+		streamingLogoRecyclerView.setLayoutManager( linearLayoutManager );
 
 
 		showId = getIntent().getIntExtra( "tvshow_id" , 0 );
@@ -131,7 +138,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	@Override
 	protected int getLayoutResource()
 	{
-		return R.layout.activity_show_details_2;
+		return R.layout.activity_show_details;
 
 	}
 
@@ -215,14 +222,16 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 	private void getStreamingSources()
 	{
 		guideBoxApi.translateTheMovieDBID( String.valueOf( showId ) )
-				.subscribeOn( Schedulers.newThread())
-				.observeOn( Schedulers.io() )
-				.flatMap( new Func1<GuideBoxShowTranslatorResponse, Observable<GuideBoxAvailableContentResponse>>()
+			.subscribeOn( Schedulers.io() )
+			.observeOn( AndroidSchedulers.mainThread() )
+			.flatMap( new Func1<GuideBoxShowTranslatorResponse, Observable<GuideBoxAvailableContentResponse>>()
 						  {
 							  @Override
 							  public Observable<GuideBoxAvailableContentResponse> call( GuideBoxShowTranslatorResponse guideBoxShowTranslatorResponse )
 							  {
-								  return guideBoxApi.getAvailableContent( String.valueOf( guideBoxShowTranslatorResponse.id ) );
+								  return guideBoxApi.getAvailableContent( String.valueOf( guideBoxShowTranslatorResponse.id ) )
+										  .subscribeOn(Schedulers.io())
+										  .observeOn(AndroidSchedulers.mainThread());
 							  }
 						  })
 				.subscribe( new Subscriber<GuideBoxAvailableContentResponse>()
@@ -243,6 +252,8 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 					public void onNext( GuideBoxAvailableContentResponse guideBoxAvailableContentResponse )
 					{
 						Ln.d( guideBoxAvailableContentResponse);
+
+						initSeasonsRecyclerView( guideBoxAvailableContentResponse.getStreamSources());
 					}
 				} );
 
@@ -255,12 +266,13 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 
 	private void setUpView()
 	{
-		initSeasonsRecyclerView();
 		initSpinners();
 
 		imageUrl = tvShowByIdResponse.imageUrl;
 		title = tvShowByIdResponse.title;
 		showtitle.setText( title );
+		year.setText( tvShowByIdResponse.getYear() );
+		categoryTitle.setText( tvShowByIdResponse.getCategory() );
 
 
 		episodeDescription.setText( tvShowByIdResponse.episodeDescription );
@@ -270,6 +282,7 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 				.error( getResources().getDrawable( R.drawable.tv_icon ) )
 				.placeholder( getResources().getDrawable( R.drawable.tv_icon ) )
 				.into( posterImage );
+
 
 
 		Glide.with( getApplicationContext() )
@@ -282,27 +295,17 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 
 	}
 
-	private void initSeasonsRecyclerView()
+	private void initSeasonsRecyclerView( List<GuideBoxAvailableContentResponse.StreamSource> streamSourceList )
 	{
-		int totalSeasons = tvShowByIdResponse.numberOfSeasons;
-
-		ArrayList<Integer> seasons = new ArrayList<>(  );
 
 
-		for ( int i = 1; i < totalSeasons + 1 ; i++)
-		{
-			seasons.add( i);
-		}
-
-
-		seasonsRecyclerAdapter = new SeasonsRecyclerAdapter( seasons, R.layout.seasons_adapter_row, this , this );
-		//seasonsRecyclerView.setAdapter( seasonsRecyclerAdapter );
-		initViewsForTotalBingeMode();
+		seasonsRecyclerAdapter = new StreamingSourceRecyclerAdapter( streamSourceList, R.layout.streaming_source_row, this );
+		streamingLogoRecyclerView.setAdapter( seasonsRecyclerAdapter );
 	}
 
 	private void initViewsForTotalBingeMode()
 	{
-		episodeCount = String.valueOf( tvShowByIdResponse.getEpisodeCount() );
+		episodeCount = String.valueOf( tvShowByIdResponse.getEpisodeCount() ) + " Episodes";
 		runtime = tvShowByIdResponse.getRunTimeAverage();
 		bingeTime = CalculatorUtils.getTotalBingeTime( this, tvShowByIdResponse );
 		imageUrl = tvShowByIdResponse.imageUrl;
@@ -314,8 +317,6 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 		bingTimeText.setText( bingeTime );
 		selectedAllCheckbox.setChecked( true );
 
-		seasonsRecyclerAdapter.setSelected( -1 );
-		seasonsRecyclerAdapter.notifyDataSetChanged();
 	}
 
 	private void initViewsForSpecificSeason( int seasonNumber )
@@ -333,14 +334,6 @@ public class ShowDetailsActivity extends BaseActivity implements SeasonsRecycler
 
 		seasonsRecyclerAdapter.setSelected( seasonNumber );
 		selectedAllCheckbox.setChecked( false );
-		seasonsRecyclerAdapter.notifyDataSetChanged();
-	}
-
-
-	@Override
-	public void onSeasonsClicked( int showPosition )
-	{
-		initViewsForSpecificSeason( showPosition );
 		seasonsRecyclerAdapter.notifyDataSetChanged();
 	}
 

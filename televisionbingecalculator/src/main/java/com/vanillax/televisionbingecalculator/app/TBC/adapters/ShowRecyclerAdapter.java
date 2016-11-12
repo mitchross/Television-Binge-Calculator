@@ -33,11 +33,11 @@ public class ShowRecyclerAdapter extends RecyclerView.Adapter<ShowRecyclerAdapte
     }
 
     protected static class MyViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.spinner_row_image)
-        ImageView spinnerRowImage;
+        @InjectView(R.id.poster_image)
+        ImageView poster_image;
 
-        @InjectView(R.id.spinner_row_text)
-        TextView spinnerRowText;
+        @InjectView(R.id.show_title)
+        TextView show_title;
 
         public MyViewHolder(View view , final OnShowClickListener listener) {
             super(view);
@@ -70,12 +70,13 @@ public class ShowRecyclerAdapter extends RecyclerView.Adapter<ShowRecyclerAdapte
     @Override
     public void onBindViewHolder(MyViewHolder myView, int position)
     {
-        myView.spinnerRowText.setText( showsListings.get( position ).toString() );
+        myView.show_title.setText( showsListings.get( position ).toString() );
         Glide.with( context )
                 .load( showImageUrls.get( position ) )
                 .placeholder( myView.itemView.getResources().getDrawable( R.drawable.tv_icon ) )
+                .centerCrop()
                 .error( myView.itemView.getResources().getDrawable( R.drawable.tv_icon ) )
-                .into(myView.spinnerRowImage);
+                .into(myView.poster_image);
     }
 
 

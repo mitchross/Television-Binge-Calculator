@@ -2,6 +2,10 @@ package com.vanillax.televisionbingecalculator.app.ServerAPI.TV;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import roboguice.util.Ln;
@@ -28,6 +32,12 @@ public class TVShowByIdResponse
 
 	@SerializedName( "number_of_episodes" )
 	public int numberOfEpisodes;
+
+	@SerializedName( "first_air_date" )
+	String firstAirDate;
+
+	@SerializedName( "genres" )
+	List<GenreClass> genres;
 
 
 
@@ -92,6 +102,39 @@ public class TVShowByIdResponse
 		return 0;
 	}
 
+	public String getYear( )
+	{
+		SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try
+		{
+			Date date = new Date();
+			 date = inputFormat.parse( ( firstAirDate !=null ? firstAirDate : ""));
+			Calendar c = Calendar.getInstance();
+			c.setTime( date );
+			return  String.valueOf( c.get(Calendar.YEAR) );
+		}
+		catch ( ParseException e )
+		{
+			e.printStackTrace();
+			return "";
+		}
+
+
+	}
+
+	public String getCategory()
+	{
+		//return "";
+		if ( genres != null )
+		{
+			return genres.get( 0 ).name;
+		}
+		else
+		{
+			return  "";
+		}
+	}
+
 	public class Seasons
 	{
 		@SerializedName( "season_number" )
@@ -103,4 +146,10 @@ public class TVShowByIdResponse
 		@SerializedName( "poster_path" )
 		public String posterPath;
 	}
+
+	public class GenreClass
+	{
+		String name;
+	}
+
 }

@@ -30,10 +30,11 @@
 				android:layout_margin="10dp"
 				android:hint="Search for a show to begin"
 				android:gravity="left|center_vertical"
+				android:elevation="3dp"
 				android:paddingLeft="30dp"
 				android:textColor="@android:color/darker_gray"
 
-				android:background="@android:color/white"/>
+				android:background="@drawable/rounded_corners"/>
 
 
 			</LinearLayout>
@@ -72,10 +73,11 @@
         android:id="@+id/list_view"
         android:clipToPadding="false"
         android:layout_below="@id/results_found"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:divider="@null"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="8dp"
+		/>
 
 	<TextView
 			android:id="@+id/default_listview_text"

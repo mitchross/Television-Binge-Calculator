@@ -35,11 +35,17 @@ public class GuideBoxAvailableContentResponse
 		List<StreamSource> streamSourceList;
 	}
 
-	protected class StreamSource
+	public class StreamSource
 	{
 		@SerializedName( "display_name" )
-		String sourceDisplayName;
+		public String sourceDisplayName;
 	}
+
+	public List<StreamSource> getStreamSources()
+	{
+		return results.web.episodes.streamSourceList;
+	}
+
 
 }
 

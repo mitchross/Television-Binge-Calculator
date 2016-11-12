@@ -6,7 +6,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -33,6 +32,7 @@ import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapter;
+import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +48,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 
 public class LandingActivityMain extends BaseActivity implements ShowRecyclerAdapter.OnShowClickListener
 {
@@ -55,6 +57,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	ShowRecyclerAdapter showRecyclerAdapter;
 	List<TVQueryResponse.Result> shows;
+	SpacesItemDecoration decoration;
 
 	boolean searchInProgress;
 
@@ -101,12 +104,13 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	{
 		super.onCreate( savedInstanceState );
 		Fabric.with( this, new Crashlytics() );
-		setContentView( R.layout.activity_main_material );
 		TelevisionBingeCalculator.inject( this );
 		ButterKnife.inject( this );
 
-		listView.setLayoutManager( new GridLayoutManager( this, 3 ) );
-		listView.setItemAnimator( new DefaultItemAnimator() );
+		listView.setLayoutManager( new GridLayoutManager( this , 3 ) );
+		decoration = new SpacesItemDecoration( 3 , 35 , false );
+		listView.addItemDecoration( decoration );
+
 
 		if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
 		{
@@ -119,9 +123,10 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 	}
 
+
 	private void handleIntent( Intent intent )
 	{
-		initRxTextView();
+		init();
 
 		String intentAction = intent.getAction();
 
@@ -183,15 +188,15 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 			tvIcon.setVisibility( View.VISIBLE );
 		}
 
-		initRxTextView();
+		init();
 
 	}
 
-	private void initRxTextView()
+	private void init()
 	{
 
 		searchField.setOnEditorActionListener( ( v, actionId, event ) -> {
-			if (actionId == EditorInfo.IME_ACTION_SEARCH  || actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_DONE) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH  || actionId == EditorInfo.IME_ACTION_DONE ) {
 
 
 				theMovieDbAPI.queryShow( String.valueOf( v.getText().toString() ) )
@@ -217,6 +222,10 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 								updateListView( response );
 							}
 						} );
+
+
+				InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService( Activity.INPUT_METHOD_SERVICE);
+				inputMethodManager.hideSoftInputFromWindow( this.getCurrentFocus().getWindowToken(), 0);
 
 				return true;
 			}
@@ -274,8 +283,6 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		if ( !searchInProgress )
 		{
 
-			startActivity( new Intent( this, TestActivity.class ) );
-
 			searchInProgress = true;
 
 			int id = shows.get( showPosition ).id;
@@ -320,6 +327,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
 		intent.putExtra( "tvshow_id", id );
 		intent.putExtra( "tvshow_thumbnail", posterUrl );
+		intent.setFlags( FLAG_ACTIVITY_CLEAR_TOP );
 		startActivity( intent );
 	}
 
