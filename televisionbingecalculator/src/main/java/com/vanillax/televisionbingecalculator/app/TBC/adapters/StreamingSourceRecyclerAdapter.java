@@ -69,11 +69,11 @@ public class StreamingSourceRecyclerAdapter extends RecyclerView.Adapter<Streami
 
         if( streamingIconName.contains( "netflix" ))
         {
-            myView.streamingSourceImg.setImageResource( R.drawable.netflix );
+            myView.streamingSourceImg.setImageResource( R.drawable.amazon );
         }
         if ( streamingIconName.contains( "hulu" ))
         {
-            myView.streamingSourceImg.setImageResource( R.drawable.hulu );
+            myView.streamingSourceImg.setImageResource( R.drawable.amazon );
 
         }
         if ( streamingIconName.contains( "amazon" ))
@@ -82,7 +82,7 @@ public class StreamingSourceRecyclerAdapter extends RecyclerView.Adapter<Streami
         }
         if ( streamingIconName.contains( "vudu" ))
         {
-            myView.streamingSourceImg.setImageResource( R.drawable.vudu );
+            myView.streamingSourceImg.setImageResource( R.drawable.amazon );
         }
 
 

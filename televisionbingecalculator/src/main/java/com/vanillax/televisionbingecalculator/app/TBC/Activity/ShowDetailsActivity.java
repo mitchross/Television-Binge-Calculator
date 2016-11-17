@@ -3,12 +3,13 @@ package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -65,8 +66,8 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 	@InjectView(R.id.binge_time)
 	TextView bingTimeText;
 
-	@InjectView( R.id.steaming_logo_recycler_view )
-	RecyclerView streamingLogoRecyclerView;
+//	@InjectView( R.id.steaming_logo_recycler_view )
+//	RecyclerView streamingLogoRecyclerView;
 
 	@InjectView( R.id.switch_toggle )
 	SwitchCompat selectedAllCheckbox;
@@ -85,6 +86,24 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 
 	@InjectView( R.id.year )
 	TextView year;
+
+	@InjectView( R.id.amazon )
+	ImageView amazonImage;
+
+	@InjectView( R.id.hulu )
+	ImageView huluImage;
+
+	@InjectView( R.id.netflix )
+	ImageView netflixImage;
+
+	@InjectView( R.id.vudu )
+	ImageView vuduImage;
+
+	@InjectView( R.id.hbo )
+	ImageView hboImage;
+
+	@InjectView( R.id.streaming_source_container)
+	LinearLayout streamingSourceContainer;
 
 	LinearLayoutManager linearLayoutManager;
 	StreamingSourceRecyclerAdapter seasonsRecyclerAdapter;
@@ -126,7 +145,7 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 		ButterKnife.inject( this );
 		TelevisionBingeCalculator.inject( this );
 		linearLayoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
-		streamingLogoRecyclerView.setLayoutManager( linearLayoutManager );
+	//	streamingLogoRecyclerView.setLayoutManager( linearLayoutManager );
 
 
 		showId = getIntent().getIntExtra( "tvshow_id" , 0 );
@@ -163,7 +182,7 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 					@Override
 					public void onError( Throwable e )
 					{
-						finish();
+						Log.e("error", e.toString());
 					}
 
 					@Override
@@ -194,6 +213,7 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 	@Override
 	protected void onPause()
 	{
+		streamingSourceContainer.removeAllViews();
 		super.onPause();
 	}
 
@@ -298,9 +318,36 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 	private void initSeasonsRecyclerView( List<GuideBoxAvailableContentResponse.StreamSource> streamSourceList )
 	{
 
+		for( GuideBoxAvailableContentResponse.StreamSource s : streamSourceList)
+		{
 
-		seasonsRecyclerAdapter = new StreamingSourceRecyclerAdapter( streamSourceList, R.layout.streaming_source_row, this );
-		streamingLogoRecyclerView.setAdapter( seasonsRecyclerAdapter );
+			String streamingIconName = s.sourceDisplayName.toLowerCase();
+
+			if( streamingIconName.contains( "netflix" ))
+			{
+				netflixImage.setVisibility( View.VISIBLE );
+			}
+			if ( streamingIconName.contains( "hulu" ))
+			{
+				huluImage.setVisibility( View.VISIBLE );
+
+			}
+			if ( streamingIconName.contains( "amazon" ))
+			{
+				amazonImage.setVisibility( View.VISIBLE );
+			}
+			if ( streamingIconName.contains( "vudu" ))
+			{
+				vuduImage.setVisibility( View.VISIBLE );
+			}
+			if ( streamingIconName.contains( "hbo" ))
+			{
+				hboImage.setVisibility( View.VISIBLE );
+			}
+
+
+		}
+
 	}
 
 	private void initViewsForTotalBingeMode()

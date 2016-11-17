@@ -41,7 +41,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
 import rx.Subscriber;
@@ -90,13 +89,6 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@InjectView( R.id.list_view )
 	RecyclerView listView;
 
-	@OnClick( R.id.root_view )
-	protected void onTap()
-	{
-		//hack
-		InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService( Activity.INPUT_METHOD_SERVICE);
-		inputMethodManager.hideSoftInputFromWindow( this.getCurrentFocus().getWindowToken(), 0);
-	}
 
 
 	@Override

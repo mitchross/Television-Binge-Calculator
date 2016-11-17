@@ -12,14 +12,17 @@ import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -140,24 +143,40 @@ public class TBCModule
 
 	private OkHttpClient getOkHttpClient( Context context)
 	{
-		OkHttpClient.Builder okClientBuilder = new OkHttpClient.Builder();
+		long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MiB
+		Cache cache = new Cache(new File(context.getCacheDir(), "http"), SIZE_OF_CACHE);
+
 		HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
 		httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY);
-		okClientBuilder.addInterceptor(httpLoggingInterceptor);
 
 
+		return new OkHttpClient.Builder()
+				.cache(cache)
+				.addInterceptor( new RewriteRequestInterceptor() )
+				.addInterceptor( httpLoggingInterceptor )
+				.addNetworkInterceptor( new RewriteResponseCacheControlInterceptor() )
+				.build();
 
-		final File baseDir = context.getCacheDir();
-		if (baseDir != null)
-		{
-			final File cacheDir = new File(baseDir, "HttpResponseCache");
+	}
 
-			okClientBuilder.cache(new Cache(cacheDir, 8L * 1024 * 1024));
+
+	public class RewriteRequestInterceptor implements Interceptor {
+		@Override
+		public Response intercept(Chain chain) throws IOException {
+			int maxStale = 60 * 60 * 24 * 5;
+			Request request;
+			request = chain.request().newBuilder().header("Cache-Control", "max-stale=" + maxStale).build();
+			return chain.proceed(request);
 		}
-		okClientBuilder.connectTimeout(12, TimeUnit.SECONDS);
-		okClientBuilder.readTimeout(12, TimeUnit.SECONDS);
-		okClientBuilder.writeTimeout(12, TimeUnit.SECONDS);
-		return okClientBuilder.build();
+	}
+
+	public class RewriteResponseCacheControlInterceptor implements Interceptor {
+		@Override
+		public Response intercept(Chain chain) throws IOException {
+			int maxStale = 60 * 60 * 24 * 5;
+			Response originalResponse = chain.proceed(chain.request());
+			return originalResponse.newBuilder().header("Cache-Control", "public, max-age=120, max-stale=" + maxStale).build();
+		}
 	}
 
 
