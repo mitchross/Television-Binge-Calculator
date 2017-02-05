@@ -145,7 +145,6 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 		ButterKnife.inject( this );
 		TelevisionBingeCalculator.inject( this );
 		linearLayoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
-	//	streamingLogoRecyclerView.setLayoutManager( linearLayoutManager );
 
 
 		showId = getIntent().getIntExtra( "tvshow_id" , 0 );
@@ -379,9 +378,7 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 		episdoeCountTextView.setText( episodeCount );
 		bingTimeText.setText( bingeTime );
 
-		seasonsRecyclerAdapter.setSelected( seasonNumber );
-		selectedAllCheckbox.setChecked( false );
-		seasonsRecyclerAdapter.notifyDataSetChanged();
+		//selectedAllCheckbox.toggle();
 	}
 
 

@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -188,7 +189,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	{
 
 		searchField.setOnEditorActionListener( ( v, actionId, event ) -> {
-			if (actionId == EditorInfo.IME_ACTION_SEARCH  || actionId == EditorInfo.IME_ACTION_DONE ) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH  || actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_GO || event.getKeyCode() == KeyEvent.KEYCODE_ENTER ) {
 
 
 				theMovieDbAPI.queryShow( String.valueOf( v.getText().toString() ) )

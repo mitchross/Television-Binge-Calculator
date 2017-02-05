@@ -11,5 +11,7 @@
           android:paddingLeft="2dp"
           android:paddingBottom="2dp"
           android:textSize="20sp"
+          android:fontFamily="sans-serif-light"
+
           tools:text="1"
           />
