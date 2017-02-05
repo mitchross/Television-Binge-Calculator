@@ -64,6 +64,10 @@ android {
     }
     productFlavors {
     }
+
+    dataBinding {
+        enabled = true;
+    }
 }
 
 configurations {
