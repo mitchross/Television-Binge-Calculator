@@ -1,20 +1,20 @@
 package com.vanillax.televisionbingecalculator.app.TBC;
 
-import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryMasterResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryResponse.ShowQueryResponse;
 
 /**
  * Created by mitchross on 5/26/15.
  */
 public class ShowManager
 {
-	private ShowQueryMasterResponse show;
+	private ShowQueryResponse showQueryResponse;
 
-	public void setShow( ShowQueryMasterResponse show)
+	public void setShowQueryResponse( ShowQueryResponse showQueryResponse )
 	{
-		this.show = show;
+		this.show = showQueryResponse;
 	}
 
-	public ShowQueryMasterResponse getShow()
+	public ShowQueryResponse getShowQueryResponse()
 	{
 		return show;
 	}

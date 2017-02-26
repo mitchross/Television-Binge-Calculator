@@ -10,7 +10,6 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 
 import com.vanillax.televisionbingecalculator.app.R;
-import com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.databinding.HomescreenLandingViewBinding;
 import com.vanillax.televisionbingecalculator.app.viewmodel.SplashScreenViewModel;
 

@@ -6,7 +6,7 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
-import com.vanillax.televisionbingecalculator.app.TBC.Activity.LandingActivityMain;
+import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;

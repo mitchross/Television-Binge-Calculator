@@ -27,11 +27,11 @@
 		<activity
 				android:name=".TBC.Activity.ShowDetailsActivity"
 				android:label="@string/title_activity_show_details"
-				android:parentActivityName=".TBC.Activity.LandingActivityMain"
+				android:parentActivityName=".view.LandingActivityMain"
 				android:screenOrientation="portrait">
 			<meta-data
 					android:name="android.support.PARENT_ACTIVITY"
-					android:value=".TBC.Activity.LandingActivityMain" />
+					android:value=".view.LandingActivityMain" />
 		</activity>
 
 		<meta-data
@@ -39,7 +39,7 @@
 				android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808" />
 
 		<activity
-				android:name=".TBC.Activity.LandingActivityMain"
+				android:name=".view.LandingActivityMain"
 				android:windowSoftInputMode="adjustNothing">
 			<intent-filter>
 				<action android:name="com.google.android.gms.actions.SEARCH_ACTION" />

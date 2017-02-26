@@ -10,17 +10,17 @@ import java.util.ArrayList;
 /**
  * Created by mitch on 6/8/14.
  */
-public class Seasons implements Parcelable
+public class SeasonsItem implements Parcelable
 {
 	@SerializedName( "season"  )
 	private int seasonNumber;
 
 	@SerializedName( "episodes" )
-	private ArrayList<Episodes> episodesList;
+	private ArrayList<EpisodesItem> episodesItemList;
 
 	public int getSeasonEpisodeCount()
 	{
-		return episodesList.size();
+		return episodesItemList.size();
 	}
 
 	public int getSeasonNumber()
@@ -39,29 +39,29 @@ public class Seasons implements Parcelable
 	public void writeToParcel( Parcel dest, int flags )
 	{
 		dest.writeInt( this.seasonNumber );
-		dest.writeSerializable( this.episodesList );
+		dest.writeSerializable( this.episodesItemList );
 	}
 
-	public Seasons()
+	public SeasonsItem()
 	{
 	}
 
-	private Seasons( Parcel in )
+	private SeasonsItem( Parcel in )
 	{
 		this.seasonNumber = in.readInt();
-		this.episodesList = (ArrayList<Episodes>) in.readSerializable();
+		this.episodesItemList = (ArrayList<EpisodesItem>) in.readSerializable();
 	}
 
-	public static final Parcelable.Creator<Seasons> CREATOR = new Parcelable.Creator<Seasons>()
+	public static final Parcelable.Creator<SeasonsItem> CREATOR = new Parcelable.Creator<SeasonsItem>()
 	{
-		public Seasons createFromParcel( Parcel source )
+		public SeasonsItem createFromParcel( Parcel source )
 		{
-			return new Seasons( source );
+			return new SeasonsItem( source );
 		}
 
-		public Seasons[] newArray( int size )
+		public SeasonsItem[] newArray( int size )
 		{
-			return new Seasons[ size ];
+			return new SeasonsItem[ size ];
 		}
 	};
 }

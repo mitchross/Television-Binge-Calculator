@@ -1,7 +1,9 @@
 package com.vanillax.televisionbingecalculator.app.ServerAPI.TV;
 
-import com.google.gson.annotations.SerializedName;
+import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
+import com.vanillax.televisionbingecalculator.app.viewmodel.ShowPosterViewModelItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,17 +11,55 @@ import java.util.List;
  */
 public class TVQueryResponse
 {
-	public List<Result> results;
+	public List<ShowPosterListing> showPosterListings;
 
 
-	public class Result
+	public List<ShowPosterListing> getTVQueryResults()
 	{
-		public int id;
-
-		@SerializedName( "poster_path" )
-		public String posterPath;
-
-		@SerializedName( "original_name" )
-		public String original_name;
+		return showPosterListings;
 	}
+
+	public List<ShowPosterViewModelItem> showsViewModelItems()
+	{
+		ArrayList<ShowPosterViewModelItem> shows = new ArrayList<ShowPosterViewModelItem>(  );
+
+
+
+
+	}
+
+
+
+	public ArrayList<String> getShowTitles()
+	{
+		ArrayList<String> showTitles = new ArrayList<String>();
+
+		for ( ShowPosterListing showPosterListing : showPosterListings )
+		{
+			showTitles.add( showPosterListing.original_name );
+		}
+
+		return showTitles;
+	}
+
+
+	public ArrayList<String> getShowPosters()
+	{
+		ArrayList<String> showPosters = new ArrayList<String>();
+
+		for ( ShowPosterListing showPosterListing : showPosterListings )
+		{
+			showPosters.add( CalculatorUtils.getShowPosterThumbnail( showPosterListing.posterPath, false ) );
+		}
+
+		return showPosters;
+	}
+
+
+	public int getCount()
+	{
+		return showPosterListings.size();
+	}
+
+
 }

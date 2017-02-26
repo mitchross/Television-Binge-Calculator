@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by mitch on 6/8/14.
  */
-public class Episodes implements Parcelable
+public class EpisodesItem implements Parcelable
 {
 	@SerializedName( "season" )
 	public int season;
@@ -30,26 +30,26 @@ public class Episodes implements Parcelable
 		dest.writeInt( this.number );
 	}
 
-	public Episodes()
+	public EpisodesItem()
 	{
 	}
 
-	private Episodes( Parcel in )
+	private EpisodesItem( Parcel in )
 	{
 		this.season = in.readInt();
 		this.number = in.readInt();
 	}
 
-	public static final Parcelable.Creator<Episodes> CREATOR = new Parcelable.Creator<Episodes>()
+	public static final Parcelable.Creator<EpisodesItem> CREATOR = new Parcelable.Creator<EpisodesItem>()
 	{
-		public Episodes createFromParcel( Parcel source )
+		public EpisodesItem createFromParcel( Parcel source )
 		{
-			return new Episodes( source );
+			return new EpisodesItem( source );
 		}
 
-		public Episodes[] newArray( int size )
+		public EpisodesItem[] newArray( int size )
 		{
-			return new Episodes[ size ];
+			return new EpisodesItem[ size ];
 		}
 	};
 }

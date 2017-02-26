@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.TBC.Activity;
+package com.vanillax.televisionbingecalculator.app.view;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -23,19 +23,21 @@ import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.actions.SearchIntents;
 import com.vanillax.televisionbingecalculator.app.R;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.ShowPosterListing;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
+import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapter;
+import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowsAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,7 +58,8 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 
 	ShowRecyclerAdapter showRecyclerAdapter;
-	List<TVQueryResponse.Result> shows;
+	ShowsAdapter showsAdapter = new ShowsAdapter(  );
+	List<ShowPosterListing> shows;
 	SpacesItemDecoration decoration;
 
 	boolean searchInProgress;
@@ -243,21 +246,10 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 
 		listView.setVisibility( View.VISIBLE );
 
-		shows = tvQueryResponse.results;
+		shows = tvQueryResponse.showPosterListings;
 
-		ArrayList<String> showTitles = new ArrayList<String>();
-		ArrayList<String> showPosters = new ArrayList<String>();
+		showsAdapter.setShowsViewModelItems( shows );
 
-
-		resultsFound.setText( String.format( "Results Found: %d", tvQueryResponse.results.size() ) );
-		for ( TVQueryResponse.Result result : tvQueryResponse.results )
-		{
-			showTitles.add( result.original_name );
-			showPosters.add( CalculatorUtils.getShowPosterThumbnail( result.posterPath, false ) );
-
-		}
-
-		showRecyclerAdapter = new ShowRecyclerAdapter( showTitles, showPosters, R.layout.grid_cell, getApplicationContext(), LandingActivityMain.this );
 
 		listView.setAdapter( showRecyclerAdapter );
 

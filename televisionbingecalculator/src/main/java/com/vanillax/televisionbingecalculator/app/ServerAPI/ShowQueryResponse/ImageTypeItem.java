@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by mitch on 6/14/14.
  */
-public class ImageType implements Parcelable
+public class ImageTypeItem implements Parcelable
 {
 	@SerializedName( "poster" )
 	public String posterUrl;
@@ -34,27 +34,27 @@ public class ImageType implements Parcelable
 		dest.writeString( this.fanart );
 	}
 
-	public ImageType()
+	public ImageTypeItem()
 	{
 	}
 
-	private ImageType( Parcel in )
+	private ImageTypeItem( Parcel in )
 	{
 		this.posterUrl = in.readString();
 		this.bannerUrl = in.readString();
 		this.fanart = in.readString();
 	}
 
-	public static final Parcelable.Creator<ImageType> CREATOR = new Parcelable.Creator<ImageType>()
+	public static final Parcelable.Creator<ImageTypeItem> CREATOR = new Parcelable.Creator<ImageTypeItem>()
 	{
-		public ImageType createFromParcel( Parcel source )
+		public ImageTypeItem createFromParcel( Parcel source )
 		{
-			return new ImageType( source );
+			return new ImageTypeItem( source );
 		}
 
-		public ImageType[] newArray( int size )
+		public ImageTypeItem[] newArray( int size )
 		{
-			return new ImageType[ size ];
+			return new ImageTypeItem[ size ];
 		}
 	};
 }

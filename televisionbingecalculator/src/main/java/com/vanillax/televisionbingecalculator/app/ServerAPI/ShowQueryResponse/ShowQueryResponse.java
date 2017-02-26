@@ -12,7 +12,7 @@ import roboguice.util.Ln;
 /**
  * Created by mitch on 6/8/14.
  */
-public class ShowQueryMasterResponse
+public class ShowQueryResponse
 {
 
 	@SerializedName( "title" )
@@ -22,10 +22,10 @@ public class ShowQueryMasterResponse
 	public int runtime;
 
 	@SerializedName( "seasons" )
-	public ArrayList<Seasons> seasons;
+	public ArrayList<SeasonsItem> seasons;
 
 	@SerializedName( "images" )
-	public ImageType images;
+	public ImageTypeItem images;
 
 
 	public String getNumberOfSeasons( )
@@ -37,7 +37,7 @@ public class ShowQueryMasterResponse
 	{
 		int totalEpisodes = 0;
 
-		for ( Seasons mySeason : seasons)
+		for ( SeasonsItem mySeason : seasons)
 		{
 			Ln.d( "Season " + mySeason.getSeasonNumber() + "Size " + mySeason.getSeasonEpisodeCount() ) ;
 			if ( mySeason.getSeasonNumber() != 0 )
@@ -74,7 +74,7 @@ public class ShowQueryMasterResponse
 
 	public int getNumberOfEpisodesForSeason( int seasonNumber )
 	{
-		for ( Seasons mySeason : seasons)
+		for ( SeasonsItem mySeason : seasons)
 		{
 			if ( mySeason.getSeasonNumber() == seasonNumber )
 			{
