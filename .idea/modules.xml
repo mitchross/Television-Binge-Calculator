@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TVBC.iml" filepath="$PROJECT_DIR$/TVBC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TBC.iml" filepath="$PROJECT_DIR$/TBC.iml" />
       <module fileurl="file://$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator.iml" filepath="$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator.iml" />
     </modules>
   </component>
