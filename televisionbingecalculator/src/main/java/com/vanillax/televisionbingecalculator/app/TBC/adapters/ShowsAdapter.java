@@ -22,8 +22,6 @@ public class ShowsAdapter extends BaseDataBindingAdapter<ShowCardBinding>
 
 
 
-
-
 	public ShowsAdapter(  )
 	{
 		showsViewModelItems = new ArrayList<>(  );
