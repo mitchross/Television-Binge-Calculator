@@ -4,10 +4,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Transition;
@@ -30,13 +33,13 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTer
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
-import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowsAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration;
+import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding;
 
 import java.util.List;
 
@@ -44,6 +47,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
 import rx.Subscriber;
@@ -53,10 +57,10 @@ import rx.schedulers.Schedulers;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 
-public class LandingActivityMain extends BaseActivity implements ShowRecyclerAdapter.OnShowClickListener
+public class LandingActivityMain extends AppCompatActivity implements ShowRecyclerAdapter.OnShowClickListener
 {
 
-
+	ActivityMainMaterialBinding binding;
 	ShowRecyclerAdapter showRecyclerAdapter;
 	ShowsAdapter showsAdapter = new ShowsAdapter(  );
 	List<ShowPosterListing> shows;
@@ -73,6 +77,7 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 	@Inject
 	ShowManager showManager;
 
+	@Optional
 	@InjectView( R.id.default_listview_text )
 	TextView defaultText;
 
@@ -101,12 +106,21 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		super.onCreate( savedInstanceState );
 		Fabric.with( this, new Crashlytics() );
 		TelevisionBingeCalculator.inject( this );
+
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		if (toolbar != null) {
+			setSupportActionBar(toolbar);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+
+		binding = DataBindingUtil.setContentView( this,R.layout.activity_main_material );
+
 		ButterKnife.inject( this );
 
-		listView.setLayoutManager( new GridLayoutManager( this , 3 ) );
+		binding.listView.setLayoutManager( new GridLayoutManager( this , 3 ));
 		decoration = new SpacesItemDecoration( 3 , 35 , false );
 		listView.addItemDecoration( decoration );
-
 
 		if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
 		{
@@ -167,11 +181,11 @@ public class LandingActivityMain extends BaseActivity implements ShowRecyclerAda
 		getWindow().setEnterTransition( fade );
 	}
 
-	@Override
-	protected int getLayoutResource()
-	{
-		return R.layout.activity_main_material;
-	}
+//	@Override
+//	protected int getLayoutResource()
+//	{
+//		//return R.layout.activity_main_material;
+//	}
 
 	@Override
 	protected void onResume()

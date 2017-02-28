@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.ServerAPI.TV;
 
+import com.google.gson.annotations.SerializedName;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
-import com.vanillax.televisionbingecalculator.app.viewmodel.ShowPosterViewModelItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class TVQueryResponse
 {
+	@SerializedName( "results" )
 	public List<ShowPosterListing> showPosterListings;
 
 
@@ -19,14 +20,14 @@ public class TVQueryResponse
 		return showPosterListings;
 	}
 
-	public List<ShowPosterViewModelItem> showsViewModelItems()
-	{
-		ArrayList<ShowPosterViewModelItem> shows = new ArrayList<ShowPosterViewModelItem>(  );
-
-
-
-
-	}
+//	public List<ShowPosterViewModelItem> showsViewModelItems()
+//	{
+//		ArrayList<ShowPosterViewModelItem> shows = new ArrayList<ShowPosterViewModelItem>(  );
+//
+//
+//
+//
+//	}
 
 
 

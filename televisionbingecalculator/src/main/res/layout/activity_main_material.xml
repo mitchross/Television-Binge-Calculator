@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
-
-	<data>
-		<import type="android.view.View" />
-		<variable
-				name="landingViewModel"
-				type="com.vanillax.televisionbingecalculator.app.viewmodel.ShowPosterViewModelItem" />
-	</data>
-
-
-
-	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		xmlns:app="http://schemas.android.com/apk/res-auto" >
+<RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/root_view"
                 android:clickable="true"
                 xmlns:custom="http://schemas.android.com/apk/res-auto"
-                tools:context="com.vanillax.televisionbingecalculator.app.view.LandingActivityMain">
+                >
 
     <include
         android:id="@+id/toolbar"
@@ -46,7 +34,7 @@
 				android:elevation="3dp"
 				android:paddingLeft="30dp"
 				android:textColor="@android:color/darker_gray"
-				android:text="@{viewModel.searchField}"
+
 				android:background="@drawable/rounded_corners"/>
 
 
@@ -80,7 +68,6 @@
 			android:layout_below="@+id/search_bar"
 			android:layout_marginRight="5dp"
 			android:layout_marginLeft="5dp"
-			android:text="@{viewModel.resultsFound}"
 			tools:text="Results Found:"/>
 
     <android.support.v7.widget.RecyclerView
@@ -91,8 +78,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:padding="8dp"
-        app:items="@{landingViewModel.shows}"
-		app:itemViewBinder="@{landingViewModel.showViewBinder}"
 		/>
 
 	<TextView
@@ -104,8 +89,6 @@
 			android:paddingTop="20dp"
 			android:textSize="24sp"
 			android:gravity="center"
-			android:visibility="@{viewModel.defaultText}"
-			tools:visibility="visible"
 			android:text="To begin, type in a show in the search bar above!"/>
 
 	<ImageView
@@ -121,4 +104,4 @@
 
 </RelativeLayout>
 
-	</layout>
+</layout>

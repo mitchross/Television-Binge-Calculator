@@ -11,16 +11,16 @@ public class ShowManager
 
 	public void setShowQueryResponse( ShowQueryResponse showQueryResponse )
 	{
-		this.show = showQueryResponse;
+		this.showQueryResponse = showQueryResponse;
 	}
 
 	public ShowQueryResponse getShowQueryResponse()
 	{
-		return show;
+		return showQueryResponse;
 	}
 
 	public void clearShow()
 	{
-		show = null;
+		showQueryResponse = null;
 	}
 }
