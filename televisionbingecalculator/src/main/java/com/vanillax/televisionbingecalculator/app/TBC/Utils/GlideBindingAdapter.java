@@ -23,17 +23,9 @@ public class GlideBindingAdapter
 				.into(view);
 	}
 
-	@BindingAdapter( {"localImageUrl"} )
-	public static void loadImage( ImageView view, int id)
-	{
-		Glide.with( view.getContext() )
-				.load( id )
-				.placeholder( view.getContext().getResources().getDrawable( R.drawable.tv_icon ) )
-				.error( view.getContext().getResources().getDrawable( R.drawable.tv_icon ) )
-				.into(view);
-	}
 
-	@BindingAdapter({"android:src"})
+
+	@BindingAdapter({"localImageUrl"})
 	public static void setImageViewResource(ImageView imageView, int resource) {
 		imageView.setImageResource(resource);
 	}

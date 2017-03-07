@@ -17,7 +17,10 @@
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintRight_toRightOf="parent"
 			tools:layout_constraintRight_creator="1"
-			tools:layout_constraintLeft_creator="1" />
+			tools:layout_constraintLeft_creator="1"
+			android:layout_marginTop="0dp"
+			app:layout_constraintHorizontal_bias="0.0"
+			android:layout_marginBottom="0dp" />
 
 	<ImageView
 			tools:src="@drawable/bbreakingbad"
@@ -103,18 +106,17 @@
 
 	<ScrollView
 			android:layout_width="0dp"
-			android:layout_height="0dp"
+			android:layout_height="50dp"
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="10dp"
 			android:id="@+id/desc_scrollview"
 			app:layout_constraintTop_toBottomOf="@+id/blue_bar"
-			app:layout_constraintBottom_toTopOf="@+id/all_seasons_title"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintRight_toRightOf="parent"
 			android:layout_marginStart="10dp"
 			android:layout_marginEnd="10dp"
-			tools:layout_constraintRight_creator="1"
-			tools:layout_constraintLeft_creator="1">
+			app:layout_constraintHorizontal_bias="0.0"
+			app:layout_constraintVertical_bias="0.0">
 
 		<TextView
 				android:id="@+id/episode_description"
@@ -136,9 +138,9 @@
 			android:text="All Seasons"
 			android:textSize="18dp"
 			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/desc_scrollview"
 			android:layout_marginLeft="10dp"
 			android:layout_marginBottom="10dp"
-			app:layout_constraintBottom_toTopOf="@+id/season_spinner"
 			android:fontFamily="sans-serif-light"
 			android:layout_marginStart="10dp" />
 
@@ -157,7 +159,7 @@
 			android:id="@+id/season_spinner"
 			android:layout_marginLeft="10dp"
 			android:layout_marginBottom="10dp"
-			app:layout_constraintBottom_toTopOf="@+id/episode_total"
+			app:layout_constraintTop_toBottomOf="@id/all_seasons_title"
 			app:layout_constraintLeft_toLeftOf="parent"
 			android:layout_marginStart="10dp">
 
@@ -173,8 +175,8 @@
 			android:fontFamily="sans-serif-light"
 			android:layout_marginBottom="10dp"
 			android:textSize="18sp"
-			app:layout_constraintBottom_toTopOf="@+id/binge_title"
 			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/season_spinner"
 			android:layout_marginStart="10dp" />
 
 	<TextView
@@ -202,7 +204,6 @@
 			android:gravity="center"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/binge_title"
 			app:layout_constraintBottom_toTopOf="@+id/available_title"
 			tools:layout_constraintRight_creator="1"
 			tools:layout_constraintLeft_creator="1" />
@@ -278,13 +279,15 @@
 
 
 	<android.support.v7.widget.RecyclerView
-			android:layout_width="0dp"
+			android:layout_width="wrap_content"
 			android:layout_height="56dp"
-			android:visibility="gone"
 			android:id="@+id/steaming_logo_recycler_view"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
+			android:orientation="horizontal"
+			android:gravity="center_horizontal"
+			app:layout_constraintStart_toEndOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintBottom_toBottomOf="parent"
+			app:layoutManager="android.support.v7.widget.LinearLayoutManager"
 			>
 
 	</android.support.v7.widget.RecyclerView>

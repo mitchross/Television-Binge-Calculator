@@ -36,7 +36,8 @@ public class StreamingSourceViewModelItem
         }
         if ( streamingIconName.contains( "amazon" ))
         {
-			return R.drawable.amazon;        }
+			return R.drawable.amazon;
+        }
         if ( streamingIconName.contains( "vudu" ))
         {
 			return R.drawable.vudu;
