@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+		<import type="com.vanillax.televisionbingecalculator.app.viewmodel.StreamingSourceViewModelItem"/>
+		<variable name="viewModel" type="StreamingSourceViewModelItem"/>
+
+	</data>
+
+
+	<ImageView
+			android:id="@+id/streaming_source"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			tools:src="@drawable/netflix"
+			app:localImageUrl="@{viewModel.getStreamingIcon()}"
+		/>
+
+</layout>

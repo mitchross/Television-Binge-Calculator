@@ -283,7 +283,6 @@
 			android:layout_height="56dp"
 			android:id="@+id/steaming_logo_recycler_view"
 			android:orientation="horizontal"
-			android:gravity="center_horizontal"
 			app:layout_constraintStart_toEndOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintBottom_toBottomOf="parent"
