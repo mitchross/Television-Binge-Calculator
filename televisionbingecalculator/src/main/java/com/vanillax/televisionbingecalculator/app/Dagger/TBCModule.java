@@ -8,8 +8,8 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
-import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
+import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 				LandingActivityMain.class,
 				ShowDetailsActivity.class,
 				TelevisionBingeCalculator.class,
+				LandingActivityViewModel.class
 
 
 		},
@@ -96,12 +97,7 @@ public class TBCModule
 
 	}
 
-	@Provides
-	@Singleton
-	ShowManager providesShowManager()
-	{
-		return new ShowManager( );
-	}
+
 
 	@Provides
 	@Singleton

@@ -7,6 +7,7 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.ShowPosterListing
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter;
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder;
 import com.vanillax.televisionbingecalculator.app.databinding.ShowCardBinding;
+import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
 import com.vanillax.televisionbingecalculator.app.viewmodel.ShowPosterViewModelItem;
 
 import java.util.ArrayList;
@@ -19,12 +20,18 @@ import java.util.List;
 public class ShowsAdapter extends BaseDataBindingAdapter<ShowCardBinding>
 {
 	private List<ShowPosterViewModelItem> showsViewModelItems;
+	private LandingActivityViewModel.LandingActivityViewCallback listener;
 
 
 
 	public ShowsAdapter(  )
 	{
 		showsViewModelItems = new ArrayList<>(  );
+	}
+
+	public void setListener( LandingActivityViewModel.LandingActivityViewCallback listener)
+	{
+		this.listener = listener;
 	}
 
 
@@ -44,6 +51,7 @@ public class ShowsAdapter extends BaseDataBindingAdapter<ShowCardBinding>
 	protected void bindItem( DataBoundViewHolder<ShowCardBinding> holder, int position, List<Object> payloads )
 	{
 		holder.binding.setViewModel( showsViewModelItems.get( position ));
+		holder.binding.setListener( listener );
 	}
 
 	@Override

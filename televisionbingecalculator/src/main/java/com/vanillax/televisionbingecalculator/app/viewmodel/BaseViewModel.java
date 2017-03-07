@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
  * Created by mitchross on 2/4/17.
  */
 
-public class BaseViewModel implements LifeCycle.ViewModel
+public abstract class BaseViewModel implements LifeCycle.ViewModel
 {
 
 	private LifeCycle.View viewCallback;

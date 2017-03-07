@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+<android.support.constraint.ConstraintLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools">
+		android:layout_height="match_parent">
 
 	<include
 			android:id="@+id/toolbar"
@@ -138,8 +140,7 @@
 			android:layout_marginBottom="10dp"
 			app:layout_constraintBottom_toTopOf="@+id/season_spinner"
 			android:fontFamily="sans-serif-light"
-			tools:layout_editor_absoluteY="466dp"
-			tools:layout_editor_absoluteX="10dp" />
+			android:layout_marginStart="10dp" />
 
 	<android.support.v7.widget.SwitchCompat
 			android:id="@+id/switch_toggle"
@@ -171,7 +172,6 @@
 			tools:text="14 Episodes"
 			android:fontFamily="sans-serif-light"
 			android:layout_marginBottom="10dp"
-			android:layout_marginTop="10dp"
 			android:textSize="18sp"
 			app:layout_constraintBottom_toTopOf="@+id/binge_title"
 			app:layout_constraintLeft_toLeftOf="parent"
@@ -212,81 +212,83 @@
 			android:layout_width="wrap_content"
 			android:id="@+id/available_title"
 			android:text="Available On"
-			app:layout_constraintBottom_toTopOf="@+id/streaming_source_container"
+			app:layout_constraintBottom_toTopOf="@+id/steaming_logo_recycler_view"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintRight_toRightOf="parent"
 			tools:layout_constraintRight_creator="1"
 			tools:layout_constraintLeft_creator="1" />
 
 
-	<LinearLayout
-			android:layout_width="0dp"
-			android:layout_height="56dp"
-			android:id="@+id/streaming_source_container"
-			android:orientation="horizontal"
-			android:gravity="center_horizontal"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-	        app:layout_constraintBottom_toBottomOf="parent" >
-
-		<ImageView
-				android:layout_width="60dp"
-				android:layout_height="40dp"
-				android:src="@drawable/amazon"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
-				android:visibility="gone"
-				android:id="@+id/amazon"/>
-
-		<ImageView
-				android:layout_width="60dp"
-				android:layout_height="40dp"
-				android:src="@drawable/netflix"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
-				android:visibility="gone"
-				android:id="@+id/netflix"/>
-
-		<ImageView
-				android:layout_width="60dp"
-				android:layout_height="40dp"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
-				android:src="@drawable/hulu"
-				android:visibility="gone"
-				android:id="@+id/hulu"/>
-
-		<ImageView
-				android:layout_width="60dp"
-				android:layout_height="40dp"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
-				android:src="@drawable/vudu"
-				android:visibility="gone"
-				android:id="@+id/vudu"/>
-
-		<ImageView
-				android:layout_width="60dp"
-				android:layout_height="40dp"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
-				android:src="@drawable/hbo"
-				android:visibility="gone"
-				android:id="@+id/hbo"/>
-
-	</LinearLayout>
-
-
-	<!--<android.support.v7.widget.RecyclerView-->
-			<!--android:layout_width="match_parent"-->
+	<!--<LinearLayout-->
+			<!--android:layout_width="0dp"-->
 			<!--android:layout_height="56dp"-->
-			<!--android:id="@+id/steaming_logo_recycler_view"-->
+			<!--android:id="@+id/streaming_source_container"-->
+			<!--android:orientation="horizontal"-->
+			<!--android:gravity="center_horizontal"-->
 			<!--app:layout_constraintLeft_toLeftOf="parent"-->
 			<!--app:layout_constraintRight_toRightOf="parent"-->
-			<!--app:layout_constraintTop_toBottomOf="@+id/available_title"-->
-			<!--&gt;-->
+	        <!--app:layout_constraintBottom_toBottomOf="parent" >-->
 
-	<!--</android.support.v7.widget.RecyclerView>-->
+		<!--<ImageView-->
+				<!--android:layout_width="60dp"-->
+				<!--android:layout_height="40dp"-->
+				<!--android:src="@drawable/amazon"-->
+				<!--android:layout_marginLeft="5dp"-->
+				<!--android:layout_marginRight="5dp"-->
+				<!--android:visibility="gone"-->
+				<!--android:id="@+id/amazon"/>-->
+
+		<!--<ImageView-->
+				<!--android:layout_width="60dp"-->
+				<!--android:layout_height="40dp"-->
+				<!--android:src="@drawable/netflix"-->
+				<!--android:layout_marginLeft="5dp"-->
+				<!--android:layout_marginRight="5dp"-->
+				<!--android:visibility="gone"-->
+				<!--android:id="@+id/netflix"/>-->
+
+		<!--<ImageView-->
+				<!--android:layout_width="60dp"-->
+				<!--android:layout_height="40dp"-->
+				<!--android:layout_marginLeft="5dp"-->
+				<!--android:layout_marginRight="5dp"-->
+				<!--android:src="@drawable/hulu"-->
+				<!--android:visibility="gone"-->
+				<!--android:id="@+id/hulu"/>-->
+
+		<!--<ImageView-->
+				<!--android:layout_width="60dp"-->
+				<!--android:layout_height="40dp"-->
+				<!--android:layout_marginLeft="5dp"-->
+				<!--android:layout_marginRight="5dp"-->
+				<!--android:src="@drawable/vudu"-->
+				<!--android:visibility="gone"-->
+				<!--android:id="@+id/vudu"/>-->
+
+		<!--<ImageView-->
+				<!--android:layout_width="60dp"-->
+				<!--android:layout_height="40dp"-->
+				<!--android:layout_marginLeft="5dp"-->
+				<!--android:layout_marginRight="5dp"-->
+				<!--android:src="@drawable/hbo"-->
+				<!--android:visibility="gone"-->
+				<!--android:id="@+id/hbo"/>-->
+
+	<!--</LinearLayout>-->
+
+
+	<android.support.v7.widget.RecyclerView
+			android:layout_width="0dp"
+			android:layout_height="56dp"
+			android:visibility="gone"
+			android:id="@+id/steaming_logo_recycler_view"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			>
+
+	</android.support.v7.widget.RecyclerView>
 
 
 </android.support.constraint.ConstraintLayout>
+	</layout>

@@ -28,54 +28,37 @@ import com.google.android.gms.actions.SearchIntents;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.ShowPosterListing;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
-import com.vanillax.televisionbingecalculator.app.TBC.ShowManager;
-import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
-import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
-import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowRecyclerAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowsAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration;
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding;
+import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 
-public class LandingActivityMain extends AppCompatActivity implements ShowRecyclerAdapter.OnShowClickListener
+public class LandingActivityMain extends AppCompatActivity implements LandingActivityViewModel.LandingActivityViewCallback
 {
 
 	ActivityMainMaterialBinding binding;
-	ShowRecyclerAdapter showRecyclerAdapter;
 	ShowsAdapter showsAdapter = new ShowsAdapter(  );
 	List<ShowPosterListing> shows;
 	SpacesItemDecoration decoration;
 
+	LandingActivityViewModel landingActivityViewModel;
+
+
 	boolean searchInProgress;
 
-	@Inject
-	TheMovieDbAPI theMovieDbAPI;
 
-	@Inject
-	TVBCLoggerAPI tvbcLoggerAPI;
-
-	@Inject
-	ShowManager showManager;
 
 	@Optional
 	@InjectView( R.id.default_listview_text )
@@ -105,7 +88,7 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 	{
 		super.onCreate( savedInstanceState );
 		Fabric.with( this, new Crashlytics() );
-		TelevisionBingeCalculator.inject( this );
+
 
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -114,6 +97,10 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
+		landingActivityViewModel = new LandingActivityViewModel();
+
+
+
 		binding = DataBindingUtil.setContentView( this,R.layout.activity_main_material );
 
 		ButterKnife.inject( this );
@@ -121,6 +108,9 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 		binding.listView.setLayoutManager( new GridLayoutManager( this , 3 ));
 		decoration = new SpacesItemDecoration( 3 , 35 , false );
 		listView.addItemDecoration( decoration );
+		binding.listView.setAdapter( showsAdapter );
+
+		showsAdapter.setListener( this );
 
 		if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
 		{
@@ -133,6 +123,21 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 
 	}
 
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		landingActivityViewModel.onViewAttached( this );
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+
+		showsAdapter.setListener( null );
+		landingActivityViewModel.onViewDetached();
+		super.onDestroy();
+	}
 
 	private void handleIntent( Intent intent )
 	{
@@ -198,6 +203,7 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 			tvIcon.setVisibility( View.VISIBLE );
 		}
 
+		landingActivityViewModel.onViewResumed();
 		init();
 
 	}
@@ -206,32 +212,14 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 	{
 
 		searchField.setOnEditorActionListener( ( v, actionId, event ) -> {
-			if (actionId == EditorInfo.IME_ACTION_SEARCH  || actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_GO || event.getKeyCode() == KeyEvent.KEYCODE_ENTER ) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH  ||
+					actionId == EditorInfo.IME_ACTION_DONE ||
+					actionId == EditorInfo.IME_ACTION_GO ||
+					event.getKeyCode() == KeyEvent.KEYCODE_ENTER ) {
 
 
-				theMovieDbAPI.queryShow( String.valueOf( v.getText().toString() ) )
-						.subscribeOn( Schedulers.newThread() )
-						.observeOn( AndroidSchedulers.mainThread() )
-						.subscribe( new Subscriber<TVQueryResponse>()
-						{
-							@Override
-							public void onCompleted()
-							{
+				searchShow( v.getText().toString() );
 
-							}
-
-							@Override
-							public void onError( Throwable e )
-							{
-								finish();
-							}
-
-							@Override
-							public void onNext( TVQueryResponse response )
-							{
-								updateListView( response );
-							}
-						} );
 
 
 				InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService( Activity.INPUT_METHOD_SERVICE);
@@ -242,6 +230,11 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 			return false;
 		} );
 
+	}
+
+	private void searchShow( String query)
+	{
+		landingActivityViewModel.searchShow( query );
 	}
 
 	private void hideListView()
@@ -265,7 +258,6 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 		showsAdapter.setShowsViewModelItems( shows );
 
 
-		listView.setAdapter( showRecyclerAdapter );
 
 	}
 
@@ -276,48 +268,6 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 		super.onPause();
 	}
 
-	@Override
-	public void onShowClicked( int showPosition )
-	{
-		if ( !searchInProgress )
-		{
-
-			searchInProgress = true;
-
-			int id = shows.get( showPosition ).id;
-			String path = shows.get( showPosition ).posterPath;
-			String posterUrl = CalculatorUtils.getShowPosterThumbnail( path, false );
-
-
-			navigateToDetails( id, posterUrl );
-
-			tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ) )
-					.subscribeOn( Schedulers.newThread() )
-					.observeOn( AndroidSchedulers.mainThread() )
-					.subscribe( new Subscriber<EmptyResponse>()
-					{
-						@Override
-						public void onCompleted()
-						{
-
-						}
-
-						@Override
-						public void onError( Throwable e )
-						{
-
-						}
-
-						@Override
-						public void onNext( EmptyResponse emptyResponse )
-						{
-
-						}
-					} );
-
-
-		}
-	}
 
 	private void navigateToDetails( int id, String posterUrl )
 	{
@@ -332,4 +282,53 @@ public class LandingActivityMain extends AppCompatActivity implements ShowRecycl
 
 
 
+
+	@Override
+	public void updateShowList( TVQueryResponse tvQueryResponse )
+	{
+		updateListView( tvQueryResponse );
+	}
+
+	@Override
+	public void onItemTouch( int id, String url )
+	{
+		if ( !searchInProgress )
+		{
+
+			searchInProgress = true;
+
+//			int id = shows.get( showPosition ).id;
+//			String path = shows.get( showPosition ).posterPath;
+//			String posterUrl = CalculatorUtils.getShowPosterThumbnail( path, false );
+
+
+			navigateToDetails( id, url );
+
+//			tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ) )
+//					.subscribeOn( Schedulers.newThread() )
+//					.observeOn( AndroidSchedulers.mainThread() )
+//					.subscribe( new Subscriber<EmptyResponse>()
+//					{
+//						@Override
+//						public void onCompleted()
+//						{
+//
+//						}
+//
+//						@Override
+//						public void onError( Throwable e )
+//						{
+//
+//						}
+//
+//						@Override
+//						public void onNext( EmptyResponse emptyResponse )
+//						{
+//
+//						}
+//					} );
+
+
+		}
+	}
 }

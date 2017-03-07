@@ -5,21 +5,27 @@
 <data>
 	<import type="com.vanillax.televisionbingecalculator.app.viewmodel.ShowPosterViewModelItem"/>
 	<variable name="viewModel" type="ShowPosterViewModelItem"/>
+	<variable
+			name="listener"
+			type="com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel.LandingActivityViewCallback" >
+
+	</variable>
 </data>
 
 <RelativeLayout
 		android:id="@+id/parent"
 		android:layout_width="wrap_content"
 		android:layout_height="200dp"
+        android:onClick="@{()->listener.onItemTouch(viewModel.id, viewModel.posterUrl)}"
 		>
 
 		<ImageView
 				android:id="@+id/poster_image"
 				tools:background="@drawable/ic_launcher"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent" />
-		        <!--app:imageUrl="@{viewModel.posterUrl}"-->
-				 <!--/>-->
+				android:layout_height="match_parent"
+		        app:imageUrl="@{viewModel.posterUrl}"
+				 />
 
 
 	<TextView

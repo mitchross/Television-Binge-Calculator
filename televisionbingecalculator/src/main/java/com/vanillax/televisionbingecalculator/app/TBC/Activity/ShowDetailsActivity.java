@@ -1,15 +1,17 @@
 package com.vanillax.televisionbingecalculator.app.TBC.Activity;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,10 +22,11 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.Gui
 import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.GuideBoxShowTranslatorResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVShowByIdResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
-import com.vanillax.televisionbingecalculator.app.TBC.BaseActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.StreamingSourceRecyclerAdapter;
+import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetailsBinding;
+import com.vanillax.televisionbingecalculator.app.viewmodel.ShowDetailsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
-public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemSelectedListener
+public class ShowDetailsActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener
 {
 
 	@Inject
@@ -87,26 +90,29 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 	@InjectView( R.id.year )
 	TextView year;
 
-	@InjectView( R.id.amazon )
-	ImageView amazonImage;
-
-	@InjectView( R.id.hulu )
-	ImageView huluImage;
-
-	@InjectView( R.id.netflix )
-	ImageView netflixImage;
-
-	@InjectView( R.id.vudu )
-	ImageView vuduImage;
-
-	@InjectView( R.id.hbo )
-	ImageView hboImage;
-
-	@InjectView( R.id.streaming_source_container)
-	LinearLayout streamingSourceContainer;
+//	@InjectView( R.id.amazon )
+//	ImageView amazonImage;
+//
+//	@InjectView( R.id.hulu )
+//	ImageView huluImage;
+//
+//	@InjectView( R.id.netflix )
+//	ImageView netflixImage;
+//
+//	@InjectView( R.id.vudu )
+//	ImageView vuduImage;
+//
+//	@InjectView( R.id.hbo )
+//	ImageView hboImage;
+//
+//	@InjectView( R.id.streaming_source_container)
+//	LinearLayout streamingSourceContainer;
 
 	LinearLayoutManager linearLayoutManager;
-	StreamingSourceRecyclerAdapter seasonsRecyclerAdapter;
+	StreamingSourceRecyclerAdapter seasonsRecyclerAdapter = new StreamingSourceRecyclerAdapter();
+
+	ShowDetailsViewModel showDetailsViewModel;
+	ActivityShowDetailsBinding binding;
 
 	int showId;
 	TVShowByIdResponse tvShowByIdResponse;
@@ -142,9 +148,24 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
+
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		if (toolbar != null) {
+			setSupportActionBar(toolbar);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+
+		showDetailsViewModel = new ShowDetailsViewModel();
+
+		binding = DataBindingUtil.setContentView( this, R.layout.activity_show_details );
+
 		ButterKnife.inject( this );
 		TelevisionBingeCalculator.inject( this );
-		linearLayoutManager = new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false );
+
+
+		binding.steamingLogoRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false ) );
+		binding.steamingLogoRecyclerView.setAdapter( seasonsRecyclerAdapter );
 
 
 		showId = getIntent().getIntExtra( "tvshow_id" , 0 );
@@ -153,12 +174,7 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 
     }
 
-	@Override
-	protected int getLayoutResource()
-	{
-		return R.layout.activity_show_details;
 
-	}
 
 	@Override
 	protected void onResume()
@@ -212,7 +228,7 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 	@Override
 	protected void onPause()
 	{
-		streamingSourceContainer.removeAllViews();
+		//streamingSourceContainer.removeAllViews();
 		super.onPause();
 	}
 
@@ -317,35 +333,7 @@ public class ShowDetailsActivity extends BaseActivity implements Spinner.OnItemS
 	private void initSeasonsRecyclerView( List<GuideBoxAvailableContentResponse.StreamSource> streamSourceList )
 	{
 
-		for( GuideBoxAvailableContentResponse.StreamSource s : streamSourceList)
-		{
-
-			String streamingIconName = s.sourceDisplayName.toLowerCase();
-
-			if( streamingIconName.contains( "netflix" ))
-			{
-				netflixImage.setVisibility( View.VISIBLE );
-			}
-			if ( streamingIconName.contains( "hulu" ))
-			{
-				huluImage.setVisibility( View.VISIBLE );
-
-			}
-			if ( streamingIconName.contains( "amazon" ))
-			{
-				amazonImage.setVisibility( View.VISIBLE );
-			}
-			if ( streamingIconName.contains( "vudu" ))
-			{
-				vuduImage.setVisibility( View.VISIBLE );
-			}
-			if ( streamingIconName.contains( "hbo" ))
-			{
-				hboImage.setVisibility( View.VISIBLE );
-			}
-
-
-		}
+		seasonsRecyclerAdapter.setStreamingSourceViewModelItems( streamSourceList );
 
 	}
 
