@@ -21,9 +21,7 @@ public class CalculatorUtils
 
 		int totalBingTime = runTime * totalEpisodes;
 
-		String bingeTime = convertToDaysHoursMins( context, totalBingTime );
-
-		return bingeTime;
+		return convertToDaysHoursMins( context, totalBingTime );
 
 	}
 
@@ -57,9 +55,7 @@ public class CalculatorUtils
 	public static String calcSpecificSeason( Context context,  TVShowByIdResponse myShow , int season)
 	{
 
-		String bingeTime = convertToDaysHoursMins( context, myShow.getRunTimeForSeason( season ) );
-
-		return bingeTime;
+		return convertToDaysHoursMins( context, myShow.getRunTimeForSeason( season ) );
 
 	}
 
@@ -75,13 +71,11 @@ public class CalculatorUtils
 		hours =  Math.floor( temp / 60 );
 		minutes =  (temp - ( hours * 60 ));
 
-		String daysText = String.format( resources.getQuantityString( R.plurals.day,  (int) days ,  (int)days ));
-		String hoursText = String.format(resources.getQuantityString( R.plurals.hours,  (int)hours, (int)hours ));
-		String minsText = String.format(resources.getQuantityString( R.plurals.mins,  (int) minutes  , (int)minutes ));
+		String daysText = resources.getQuantityString( R.plurals.day,  (int) days ,  (int)days );
+		String hoursText = resources.getQuantityString( R.plurals.hours,  (int)hours, (int)hours );
+		String minsText = resources.getQuantityString( R.plurals.mins,  (int) minutes  , (int)minutes );
 
-		String result =   daysText + " " +  hoursText + " " +minsText;
-
-		return result;
+		return daysText + " " +  hoursText + " " +minsText;
 
 
 	}
@@ -90,8 +84,7 @@ public class CalculatorUtils
 	{
 		if ( path !=null )
 		{
-			String newUrl = (large ? TBCModule.BASE_IMAGE_PATH_LARGE : TBCModule.BASE_IMAGE_PATH ) + path;
-			return newUrl;
+			return ( large ? TBCModule.BASE_IMAGE_PATH_LARGE : TBCModule.BASE_IMAGE_PATH ) + path;
 		}
 		return null;
 	}

@@ -24,6 +24,9 @@ public class TVShowByIdResponse
 	@SerializedName( "original_name" )
 	public String title;
 
+	@SerializedName( "original_title" )
+	public String movie_title;
+
 	@SerializedName( "overview" )
 	public String episodeDescription;
 

@@ -3,7 +3,7 @@ package com.vanillax.televisionbingecalculator.app.TBC.Utils;
 import android.content.Context;
 import android.content.Intent;
 
-import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
+import com.vanillax.televisionbingecalculator.app.view.ShowDetailsActivity;
 
 /**
  * Created by mitch on 10/6/14.

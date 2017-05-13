@@ -18,7 +18,9 @@ public class ShowPosterViewModelItem
 
 	public String getTitlez()
 	{
-		return showPosterListing.original_name;
+		return showPosterListing.original_name != null
+			   ? showPosterListing.original_name
+			   : showPosterListing.movie_title;
 	}
 
 	public String getPosterUrl()

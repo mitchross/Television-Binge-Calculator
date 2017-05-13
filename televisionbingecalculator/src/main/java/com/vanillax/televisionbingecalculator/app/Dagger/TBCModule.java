@@ -3,11 +3,12 @@ package com.vanillax.televisionbingecalculator.app.Dagger;
 import android.content.Context;
 
 import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.JustWatchAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
-import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
+import com.vanillax.televisionbingecalculator.app.view.ShowDetailsActivity;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
 
@@ -73,8 +74,7 @@ public class TBCModule
 				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
 				.build();
 
-		TheMovieDbAPI theMovieDbAPI = restAdapter.create( TheMovieDbAPI.class );
-		return theMovieDbAPI;
+		return restAdapter.create( TheMovieDbAPI.class );
 	}
 
 
@@ -92,8 +92,7 @@ public class TBCModule
 				.build();
 
 
-		ShowQueryMasterAPI showQueryMasterAPI = restAdapter.create( ShowQueryMasterAPI.class );
-		return showQueryMasterAPI;
+		return restAdapter.create( ShowQueryMasterAPI.class );
 
 	}
 
@@ -113,8 +112,7 @@ public class TBCModule
 				.build();
 
 
-		TVBCLoggerAPI tvbcLoggerAPI = restAdapter.create( TVBCLoggerAPI.class );
-		return tvbcLoggerAPI;
+		return restAdapter.create( TVBCLoggerAPI.class );
 	}
 
 
@@ -124,14 +122,28 @@ public class TBCModule
 	{
 
 		Retrofit restAdapter = new Retrofit.Builder()
-				.baseUrl( "https://api-public.guidebox.com/v1.43/US/" + GUIDE_BOX_API_KEY + "/" )
+				.baseUrl( "https://api-public.guidebox.com/v2/" )
 				.client( getOkHttpClient( context ))
 				.addConverterFactory( GsonConverterFactory.create() )
 				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
 				.build();
 
-		GuideBoxApi guideBoxAPI = restAdapter.create( GuideBoxApi.class );
-		return guideBoxAPI;
+		return restAdapter.create( GuideBoxApi.class );
+	}
+
+	@Provides
+	@Singleton
+	JustWatchAPI providesJustWatchAPI( @ForApplication Context context)
+	{
+
+		Retrofit restAdapter = new Retrofit.Builder()
+				.baseUrl( "https://api.justwatch.com/" )
+				.client( getOkHttpClient( context ))
+				.addConverterFactory( GsonConverterFactory.create() )
+				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
+				.build();
+
+		return restAdapter.create( JustWatchAPI.class );
 	}
 
 

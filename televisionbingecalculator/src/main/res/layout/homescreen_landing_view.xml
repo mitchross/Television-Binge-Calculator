@@ -27,7 +27,9 @@
 			android:layout_marginRight="8dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="50dp">
+			android:layout_marginTop="50dp"
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true">
 
 	<ImageView
 			android:layout_width="wrap_content"
@@ -63,7 +65,7 @@
 			android:layout_marginTop="10dp"
 			android:layout_marginBottom="10dp"
 			android:drawablePadding="6dp"
-			android:textSize="22dp"
+			android:textSize="22sp"
 			android:drawableLeft="@drawable/search_icon"
 			android:text="Search for your favorite show"/>
 
@@ -73,7 +75,7 @@
 			android:textColor="@android:color/white"
 			android:layout_marginBottom="10dp"
 			android:drawablePadding="6dp"
-			android:textSize="22dp"
+			android:textSize="22sp"
 			android:drawableLeft="@drawable/chart_icon"
 			android:text="Let the app do the math"/>
 
@@ -82,7 +84,7 @@
 			android:layout_height="wrap_content"
 			android:textColor="@android:color/white"
 			android:drawablePadding="6dp"
-			android:textSize="22dp"
+			android:textSize="22sp"
 			android:drawableLeft="@drawable/couch_icon"
 			android:text="Sit back and enjoy"/>
 

@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Transition;
@@ -19,16 +17,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.actions.SearchIntents;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.ShowPosterListing;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
-import com.vanillax.televisionbingecalculator.app.TBC.Activity.ShowDetailsActivity;
+import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowsAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration;
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding;
@@ -36,10 +31,6 @@ import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewM
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import io.fabric.sdk.android.Fabric;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
@@ -52,36 +43,10 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 	ShowsAdapter showsAdapter = new ShowsAdapter(  );
 	List<ShowPosterListing> shows;
 	SpacesItemDecoration decoration;
-
 	LandingActivityViewModel landingActivityViewModel;
-
+	SearchType selectedSearchType = SearchType.TV;
 
 	boolean searchInProgress;
-
-
-
-	@Optional
-	@InjectView( R.id.default_listview_text )
-	TextView defaultText;
-
-	@InjectView( R.id.tv_icon )
-	ImageView tvIcon;
-
-
-	@InjectView( R.id.search_field )
-	EditText searchField;
-
-	@InjectView( R.id.progress_bar )
-	SmoothProgressBar progressBar;
-
-
-	@InjectView( R.id.results_found )
-	TextView resultsFound;
-
-	@InjectView( R.id.list_view )
-	RecyclerView listView;
-
-
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
@@ -89,25 +54,15 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 		super.onCreate( savedInstanceState );
 		Fabric.with( this, new Crashlytics() );
 
-
-
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		if (toolbar != null) {
-			setSupportActionBar(toolbar);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		}
-
 		landingActivityViewModel = new LandingActivityViewModel();
 
-
-
 		binding = DataBindingUtil.setContentView( this,R.layout.activity_main_material );
+		binding.setView( this );
 
-		ButterKnife.inject( this );
-
+		TelevisionBingeCalculator.inject( this );
 		binding.listView.setLayoutManager( new GridLayoutManager( this , 3 ));
 		decoration = new SpacesItemDecoration( 3 , 35 , false );
-		listView.addItemDecoration( decoration );
+		binding.listView.addItemDecoration( decoration );
 		binding.listView.setAdapter( showsAdapter );
 
 		showsAdapter.setListener( this );
@@ -148,13 +103,13 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 		if ( SearchIntents.ACTION_SEARCH.equals( intentAction ) )
 		{
 			String query = intent.getStringExtra( SearchManager.QUERY );
-			searchField.setText( query );
+			binding.searchField.setText( query );
 		}
 	}
 
 	private void setUpEditTextListener()
 	{
-		searchField.addTextChangedListener( new TextWatcher()
+		binding.searchField.addTextChangedListener( new TextWatcher()
 		{
 			@Override
 			public void beforeTextChanged( CharSequence s, int start, int count, int after )
@@ -179,6 +134,31 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 		} );
 	}
 
+	public void onMovieClick()
+	{
+		binding.movieSelector.setVisibility( View.VISIBLE );
+		binding.televisionSelector.setVisibility( View.GONE );
+		selectedSearchType = SearchType.MOVIE;
+		if ( binding.searchField.getText() !=null )
+		{
+			searchShow( binding.searchField.getText().toString(), selectedSearchType );
+		}
+
+	}
+
+	public void onTelevisionClick()
+	{
+		binding.movieSelector.setVisibility( View.GONE );
+		binding.televisionSelector.setVisibility( View.VISIBLE );
+		selectedSearchType = SearchType.TV;
+		if (binding.searchField.getText() !=null )
+		{
+			searchShow( binding.searchField.getText().toString(), selectedSearchType );
+		}
+
+	}
+
+
 	@TargetApi( Build.VERSION_CODES.LOLLIPOP )
 	private void setupWindowAnimations()
 	{
@@ -186,11 +166,6 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 		getWindow().setEnterTransition( fade );
 	}
 
-//	@Override
-//	protected int getLayoutResource()
-//	{
-//		//return R.layout.activity_main_material;
-//	}
 
 	@Override
 	protected void onResume()
@@ -199,8 +174,8 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 
 		if ( shows == null )
 		{
-			defaultText.setVisibility( View.VISIBLE );
-			tvIcon.setVisibility( View.VISIBLE );
+			binding.defaultListviewText.setVisibility( View.VISIBLE );
+			binding.tvIcon.setVisibility( View.VISIBLE );
 		}
 
 		landingActivityViewModel.onViewResumed();
@@ -211,16 +186,14 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 	private void init()
 	{
 
-		searchField.setOnEditorActionListener( ( v, actionId, event ) -> {
+		binding.searchField.setOnEditorActionListener( ( v, actionId, event ) -> {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH  ||
 					actionId == EditorInfo.IME_ACTION_DONE ||
 					actionId == EditorInfo.IME_ACTION_GO ||
 					event.getKeyCode() == KeyEvent.KEYCODE_ENTER ) {
 
 
-				searchShow( v.getText().toString() );
-
-
+				searchShow( v.getText().toString(), selectedSearchType);
 
 				InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService( Activity.INPUT_METHOD_SERVICE);
 				inputMethodManager.hideSoftInputFromWindow( this.getCurrentFocus().getWindowToken(), 0);
@@ -232,26 +205,25 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 
 	}
 
-	private void searchShow( String query)
+	private void searchShow( String query, SearchType searchType )
 	{
-		landingActivityViewModel.searchShow( query );
+		landingActivityViewModel.searchShow( query , searchType );
 	}
 
 	private void hideListView()
 	{
-		listView.setVisibility( View.GONE );
-		defaultText.setVisibility( View.GONE );
-		tvIcon.setVisibility( View.GONE );
-		resultsFound.setText( "Results Found: 0" );
+		binding.listView.setVisibility( View.GONE );
+		binding.defaultListviewText.setVisibility( View.GONE );
+		binding.tvIcon.setVisibility( View.GONE );
+		binding.resultsFound.setText( "Results Found: 0" );
 	}
 
 	private void updateListView( TVQueryResponse tvQueryResponse )
 	{
-		progressBar.setVisibility( View.GONE );
-		defaultText.setVisibility( View.GONE );
-		tvIcon.setVisibility( View.GONE );
+		binding.defaultListviewText.setVisibility( View.GONE );
+		binding.tvIcon.setVisibility( View.GONE );
 
-		listView.setVisibility( View.VISIBLE );
+		binding.listView.setVisibility( View.VISIBLE );
 
 		shows = tvQueryResponse.showPosterListings;
 
@@ -269,13 +241,15 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 	}
 
 
-	private void navigateToDetails( int id, String posterUrl )
+	private void navigateToDetails( int id, String posterUrl,String title )
 	{
 		searchInProgress = false;
 
 		Intent intent = new Intent( LandingActivityMain.this, ShowDetailsActivity.class );
 		intent.putExtra( "tvshow_id", id );
 		intent.putExtra( "tvshow_thumbnail", posterUrl );
+		intent.putExtra( "title",title );
+		intent.putExtra( "show_type", selectedSearchType );
 		intent.setFlags( FLAG_ACTIVITY_CLEAR_TOP );
 		startActivity( intent );
 	}
@@ -290,45 +264,26 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 	}
 
 	@Override
-	public void onItemTouch( int id, String url )
+	public void onItemTouch( int id, String url, String title )
 	{
 		if ( !searchInProgress )
 		{
 
 			searchInProgress = true;
 
-//			int id = shows.get( showPosition ).id;
-//			String path = shows.get( showPosition ).posterPath;
-//			String posterUrl = CalculatorUtils.getShowPosterThumbnail( path, false );
+
+			navigateToDetails( id, url,title );
+			landingActivityViewModel.logShow( title );
 
 
-			navigateToDetails( id, url );
-
-//			tvbcLoggerAPI.postSearchTerm( new SearchTerm( shows.get( showPosition ).original_name ) )
-//					.subscribeOn( Schedulers.newThread() )
-//					.observeOn( AndroidSchedulers.mainThread() )
-//					.subscribe( new Subscriber<EmptyResponse>()
-//					{
-//						@Override
-//						public void onCompleted()
-//						{
-//
-//						}
-//
-//						@Override
-//						public void onError( Throwable e )
-//						{
-//
-//						}
-//
-//						@Override
-//						public void onNext( EmptyResponse emptyResponse )
-//						{
-//
-//						}
-//					} );
 
 
 		}
+	}
+
+	public enum SearchType
+	{
+		TV,
+		MOVIE
 	}
 }

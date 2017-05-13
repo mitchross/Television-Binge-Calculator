@@ -47,6 +47,7 @@ public class ShowsAdapter extends BaseDataBindingAdapter<ShowCardBinding>
 	}
 
 
+
 	@Override
 	protected void bindItem( DataBoundViewHolder<ShowCardBinding> holder, int position, List<Object> payloads )
 	{

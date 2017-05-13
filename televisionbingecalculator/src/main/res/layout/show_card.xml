@@ -16,7 +16,7 @@
 		android:id="@+id/parent"
 		android:layout_width="wrap_content"
 		android:layout_height="200dp"
-        android:onClick="@{()->listener.onItemTouch(viewModel.id, viewModel.posterUrl)}"
+        android:onClick="@{()->listener.onItemTouch(viewModel.id, viewModel.posterUrl, viewModel.titlez)}"
 		>
 
 		<ImageView

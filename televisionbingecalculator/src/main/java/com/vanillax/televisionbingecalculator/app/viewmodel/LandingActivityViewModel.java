@@ -1,9 +1,12 @@
 package com.vanillax.televisionbingecalculator.app.viewmodel;
 
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
+import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
 
 import javax.inject.Inject;
 
@@ -27,7 +30,7 @@ public class LandingActivityViewModel extends BaseViewModel
 	public interface LandingActivityViewCallback extends LifeCycle.View
 	{
 		void updateShowList(TVQueryResponse tvQueryResponse);
-		void onItemTouch(int id, String url);
+		void onItemTouch(int id, String url, String title);
 	}
 
 	public LandingActivityViewModel()
@@ -36,33 +39,93 @@ public class LandingActivityViewModel extends BaseViewModel
 	}
 
 
-	public void searchShow( String query)
+	public void searchShow( String query, LandingActivityMain.SearchType searchType)
 	{
+		if ( searchType == LandingActivityMain.SearchType.TV )
+		{
 
-		theMovieDbAPI.queryShow( query )
-				.subscribeOn( Schedulers.newThread() )
-				.observeOn( AndroidSchedulers.mainThread() )
-				.subscribe( new Subscriber<TVQueryResponse>()
-				{
-					@Override
-					public void onCompleted()
+			theMovieDbAPI.queryTV( query )
+					.subscribeOn( Schedulers.newThread() )
+					.observeOn( AndroidSchedulers.mainThread() )
+					.subscribe( new Subscriber<TVQueryResponse>()
 					{
+						@Override
+						public void onCompleted()
+						{
 
-					}
+						}
 
-					@Override
-					public void onError( Throwable e )
+						@Override
+						public void onError( Throwable e )
+						{
+							//finish();
+						}
+
+						@Override
+						public void onNext( TVQueryResponse response )
+						{
+							( (LandingActivityViewCallback) getViewCallback() ).updateShowList( response );
+						}
+					} );
+		}
+		else
+		{
+			theMovieDbAPI.queryMovie( query )
+					.subscribeOn( Schedulers.newThread() )
+					.observeOn( AndroidSchedulers.mainThread() )
+					.subscribe( new Subscriber<TVQueryResponse>()
 					{
-						//finish();
-					}
+						@Override
+						public void onCompleted()
+						{
 
-					@Override
-					public void onNext( TVQueryResponse response )
+						}
+
+						@Override
+						public void onError( Throwable e )
+						{
+							//finish();
+						}
+
+						@Override
+						public void onNext( TVQueryResponse response )
+						{
+							( (LandingActivityViewCallback) getViewCallback() ).updateShowList( response );
+						}
+					} );
+		}
+
+	}
+
+	public void logShow(String title)
+	{
+		if ( title!=null )
+		{
+
+			tvbcLoggerAPI.postSearchTerm( new SearchTerm( title ) )
+					.subscribeOn( Schedulers.newThread() )
+					.observeOn( AndroidSchedulers.mainThread() )
+					.subscribe( new Subscriber<EmptyResponse>()
 					{
-						((LandingActivityViewCallback)getViewCallback()).updateShowList( response );
-					}
-				} );
+						@Override
+						public void onCompleted()
+						{
 
+						}
+
+						@Override
+						public void onError( Throwable e )
+						{
+
+						}
+
+						@Override
+						public void onNext( EmptyResponse emptyResponse )
+						{
+
+						}
+					} );
+		}
 	}
 
 }

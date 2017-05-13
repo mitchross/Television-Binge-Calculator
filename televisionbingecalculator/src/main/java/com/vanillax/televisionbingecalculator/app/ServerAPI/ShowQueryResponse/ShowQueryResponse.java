@@ -15,7 +15,7 @@ import roboguice.util.Ln;
 public class ShowQueryResponse
 {
 
-	@SerializedName( "title" )
+	@SerializedName( "showTitle" )
 	public String title;
 
 	@SerializedName( "runtime" )
@@ -93,9 +93,7 @@ public class ShowQueryResponse
 
 		int totalBingTime = runtime * totalEpisodes;
 
-		String bingeTime = CalculatorUtils.convertToDaysHoursMins( context, totalBingTime );
-
-		return bingeTime;
+		return CalculatorUtils.convertToDaysHoursMins( context, totalBingTime );
 
 	}
 

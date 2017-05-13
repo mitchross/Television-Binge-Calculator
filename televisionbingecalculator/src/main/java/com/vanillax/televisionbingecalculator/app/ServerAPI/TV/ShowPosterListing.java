@@ -14,4 +14,7 @@ public class ShowPosterListing
 
 	@SerializedName( "original_name" )
 	public String original_name;
+
+	@SerializedName( "original_title" )
+	public String movie_title;
 }
