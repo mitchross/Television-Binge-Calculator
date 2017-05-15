@@ -42,6 +42,15 @@ public class TVShowByIdResponse
 	@SerializedName( "genres" )
 	List<GenreClass> genres;
 
+	//movie
+	//terrible idea fix later in another object
+	@SerializedName( "runtime" )
+	public int movie_runtime;
+
+	@SerializedName( "release_date" )
+	public String movie_release_date;
+
+
 
 
 	public List<Seasons> seasons;
@@ -124,6 +133,32 @@ public class TVShowByIdResponse
 
 
 	}
+
+	public String getMovieYear( )
+	{
+		SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try
+		{
+			Date date = new Date();
+			date = inputFormat.parse( ( movie_release_date !=null ? movie_release_date : ""));
+			Calendar c = Calendar.getInstance();
+			c.setTime( date );
+			return  String.valueOf( c.get(Calendar.YEAR) );
+		}
+		catch ( ParseException e )
+		{
+			e.printStackTrace();
+			return "";
+		}
+
+
+	}
+
+	public String getMovieRunTime()
+	{
+		return String.valueOf( movie_runtime );
+	}
+
 
 	public String getCategory()
 	{

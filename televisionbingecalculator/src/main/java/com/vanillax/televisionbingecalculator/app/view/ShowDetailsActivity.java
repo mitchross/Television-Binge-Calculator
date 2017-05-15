@@ -395,14 +395,23 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 	{
 	//	initSpinners();
 
+		binding.switchToggle.setVisibility( View.GONE );
+		binding.seasonSpinner.setVisibility( View.GONE );
+		binding.allSeasonsTitle.setVisibility( View.GONE );
+
 		imageUrl = tvShowByIdResponse.imageUrl;
 		showTitle = tvShowByIdResponse.title == null
 					? tvShowByIdResponse.movie_title
 					: tvShowByIdResponse.title;
 
 		binding.title.setText( showTitle );
-		binding.year.setText( tvShowByIdResponse.getYear() );
+		binding.year.setText( tvShowByIdResponse.getMovieYear() );
 		binding.categoryTitle.setText( tvShowByIdResponse.getCategory() );
+
+
+		int runtime = Integer.parseInt( tvShowByIdResponse.getMovieRunTime() );
+		binding.bingeTime.setText( CalculatorUtils.convertToDaysHoursMins( this, runtime  ) );
+
 
 
 		binding.episodeDescription.setText( tvShowByIdResponse.episodeDescription );
@@ -451,9 +460,10 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 			binding.episodeTotal.setText( episodeCount );
 			binding.bingeTime.setText( bingeTime );
 			binding.switchToggle.setChecked( true );
+			imageUrl = tvShowByIdResponse.imageUrl;
 		}
 
-		imageUrl = tvShowByIdResponse.imageUrl;
+
 		//showTitle = tvShowByIdResponse.title;
 
 

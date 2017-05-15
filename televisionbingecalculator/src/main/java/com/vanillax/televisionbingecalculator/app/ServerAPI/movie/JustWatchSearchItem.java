@@ -16,5 +16,8 @@ public class JustWatchSearchItem
 	@SerializedName("offers")
 	public List<Offer> offers;
 
+	@SerializedName( "original_release_year" )
+	public int release_year;
+
 
 }
