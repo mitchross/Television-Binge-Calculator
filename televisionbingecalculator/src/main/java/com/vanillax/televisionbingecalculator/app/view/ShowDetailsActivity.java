@@ -18,6 +18,7 @@ import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.GuideBoxAvailableContentResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.JustWatchAPI;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.CastResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVShowByIdResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.JustWatchSearch;
@@ -27,6 +28,7 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Offer;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Scoring;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
+import com.vanillax.televisionbingecalculator.app.TBC.adapters.CastListRecyclerAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.StreamingSourceRecyclerAdapter;
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetailsBinding;
 import com.vanillax.televisionbingecalculator.app.viewmodel.ShowDetailsViewModel;
@@ -55,6 +57,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 	JustWatchAPI justWatchAPI;
 
 	StreamingSourceRecyclerAdapter streamingSourceRecyclerAdapter = new StreamingSourceRecyclerAdapter();
+	CastListRecyclerAdapter castListRecyclerAdapter = new CastListRecyclerAdapter();
 
 	ShowDetailsViewModel showDetailsViewModel;
 	ActivityShowDetailsBinding binding;
@@ -107,6 +110,9 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 		binding.steamingLogoRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false ) );
 		binding.steamingLogoRecyclerView.setAdapter( streamingSourceRecyclerAdapter );
+
+		binding.castRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.HORIZONTAL, false ) );
+		binding.castRecyclerView.setAdapter( castListRecyclerAdapter );
 
 
 		showId = getIntent().getIntExtra( "tvshow_id" , 0 );
@@ -235,7 +241,32 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				} );
 	}
 
+	private void fetchCast()
+	{
+		theMovieDbAPI.queryMovieCast( String.valueOf( showId ) )
+				.subscribeOn( Schedulers.newThread() )
+				.observeOn( AndroidSchedulers.mainThread() )
+				.subscribe( new Subscriber<CastResponse>()
+				{
+					@Override
+					public void onCompleted()
+					{
 
+					}
+
+					@Override
+					public void onError( Throwable e )
+					{
+
+					}
+
+					@Override
+					public void onNext( CastResponse cast )
+					{
+						initCastListRecyclerView( cast );
+					}
+				});
+	}
 
 
 	private void initSpinners()
@@ -431,6 +462,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				.into( binding.thumbnail );
 
 		getAlternativeStreamingSourcesAndRatings(false);
+		fetchCast();
 
 	}
 
@@ -440,6 +472,12 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 		streamingSourceRecyclerAdapter.setTVStreamingSourceViewModelItems( streamSourceList );
 
+	}
+
+	private void initCastListRecyclerView( CastResponse  castResponse )
+	{
+		binding.castRecyclerView.setVisibility( View.VISIBLE );
+		castListRecyclerAdapter.setCastList( castResponse );
 	}
 
 	private void initMovieStreamingSources(List<Offer> movieOffers)

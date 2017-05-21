@@ -19,6 +19,7 @@ public class GlideBindingAdapter
 				.load( url )
 				.placeholder( view.getContext().getResources().getDrawable( R.drawable.tv_icon ) )
 				.centerCrop()
+				.dontAnimate()
 				.error( view.getContext().getResources().getDrawable( R.drawable.tv_icon ) )
 				.into(view);
 	}

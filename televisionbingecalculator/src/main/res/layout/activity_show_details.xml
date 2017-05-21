@@ -111,13 +111,13 @@
 			android:layout_marginStart="10dp" />
 
 	<ScrollView
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="0dp"
 			android:id="@+id/desc_scrollview"
 			app:layout_constraintTop_toBottomOf="@+id/blue_bar"
-			app:layout_constraintBottom_toTopOf="@+id/all_seasons_title"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintBottom_toTopOf="@+id/cast_recycler_view"
 			tools:layout_editor_absoluteX="8dp">
 
 		<TextView
@@ -136,13 +136,24 @@
 
 	</ScrollView>
 
+	<android.support.v7.widget.RecyclerView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/cast_recycler_view"
+			android:visibility="gone"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintBottom_toTopOf="@+id/all_seasons_title">
+
+	</android.support.v7.widget.RecyclerView>
+
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/all_seasons_title"
 			android:text="All Seasons"
 			android:textSize="18sp"
-			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintBottom_toTopOf="@+id/season_spinner"
 			android:layout_marginLeft="10dp"
 			android:layout_marginBottom="10dp"

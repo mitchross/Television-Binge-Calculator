@@ -2,6 +2,7 @@ package com.vanillax.televisionbingecalculator.app.ServerAPI;
 
 
 import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.CastResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVShowByIdResponse;
 
@@ -27,6 +28,11 @@ public interface TheMovieDbAPI
 
 	@GET( "movie/{showId}" + "?api_key=" + TBCModule.API_KEY  )
 	Observable<TVShowByIdResponse> queryMovieDetails ( @Path( "showId" ) String showId  );
+
+	@GET( "movie/{showId}/credits" + "?api_key=" + TBCModule.API_KEY  )
+	Observable<CastResponse> queryMovieCast ( @Path( "showId" ) String showId  );
+
+
 
 
 }

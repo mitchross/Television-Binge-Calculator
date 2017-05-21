@@ -19,7 +19,7 @@ public class TVQueryResponse
 	{
 		return showPosterListings;
 	}
-	
+
 
 	public ArrayList<String> getShowTitles()
 	{
