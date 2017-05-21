@@ -15,7 +15,7 @@
 			android:label="@string/app_name"
 			android:theme="@style/AppTheme">
 		<activity
-				android:name=".view.SplashActivity"
+				android:name=".view.LandingActivityMain"
 				android:label="@string/app_name"
 				android:screenOrientation="portrait">
 			<intent-filter>
@@ -38,15 +38,15 @@
 				android:name="com.crashlytics.ApiKey"
 				android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808" />
 
-		<activity
-				android:name=".view.LandingActivityMain"
-				android:windowSoftInputMode="adjustNothing">
-			<intent-filter>
-				<action android:name="com.google.android.gms.actions.SEARCH_ACTION" />
+		<!--<activity-->
+				<!--android:name=".view.LandingActivityMain"-->
+				<!--android:windowSoftInputMode="adjustNothing">-->
+			<!--<intent-filter>-->
+				<!--<action android:name="com.google.android.gms.actions.SEARCH_ACTION" />-->
 
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
+				<!--<category android:name="android.intent.category.DEFAULT" />-->
+			<!--</intent-filter>-->
+		<!--</activity>-->
 	</application>
 
 </manifest>

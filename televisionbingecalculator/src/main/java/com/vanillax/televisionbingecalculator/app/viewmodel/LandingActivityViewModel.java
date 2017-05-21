@@ -30,7 +30,7 @@ public class LandingActivityViewModel extends BaseViewModel
 	public interface LandingActivityViewCallback extends LifeCycle.View
 	{
 		void updateShowList(TVQueryResponse tvQueryResponse);
-		void onItemTouch(int id, String url, String title);
+		void onItemTouch( int id, String url, String title, LandingActivityMain.SearchType searchType);
 	}
 
 	public LandingActivityViewModel()
@@ -97,12 +97,28 @@ public class LandingActivityViewModel extends BaseViewModel
 
 	}
 
-	public void logShow(String title)
+	public void logShow( String title, LandingActivityMain.SearchType searchType)
 	{
 		if ( title!=null )
 		{
+			String titleDetails;
 
-			tvbcLoggerAPI.postSearchTerm( new SearchTerm( title ) )
+			switch ( searchType )
+			{
+				case MOVIE:
+					 titleDetails = "Movie: " + title;
+					break;
+				case TV:
+					 titleDetails = "TV: " + title;
+					break;
+				default:
+					 titleDetails = "TV: " + title;
+					break;
+			}
+
+
+
+			tvbcLoggerAPI.postSearchTerm( new SearchTerm( titleDetails ) )
 					.subscribeOn( Schedulers.newThread() )
 					.observeOn( AndroidSchedulers.mainThread() )
 					.subscribe( new Subscriber<EmptyResponse>()

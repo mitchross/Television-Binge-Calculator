@@ -2,6 +2,7 @@ package com.vanillax.televisionbingecalculator.app.viewmodel;
 
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.ShowPosterListing;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
+import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
 
 /**
  * Created by mitchross on 2/6/17.
@@ -10,10 +11,12 @@ import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 public class ShowPosterViewModelItem
 {
 	ShowPosterListing showPosterListing;
+	LandingActivityMain.SearchType searchType;
 
-	public ShowPosterViewModelItem( ShowPosterListing showPosterListing )
+	public ShowPosterViewModelItem( ShowPosterListing showPosterListing, LandingActivityMain.SearchType searchType)
 	{
 		this.showPosterListing = showPosterListing;
+		this.searchType = searchType;
 	}
 
 	public String getTitlez()
@@ -31,6 +34,11 @@ public class ShowPosterViewModelItem
 	public int getId()
 	{
 		return showPosterListing.id;
+	}
+
+	public LandingActivityMain.SearchType getSearchType()
+	{
+		return searchType;
 	}
 
 

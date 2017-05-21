@@ -12,4 +12,6 @@ public class JustWatchShowResponse
 {
 	@SerializedName("items")
 	public List<JustWatchSearchItem> items;
+
+
 }

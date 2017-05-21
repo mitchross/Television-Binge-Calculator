@@ -175,7 +175,6 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 		if ( shows == null )
 		{
 			binding.defaultListviewText.setVisibility( View.VISIBLE );
-			binding.tvIcon.setVisibility( View.VISIBLE );
 		}
 
 		landingActivityViewModel.onViewResumed();
@@ -213,21 +212,22 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 	private void hideListView()
 	{
 		binding.listView.setVisibility( View.GONE );
-		binding.defaultListviewText.setVisibility( View.GONE );
-		binding.tvIcon.setVisibility( View.GONE );
+		binding.defaultListviewText.setVisibility( View.VISIBLE );
+		binding.welcomeTitle.setVisibility( View.VISIBLE );
 		binding.resultsFound.setText( "Results Found: 0" );
 	}
 
 	private void updateListView( TVQueryResponse tvQueryResponse )
 	{
 		binding.defaultListviewText.setVisibility( View.GONE );
-		binding.tvIcon.setVisibility( View.GONE );
+		binding.welcomeTitle.setVisibility( View.GONE );
+
 
 		binding.listView.setVisibility( View.VISIBLE );
 
 		shows = tvQueryResponse.showPosterListings;
 
-		showsAdapter.setShowsViewModelItems( shows );
+		showsAdapter.setShowsViewModelItems( shows , selectedSearchType );
 
 
 
@@ -264,7 +264,7 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 	}
 
 	@Override
-	public void onItemTouch( int id, String url, String title )
+	public void onItemTouch( int id, String url, String title, SearchType searchType )
 	{
 		if ( !searchInProgress )
 		{
@@ -273,7 +273,7 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 
 
 			navigateToDetails( id, url,title );
-			landingActivityViewModel.logShow( title );
+			landingActivityViewModel.logShow( title , searchType );
 
 
 

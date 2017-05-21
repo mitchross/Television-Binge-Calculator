@@ -14,9 +14,9 @@
 
 <RelativeLayout
 		android:id="@+id/parent"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="200dp"
-        android:onClick="@{()->listener.onItemTouch(viewModel.id, viewModel.posterUrl, viewModel.titlez)}"
+        android:onClick="@{()->listener.onItemTouch(viewModel.id, viewModel.posterUrl, viewModel.titlez, viewModel.searchType)}"
 		>
 
 		<ImageView
@@ -35,12 +35,11 @@
 			android:text="@{viewModel.titlez}"
 			tools:text="Lost"
 			android:textColor="@android:color/white"
-			android:textSize="18sp"
+			android:textSize="16sp"
 			android:textStyle="bold"
 			android:id="@+id/show_title"
 			android:background="@color/black_15"
 			android:layout_alignParentBottom="true"
-			android:layout_alignParentLeft="true"
 			android:layout_alignParentStart="true" />
 
 

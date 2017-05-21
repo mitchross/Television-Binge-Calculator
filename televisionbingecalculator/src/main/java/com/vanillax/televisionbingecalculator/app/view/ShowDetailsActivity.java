@@ -24,6 +24,7 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.JustWatchSearc
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.JustWatchSearchItem;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.JustWatchShowResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Offer;
+import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Scoring;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.StreamingSourceRecyclerAdapter;
@@ -227,22 +228,8 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 					@Override
 					public void onNext( TVShowByIdResponse tvShowByIdResponse )
 					{
-//						if (tvShowByIdResponse.seasons.size() == 0   )
-//						{
-//							AlertDialog.Builder builder = new AlertDialog.Builder( ShowDetailsActivity.this );
-//							builder.setMessage( "TV show has incomplete data. Sorry about that." )
-//									.setCancelable( false )
-//									.setPositiveButton( "OK", ( dialog, id ) -> {
-//										finish();
-//									} );
-//							AlertDialog alert = builder.create();
-//							alert.show();
-//						}
-
 
 						ShowDetailsActivity.this.tvShowByIdResponse = tvShowByIdResponse;
-
-
 						setUpMoviewView();
 					}
 				} );
@@ -304,12 +291,14 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				} );
 
 
-						////
-
-
 	}
 
-	private void getMovieStreamingSources()
+	/*
+		Guidebox does not provide movie streaming info, only for TV shows. Using JustWatchAPI to get the streaming
+		sources for movies. The information in JustWatchShowReponse is rich enough to contain more data than just streaming.
+		This method will get you one snapshot of data.
+	 */
+	private void getAlternativeStreamingSourcesAndRatings(boolean ratingsOnly)
 	{
 		justWatchAPI.getMovieStreamingSources( new JustWatchSearch( showTitle ) )
 				.subscribeOn( Schedulers.io() )
@@ -331,12 +320,12 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 					@Override
 					public void onNext( JustWatchShowResponse justWatchShowResponse )
 					{
-						matchTitleAndGetSources( justWatchShowResponse );
+						matchTitleAndGetData( justWatchShowResponse, ratingsOnly );
 					}
 				} );
 	}
 
-	private void matchTitleAndGetSources( JustWatchShowResponse justWatchShowResponse )
+	private void matchTitleAndGetData( JustWatchShowResponse justWatchShowResponse, boolean ratingsOnly )
 	{
 		if ( justWatchShowResponse.items !=null || (justWatchShowResponse.items.size() != 0 ) )
 		{
@@ -344,8 +333,17 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 			{
 				if ( getShowTitle().contains( justWatchSearchItem.title ))
 				{
-					initMovieStreamingSources( justWatchSearchItem.offers);
-					Ln.d( justWatchSearchItem.title );
+					if ( ratingsOnly )
+					{
+						if ( justWatchSearchItem.scoringList !=null )
+						{
+							initScoring( justWatchSearchItem.scoringList );
+						}
+					}
+					else
+					{
+						initMovieStreamingSources( justWatchSearchItem.offers );
+					}
 					break;
 				}
 			}
@@ -386,6 +384,8 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				.into( binding.thumbnail );
 
 		getTVStreamingSources();
+		getAlternativeStreamingSourcesAndRatings(true);
+
 
 
 
@@ -430,7 +430,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				.placeholder( getResources().getDrawable( R.drawable.tv_icon ) )
 				.into( binding.thumbnail );
 
-		getMovieStreamingSources();
+		getAlternativeStreamingSourcesAndRatings(false);
 
 	}
 
@@ -445,6 +445,34 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 	private void initMovieStreamingSources(List<Offer> movieOffers)
 	{
 		streamingSourceRecyclerAdapter.setMovieStreamingSourceViewModelItems( movieOffers );
+	}
+
+	private void initScoring( List<Scoring> scoringList )
+	{
+		String metaCritic = "metacritic:score:";
+		String imdbScore = "imdb:score";
+
+		//default state
+		binding.metacriticScore.setVisibility( View.GONE );
+		binding.metacriticScore.setVisibility( View.GONE );
+
+
+		for ( Scoring s : scoringList)
+		{
+			if (  s.providerType.equals( metaCritic ) )
+			{
+				binding.metacriticScore.setVisibility( View.VISIBLE );
+				binding.metacriticScore.setText( "Metacritic Score: "  + s.value);
+			}
+			if ( s.providerType.equals( imdbScore ) )
+			{
+				binding.imdbScore.setVisibility( View.VISIBLE );
+				binding.imdbScore.setText( "IMDB Score: " + s.value );
+			}
+
+		}
+
+
 	}
 
 

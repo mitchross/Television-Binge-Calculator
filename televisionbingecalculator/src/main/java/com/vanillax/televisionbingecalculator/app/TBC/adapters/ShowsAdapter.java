@@ -7,6 +7,7 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.ShowPosterListing
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter;
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder;
 import com.vanillax.televisionbingecalculator.app.databinding.ShowCardBinding;
+import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
 import com.vanillax.televisionbingecalculator.app.viewmodel.ShowPosterViewModelItem;
 
@@ -35,12 +36,12 @@ public class ShowsAdapter extends BaseDataBindingAdapter<ShowCardBinding>
 	}
 
 
-	public void setShowsViewModelItems( @NonNull List<ShowPosterListing> showPosterListings)
+	public void setShowsViewModelItems( @NonNull List<ShowPosterListing> showPosterListings, LandingActivityMain.SearchType searchType)
 	{
 		showsViewModelItems.clear();
 		for(ShowPosterListing listing : showPosterListings)
 		{
-			this.showsViewModelItems.add( new ShowPosterViewModelItem( listing ) );
+			this.showsViewModelItems.add( new ShowPosterViewModelItem( listing, searchType ) );
 		}
 
 		notifyDataSetChanged();

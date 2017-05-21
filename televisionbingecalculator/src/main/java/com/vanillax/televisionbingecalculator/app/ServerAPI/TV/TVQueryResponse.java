@@ -19,17 +19,7 @@ public class TVQueryResponse
 	{
 		return showPosterListings;
 	}
-
-//	public List<ShowPosterViewModelItem> showsViewModelItems()
-//	{
-//		ArrayList<ShowPosterViewModelItem> shows = new ArrayList<ShowPosterViewModelItem>(  );
-//
-//
-//
-//
-//	}
-
-
+	
 
 	public ArrayList<String> getShowTitles()
 	{

@@ -19,5 +19,8 @@ public class JustWatchSearchItem
 	@SerializedName( "original_release_year" )
 	public int release_year;
 
+	@SerializedName( "scoring" )
+	public List<Scoring> scoringList;
+
 
 }
