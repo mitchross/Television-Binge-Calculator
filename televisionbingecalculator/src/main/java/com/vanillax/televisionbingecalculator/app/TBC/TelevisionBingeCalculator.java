@@ -3,6 +3,7 @@ package com.vanillax.televisionbingecalculator.app.TBC;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.vanillax.televisionbingecalculator.app.Dagger.AndroidModule;
 import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule;
 
@@ -19,6 +20,7 @@ public class TelevisionBingeCalculator extends Application
 {
 	private static ObjectGraph objectGraph;
 	protected static Context myContext;
+	private FirebaseAnalytics mFirebaseAnalytics;
 
 	public static void inject( Object object )
 	{
@@ -41,7 +43,7 @@ public class TelevisionBingeCalculator extends Application
 		objectGraph.injectStatics();
 
 		myContext = this.getApplicationContext();
-
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
 	}

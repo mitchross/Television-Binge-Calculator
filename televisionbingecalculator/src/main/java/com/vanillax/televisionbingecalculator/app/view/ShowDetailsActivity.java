@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.crash.FirebaseCrash;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.GuideBoxAvailableContentResponse;
@@ -538,10 +539,14 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 	private void initViewsForSpecificSeason( int seasonNumber )
 	{
+		FirebaseCrash.log("Show: " + showTitle);
 		episodeCount = String.valueOf( tvShowByIdResponse.getNumberOfEpisodesForSeason( seasonNumber ) ) + " Episodes";
 		runtime = tvShowByIdResponse.getRunTimeAverage();
 		bingeTime = CalculatorUtils.calcSpecificSeason( this, tvShowByIdResponse, seasonNumber );
-		imageUrl = tvShowByIdResponse.seasons.get( (seasonNumber) ).posterPath;
+
+		imageUrl = seasonNumber == 0
+				   ? tvShowByIdResponse.seasons.get( ( seasonNumber ) ).posterPath
+				   : tvShowByIdResponse.seasons.get( ( seasonNumber - 1 ) ).posterPath;
 		//showTitle = tvShowByIdResponse.title;
 
 		binding.episodeRuntime.setText(  runtime + " minutes");

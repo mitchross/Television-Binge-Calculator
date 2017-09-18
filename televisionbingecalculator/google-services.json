@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1041296916727",
+    "firebase_url": "https://api-6376074632638043049-309176.firebaseio.com",
+    "project_id": "api-6376074632638043049-309176",
+    "storage_bucket": "api-6376074632638043049-309176.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041296916727:android:6a03022be47395f6",
+        "android_client_info": {
+          "package_name": "com.vanillax.televisionbingecalculator.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041296916727-c8prgigma56s2rajcu7li9vi00laf8rc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjQQi-ZR_P01GgFdU8C5X7nHLnXRicKLg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
