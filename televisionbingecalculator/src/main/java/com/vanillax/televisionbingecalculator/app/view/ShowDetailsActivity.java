@@ -16,8 +16,6 @@ import android.widget.Spinner;
 import com.bumptech.glide.Glide;
 import com.google.firebase.crash.FirebaseCrash;
 import com.vanillax.televisionbingecalculator.app.R;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.GuideBoxAvailableContentResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.JustWatchAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.CastResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVShowByIdResponse;
@@ -39,7 +37,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import roboguice.util.Ln;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -50,9 +47,6 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 	@Inject
 	TheMovieDbAPI theMovieDbAPI;
-
-	@Inject
-	GuideBoxApi guideBoxApi;
 
 	@Inject
 	JustWatchAPI justWatchAPI;
@@ -293,34 +287,34 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 	private void getTVStreamingSources()
 	{
-		guideBoxApi.translateTheMovieDBID_TV( String.valueOf( showId ) )
-			.subscribeOn( Schedulers.io() )
-			.observeOn( AndroidSchedulers.mainThread() )
-			.flatMap( guideBoxShowTranslatorResponse -> guideBoxApi.getAvailableContent_TV( String.valueOf( guideBoxShowTranslatorResponse.id ) )
-					.subscribeOn(Schedulers.io())
-					.observeOn(AndroidSchedulers.mainThread()) )
-				.subscribe( new Subscriber<GuideBoxAvailableContentResponse>()
-				{
-					@Override
-					public void onCompleted()
-					{
-
-					}
-
-					@Override
-					public void onError( Throwable e )
-					{
-
-					}
-
-					@Override
-					public void onNext( GuideBoxAvailableContentResponse guideBoxAvailableContentResponse )
-					{
-						Ln.d( guideBoxAvailableContentResponse);
-
-						initSeasonsRecyclerView( guideBoxAvailableContentResponse.getStreamSources());
-					}
-				} );
+//		guideBoxApi.translateTheMovieDBID_TV( String.valueOf( showId ) )
+//			.subscribeOn( Schedulers.io() )
+//			.observeOn( AndroidSchedulers.mainThread() )
+//			.flatMap( guideBoxShowTranslatorResponse -> guideBoxApi.getAvailableContent_TV( String.valueOf( guideBoxShowTranslatorResponse.id ) )
+//					.subscribeOn(Schedulers.io())
+//					.observeOn(AndroidSchedulers.mainThread()) )
+//				.subscribe( new Subscriber<GuideBoxAvailableContentResponse>()
+//				{
+//					@Override
+//					public void onCompleted()
+//					{
+//
+//					}
+//
+//					@Override
+//					public void onError( Throwable e )
+//					{
+//
+//					}
+//
+//					@Override
+//					public void onNext( GuideBoxAvailableContentResponse guideBoxAvailableContentResponse )
+//					{
+//						Ln.d( guideBoxAvailableContentResponse);
+//
+//						initSeasonsRecyclerView( guideBoxAvailableContentResponse.getStreamSources());
+//					}
+//				} );
 
 
 	}
@@ -330,7 +324,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 		sources for movies. The information in JustWatchShowReponse is rich enough to contain more data than just streaming.
 		This method will get you one snapshot of data.
 	 */
-	private void getAlternativeStreamingSourcesAndRatings(boolean ratingsOnly)
+	private void getAlternativeStreamingSourcesAndRatings()
 	{
 		justWatchAPI.getMovieStreamingSources( new JustWatchSearch( showTitle ) )
 				.subscribeOn( Schedulers.io() )
@@ -352,34 +346,27 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 					@Override
 					public void onNext( JustWatchShowResponse justWatchShowResponse )
 					{
-						matchTitleAndGetData( justWatchShowResponse, ratingsOnly );
+						matchTitleAndGetData( justWatchShowResponse );
 					}
 				} );
 	}
 
-	private void matchTitleAndGetData( JustWatchShowResponse justWatchShowResponse, boolean ratingsOnly )
+	private void matchTitleAndGetData( JustWatchShowResponse justWatchShowResponse )
 	{
 		if ( justWatchShowResponse.items !=null || (justWatchShowResponse.items.size() != 0 ) )
 		{
-			for ( JustWatchSearchItem justWatchSearchItem  : justWatchShowResponse.items )
+			for ( JustWatchSearchItem justWatchSearchItem : justWatchShowResponse.items )
 			{
-				if ( getShowTitle().contains( justWatchSearchItem.title ))
+				if ( getShowTitle().contains( justWatchSearchItem.title ) )
 				{
-					if ( ratingsOnly )
+					if ( justWatchSearchItem.scoringList != null )
 					{
-						if ( justWatchSearchItem.scoringList !=null )
-						{
-							initScoring( justWatchSearchItem.scoringList );
-						}
+						initScoring( justWatchSearchItem.scoringList );
 					}
-					else
-					{
-						initMovieStreamingSources( justWatchSearchItem.offers );
-					}
-					break;
+					initMovieStreamingSources( justWatchSearchItem.offers );
 				}
+				break;
 			}
-
 		}
 	}
 
@@ -415,8 +402,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				.placeholder( getResources().getDrawable( R.drawable.tv_icon ) )
 				.into( binding.thumbnail );
 
-		getTVStreamingSources();
-		getAlternativeStreamingSourcesAndRatings(true);
+		getAlternativeStreamingSourcesAndRatings();
 
 
 
@@ -462,16 +448,8 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				.placeholder( getResources().getDrawable( R.drawable.tv_icon ) )
 				.into( binding.thumbnail );
 
-		getAlternativeStreamingSourcesAndRatings(false);
+		getAlternativeStreamingSourcesAndRatings();
 		fetchCast();
-
-	}
-
-
-	private void initSeasonsRecyclerView( List<GuideBoxAvailableContentResponse.StreamSource> streamSourceList )
-	{
-
-		streamingSourceRecyclerAdapter.setTVStreamingSourceViewModelItems( streamSourceList );
 
 	}
 
@@ -483,7 +461,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 	private void initMovieStreamingSources(List<Offer> movieOffers)
 	{
-		streamingSourceRecyclerAdapter.setMovieStreamingSourceViewModelItems( movieOffers );
+		streamingSourceRecyclerAdapter.setStreamingSourceViewModelItems( movieOffers );
 	}
 
 	private void initScoring( List<Scoring> scoringList )
@@ -540,20 +518,23 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 	private void initViewsForSpecificSeason( int seasonNumber )
 	{
 		FirebaseCrash.log("Show: " + showTitle);
-		episodeCount = String.valueOf( tvShowByIdResponse.getNumberOfEpisodesForSeason( seasonNumber ) ) + " Episodes";
-		runtime = tvShowByIdResponse.getRunTimeAverage();
-		bingeTime = CalculatorUtils.calcSpecificSeason( this, tvShowByIdResponse, seasonNumber );
+		if ( tvShowByIdResponse !=null )
+		{
+			episodeCount = String.valueOf( tvShowByIdResponse.getNumberOfEpisodesForSeason( seasonNumber ) ) + " Episodes";
+			runtime = tvShowByIdResponse.getRunTimeAverage();
+			bingeTime = CalculatorUtils.calcSpecificSeason( this, tvShowByIdResponse, seasonNumber );
 
-		imageUrl = seasonNumber == 0
-				   ? tvShowByIdResponse.seasons.get( ( seasonNumber ) ).posterPath
-				   : tvShowByIdResponse.seasons.get( ( seasonNumber - 1 ) ).posterPath;
-		//showTitle = tvShowByIdResponse.title;
+			imageUrl = seasonNumber == 0
+					   ? tvShowByIdResponse.seasons.get( ( seasonNumber ) ).posterPath
+					   : tvShowByIdResponse.seasons.get( ( seasonNumber - 1 ) ).posterPath;
+			//showTitle = tvShowByIdResponse.title;
 
-		binding.episodeRuntime.setText(  runtime + " minutes");
-		binding.episodeTotal.setText( episodeCount );
-		binding.bingeTime.setText( bingeTime );
-		ignoreToggleListener = true;
-		binding.switchToggle.setChecked(false);
+			binding.episodeRuntime.setText( runtime + " minutes" );
+			binding.episodeTotal.setText( episodeCount );
+			binding.bingeTime.setText( bingeTime );
+			ignoreToggleListener = true;
+			binding.switchToggle.setChecked( false );
+		}
 	}
 
 
