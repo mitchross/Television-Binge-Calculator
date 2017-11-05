@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.crash.FirebaseCrash;
 import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.JustWatchAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.CastResponse;
@@ -236,9 +235,9 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				} );
 	}
 
-	private void fetchCast()
+	private void fetchCast( LandingActivityMain.SearchType searchType)
 	{
-		theMovieDbAPI.queryMovieCast( String.valueOf( showId ) )
+		theMovieDbAPI.queryCast( String.valueOf( showId ), searchType.toString() )
 				.subscribeOn( Schedulers.newThread() )
 				.observeOn( AndroidSchedulers.mainThread() )
 				.subscribe( new Subscriber<CastResponse>()
@@ -403,6 +402,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				.into( binding.thumbnail );
 
 		getAlternativeStreamingSourcesAndRatings();
+		fetchCast(selectedSearchType);
 
 
 
@@ -449,7 +449,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 				.into( binding.thumbnail );
 
 		getAlternativeStreamingSourcesAndRatings();
-		fetchCast();
+		fetchCast(selectedSearchType);
 
 	}
 
@@ -509,7 +509,6 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 		}
 
 
-		//showTitle = tvShowByIdResponse.title;
 
 
 
@@ -517,7 +516,6 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 	private void initViewsForSpecificSeason( int seasonNumber )
 	{
-		FirebaseCrash.log("Show: " + showTitle);
 		if ( tvShowByIdResponse !=null )
 		{
 			episodeCount = String.valueOf( tvShowByIdResponse.getNumberOfEpisodesForSeason( seasonNumber ) ) + " Episodes";

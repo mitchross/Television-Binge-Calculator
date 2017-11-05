@@ -283,7 +283,21 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 
 	public enum SearchType
 	{
-		TV,
-		MOVIE
+		TV("tv"),
+		MOVIE( "movie");
+
+		private final String searchType;
+
+		 SearchType( String s)
+		{
+			this.searchType = s;
+		}
+
+
+		@Override
+		public String toString()
+		{
+			return this.searchType;
+		}
 	}
 }
