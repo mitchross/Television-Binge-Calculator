@@ -1,9 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.TBC.adapters;
 
-import android.support.annotation.NonNull;
-
 import com.vanillax.televisionbingecalculator.app.R;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxResponse.GuideBoxAvailableContentResponse;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Offer;
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter;
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder;
@@ -33,36 +30,7 @@ public class StreamingSourceRecyclerAdapter extends BaseDataBindingAdapter<Strea
         streamingSourceViewModelItems = new ArrayList<>(  );
     }
 
-    public void setTVStreamingSourceViewModelItems( @NonNull List<GuideBoxAvailableContentResponse.StreamSource> streamSources )
-    {
-        streamingSourceViewModelItems.clear();
-        for ( GuideBoxAvailableContentResponse.StreamSource s : streamSources )
-        {
-            if ( s.sourceDisplayName != null )
-            {
-                String displayName = s.sourceDisplayName.toLowerCase();
-
-                switch ( displayName )
-                {
-                    case StreamingSourceViewModelItem.NETFLIX :
-                    case StreamingSourceViewModelItem.HULU:
-                    case StreamingSourceViewModelItem.VUDU:
-                    case StreamingSourceViewModelItem.HBO:
-                    case StreamingSourceViewModelItem.AMAZON:
-
-                        this.streamingSourceViewModelItems.add( new StreamingSourceViewModelItem( s ) );
-                        break;
-
-                }
-
-
-            }
-        }
-
-        notifyDataSetChanged();
-    }
-
-    public void setMovieStreamingSourceViewModelItems( List<Offer> movieOffers )
+    public void setStreamingSourceViewModelItems( List<Offer> movieOffers )
     {
         boolean netflix = false;
         boolean hulu = false;

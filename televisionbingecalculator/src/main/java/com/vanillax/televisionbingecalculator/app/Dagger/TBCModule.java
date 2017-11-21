@@ -2,14 +2,13 @@ package com.vanillax.televisionbingecalculator.app.Dagger;
 
 import android.content.Context;
 
-import com.vanillax.televisionbingecalculator.app.ServerAPI.GuideBoxApi;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.JustWatchAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
+import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
 import com.vanillax.televisionbingecalculator.app.view.ShowDetailsActivity;
-import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
 
 import java.io.File;
@@ -58,7 +57,6 @@ public class TBCModule
 	public static final String BASE_IMAGE_PATH = "http://image.tmdb.org/t/p/w500/";
 	public static final String BASE_IMAGE_PATH_LARGE = "http://image.tmdb.org/t/p/w1280/";
 
-	public static final String GUIDE_BOX_API_KEY = "rKvQ35M0UKOUDTOz9tD1C7IObWtRh4py";
 
 
 
@@ -115,21 +113,6 @@ public class TBCModule
 		return restAdapter.create( TVBCLoggerAPI.class );
 	}
 
-
-	@Provides
-	@Singleton
-	GuideBoxApi providesGuideBoxAPI( @ForApplication Context context)
-	{
-
-		Retrofit restAdapter = new Retrofit.Builder()
-				.baseUrl( "https://api-public.guidebox.com/v2/" )
-				.client( getOkHttpClient( context ))
-				.addConverterFactory( GsonConverterFactory.create() )
-				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
-				.build();
-
-		return restAdapter.create( GuideBoxApi.class );
-	}
 
 	@Provides
 	@Singleton

@@ -23,6 +23,9 @@ public interface TheMovieDbAPI
 	@GET( "tv/{showId}" + "?api_key=" + TBCModule.API_KEY  )
 	Observable<TVShowByIdResponse> queryTVDetails ( @Path( "showId" ) String showId  );
 
+	@GET( "{searchType}/{showId}/credits" + "?api_key=" + TBCModule.API_KEY  )
+	Observable<CastResponse> queryCast ( @Path( "showId" ) String showId, @Path( "searchType" ) String searchType );
+
 	@GET( "search/movie?" + "api_key=" + TBCModule.API_KEY )
 	Observable<TVQueryResponse> queryMovie ( @Query( "query" ) String show  );
 
