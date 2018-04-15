@@ -86,6 +86,6 @@ public class CalculatorUtils
 		{
 			return ( large ? TBCModule.BASE_IMAGE_PATH_LARGE : TBCModule.BASE_IMAGE_PATH ) + path;
 		}
-		return null;
+		return "";
 	}
 }

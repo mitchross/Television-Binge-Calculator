@@ -24,7 +24,7 @@ import com.vanillax.televisionbingecalculator.app.R;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.ShowPosterListing;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TV.TVQueryResponse;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
-import com.vanillax.televisionbingecalculator.app.TBC.adapters.ShowsAdapter;
+import com.vanillax.televisionbingecalculator.app.Kotlin.adapters.ShowsAdapter;
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration;
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding;
 import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
@@ -65,7 +65,7 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 		binding.listView.addItemDecoration( decoration );
 		binding.listView.setAdapter( showsAdapter );
 
-		showsAdapter.setListener( this );
+		//showsAdapter.setListener( this );
 
 		if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
 		{
@@ -227,7 +227,7 @@ public class LandingActivityMain extends AppCompatActivity implements LandingAct
 
 		shows = tvQueryResponse.showPosterListings;
 
-		showsAdapter.setShowsViewModelItems( shows , selectedSearchType );
+		//showsAdapter.setShowsViewModelItems( shows , selectedSearchType );
 
 
 

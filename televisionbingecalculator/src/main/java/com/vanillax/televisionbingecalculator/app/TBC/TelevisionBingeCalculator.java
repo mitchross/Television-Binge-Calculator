@@ -2,6 +2,7 @@ package com.vanillax.televisionbingecalculator.app.TBC;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.vanillax.televisionbingecalculator.app.Dagger.AndroidModule;
@@ -44,6 +45,7 @@ public class TelevisionBingeCalculator extends Application
 
 		myContext = this.getApplicationContext();
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+		MultiDex.install( this );
 
 
 	}
