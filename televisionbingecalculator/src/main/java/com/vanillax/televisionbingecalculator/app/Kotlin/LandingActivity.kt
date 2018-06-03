@@ -22,12 +22,11 @@ import com.google.android.gms.actions.SearchIntents
 import com.vanillax.televisionbingecalculator.app.Kotlin.adapters.ShowsAdapter
 import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
-import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain
-import com.vanillax.televisionbingecalculator.app.view.ShowDetailsActivity
 
 /**
  * Created by mitchross on 4/14/18.
@@ -39,7 +38,6 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
     private lateinit var binding: ActivityMainMaterialBinding
 
     internal var showsAdapter = ShowsAdapter()
-    internal var shows: List<com.vanillax.televisionbingecalculator.app.Kotlin.ShowPosterListing>? = null
     internal lateinit var decoration: SpacesItemDecoration
     internal var selectedSearchType = SearchType.TV
 
@@ -152,12 +150,12 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
     private fun navigateToDetails(id: Int, posterUrl: String, title: String) {
         //searchInProgress = false
 
-        val intent = Intent(this, ShowDetailsActivity::class.java)
+        val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra("tvshow_id", id)
         intent.putExtra("tvshow_thumbnail", posterUrl)
         intent.putExtra("title", title)
         //intent.putExtra("show_type", selectedSearchType)
-        intent.putExtra("show_type", LandingActivityMain.SearchType.TV)
+        intent.putExtra("show_type",SearchType.TV)
         intent.flags = FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
     }

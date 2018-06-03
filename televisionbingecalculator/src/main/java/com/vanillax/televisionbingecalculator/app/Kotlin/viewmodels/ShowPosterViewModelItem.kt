@@ -1,13 +1,13 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels
 
-import com.vanillax.televisionbingecalculator.app.Kotlin.ShowPosterListing
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.ShowPosterListing
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils
 
 /**
  * Created by mitchross on 2/6/17.
  */
 
-class ShowPosterViewModelItem( showPosterListing: ShowPosterListing, searchType: String) {
+class ShowPosterViewModelItem(showPosterListing: ShowPosterListing, searchType: String) {
 
     val searchType = searchType
 

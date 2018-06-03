@@ -26,9 +26,11 @@ public class CalculatorUtils
 	}
 
 
+
 	public static String calcFineTuneTime(Context context, int totalEpisodes , int runtime ,  int openingCreditTime , int closingCreditTime , boolean hasCommercials )
 	{
 		int newRunTime = runtime;
+
 
 		//Since we are taking out commercials use best guess
 		if ( hasCommercials)

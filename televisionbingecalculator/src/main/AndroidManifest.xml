@@ -27,13 +27,13 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name=".view.ShowDetailsActivity"
+				android:name=".Kotlin.DetailsActivity"
 				android:label="@string/title_activity_show_details"
-				android:parentActivityName=".view.LandingActivityMain"
+				android:parentActivityName=".Kotlin.LandingActivity"
 				android:screenOrientation="portrait">
 			<meta-data
 					android:name="android.support.PARENT_ACTIVITY"
-					android:value=".view.LandingActivityMain" />
+					android:value=".Kotlin.LandingActivity" />
 		</activity>
 
 		<activity

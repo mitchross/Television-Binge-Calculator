@@ -4,6 +4,10 @@
 	<string name="app_name">Television Binge Calculator</string>
 	<string name="action_settings">Settings</string>
 	<string name="title_activity_show_details">Show Details</string>
+	<string name="estimated_binge_time">%s</string>
+	<string name="episode_count">%s episodes</string>
+	<string name="runtime">%s mins</string>
+
 
 	<plurals name="day">
 		<item quantity="zero">0 Days</item>

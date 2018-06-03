@@ -1,6 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.ServerAPI.movie;
 
 import com.google.gson.annotations.SerializedName;
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.Offer;
 
 import java.util.List;
 

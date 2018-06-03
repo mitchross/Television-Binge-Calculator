@@ -22,7 +22,7 @@ import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.JustWatchSearch;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.JustWatchSearchItem;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.JustWatchShowResponse;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Offer;
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.Offer;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Scoring;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils;
@@ -86,7 +86,7 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 		showDetailsViewModel = new ShowDetailsViewModel();
 
 		binding = DataBindingUtil.setContentView( this, R.layout.activity_show_details );
-		binding.setItem( this );
+		//binding.setItem( this );
 
 
 
@@ -476,15 +476,15 @@ public class ShowDetailsActivity extends AppCompatActivity implements Spinner.On
 
 		for ( Scoring s : scoringList)
 		{
-			if (  s.providerType.equals( metaCritic ) )
+			if (  s.getProviderType().equals( metaCritic ) )
 			{
 				binding.metacriticScore.setVisibility( View.VISIBLE );
-				binding.metacriticScore.setText( "Metacritic Score: "  + s.value);
+				binding.metacriticScore.setText( "Metacritic Score: "  + s.getValue() );
 			}
-			if ( s.providerType.equals( imdbScore ) )
+			if ( s.getProviderType().equals( imdbScore ) )
 			{
 				binding.imdbScore.setVisibility( View.VISIBLE );
-				binding.imdbScore.setText( "IMDB Score: " + s.value );
+				binding.imdbScore.setText( "IMDB Score: " + s.getValue() );
 			}
 
 		}

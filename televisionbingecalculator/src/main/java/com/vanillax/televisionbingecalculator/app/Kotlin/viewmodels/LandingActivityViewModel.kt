@@ -1,8 +1,8 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels
 
-import com.vanillax.televisionbingecalculator.app.Kotlin.QueryResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
 import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
 import io.reactivex.disposables.Disposable
 
 /**

@@ -1,6 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.adapters
 
 import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.ShowPosterListing
 import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.ShowPosterViewModelItem
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter
@@ -27,7 +28,7 @@ class ShowsAdapter : BaseDataBindingAdapter<ShowCardItemBinding>() {
     }
 
 
-    fun setShowsViewModelItems(showPosterListings: List<com.vanillax.televisionbingecalculator.app.Kotlin.ShowPosterListing>, searchType: SearchType) {
+    fun setShowsViewModelItems(showPosterListings: List<ShowPosterListing>, searchType: SearchType) {
         showsViewModelItems.clear()
         for (listing in showPosterListings) {
             this.showsViewModelItems.add(ShowPosterViewModelItem(listing, searchType.toString()))

@@ -7,7 +7,7 @@
 	<data>
 		<variable
 				name="item"
-				type="com.vanillax.televisionbingecalculator.app.view.ShowDetailsActivity"/>
+				type="com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.DetailsViewModel"/>
 	</data>
 
 <android.support.constraint.ConstraintLayout
@@ -21,6 +21,7 @@
 			android:layout_width="0dp"
 			android:layout_height="150dp"
 			android:id="@+id/poster_image"
+			app:imageUrl="@{item.posterUrl}"
 			android:background="@android:color/black"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintRight_toRightOf="parent"
@@ -67,7 +68,9 @@
 			app:layout_constraintLeft_toLeftOf="@+id/blue_bar"
 			android:layout_marginLeft="10dp"
 			android:layout_marginBottom="54dp"
-			android:layout_marginStart="10dp" />
+			android:layout_marginStart="10dp"
+			app:imageUrl="@{item.thumbnailUrl}"
+			/>
 
 	<TextView
 			android:layout_width="wrap_content"
@@ -80,7 +83,7 @@
 			app:layout_constraintLeft_toRightOf="@+id/thumbnail"
 			android:layout_marginLeft="10dp"
 			android:textSize="18sp"
-
+			android:text="@{item.showTitle}"
 			app:layout_constraintVertical_bias="0.3"
 			android:layout_marginStart="10dp" />
 
@@ -94,7 +97,8 @@
 			app:layout_constraintTop_toTopOf="@+id/category_title"
 			android:textColor="@android:color/white"
 			android:layout_marginLeft="10dp"
-			android:layout_marginStart="10dp" />
+			android:layout_marginStart="10dp"
+			android:text="@{item.year}"/>
 
 	<TextView
 			android:layout_width="wrap_content"
@@ -106,6 +110,7 @@
 			app:layout_constraintTop_toBottomOf="@+id/title"
 			app:layout_constraintBottom_toBottomOf="@+id/blue_bar"
 			app:layout_constraintLeft_toRightOf="@+id/thumbnail"
+			android:text="@{item.category}"
 			android:layout_marginLeft="10dp"
 
 			android:layout_marginStart="10dp" />
@@ -132,6 +137,7 @@
 				android:paddingRight="5dp"
 				android:fontFamily="sans-serif-light"
 				android:textColor="@color/material_gray_600"
+				android:text="@{item.showDescription}"
 				tools:text="The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island."
 				/>
 
@@ -165,6 +171,8 @@
 			android:fontFamily="sans-serif-light"
 			android:layout_marginStart="10dp" />
 
+	<!--android:onCheckedChanged= "@{(switch, checked) -> item.onChecked(checked)}"-->
+
 	<android.support.v7.widget.SwitchCompat
 			android:id="@+id/switch_toggle"
 			android:layout_width="wrap_content"
@@ -174,7 +182,6 @@
 			app:layout_constraintTop_toTopOf="@+id/all_seasons_title"
 			android:layout_marginEnd="10dp"
 			android:checked="true"
-			android:onCheckedChanged= "@{(switch, checked) -> item.onChecked(checked)}"
 			/>
 
 	<android.support.v7.widget.AppCompatSpinner
@@ -201,7 +208,8 @@
 			android:textSize="18sp"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintBottom_toTopOf="@+id/episode_runtime"
-			android:layout_marginStart="10dp" />
+			android:layout_marginStart="10dp"
+			text_helper="@{item.episodesCountString}"/>
 
 	<TextView
 			android:layout_width="wrap_content"
@@ -209,6 +217,7 @@
 			android:id="@+id/episode_runtime"
 			android:layout_marginLeft="10dp"
 			tools:text="30 minutes"
+			text_helper="@{item.runtimeString}"
 			android:fontFamily="sans-serif-light"
 			android:layout_marginBottom="10dp"
 			android:textSize="18sp"
@@ -250,7 +259,9 @@
 			app:layout_constraintRight_toRightOf="parent"
 			app:layout_constraintBottom_toTopOf="@+id/binge_time"
 			tools:layout_constraintRight_creator="1"
-			tools:layout_constraintLeft_creator="1" />
+			tools:layout_constraintLeft_creator="1"
+			/>
+	<!--text_helper="@{item.totalBingeTimeString}"-->
 
 	<TextView
 			android:layout_width="0dp"
@@ -265,7 +276,8 @@
 			app:layout_constraintRight_toRightOf="parent"
 			app:layout_constraintBottom_toTopOf="@+id/available_title"
 			tools:layout_constraintRight_creator="1"
-			tools:layout_constraintLeft_creator="1" />
+			tools:layout_constraintLeft_creator="1"
+			text_helper="@{item.totalBingeTimeString}"/>
 
 	<TextView
 			android:layout_height="wrap_content"
