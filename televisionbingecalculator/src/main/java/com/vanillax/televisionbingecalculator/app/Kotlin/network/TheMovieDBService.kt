@@ -1,10 +1,12 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.network
 
+import android.content.Context
 import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.CastResponse
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
 import io.reactivex.Observable
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -13,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.io.File
 
 /**
  * Created by mitchross on 4/14/18.
@@ -21,11 +24,23 @@ interface TheMovieDBService {
 
     companion object {
 
-        fun create(): TheMovieDBService {
+        fun create( context: Context): TheMovieDBService {
 
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+//            val interceptor = HttpLoggingInterceptor()
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+//            val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+            val SIZE_OF_CACHE = (10 * 1024 * 1024).toLong() // 10 MiB
+            val cache = Cache(File(context.cacheDir, "http"), SIZE_OF_CACHE)
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            var httpClient = OkHttpClient.Builder()
+                    .cache(cache)
+                    .addInterceptor(RewriteRequestInterceptor())
+                    .addInterceptor(httpLoggingInterceptor)
+                    .addNetworkInterceptor(RewriteResponseCacheControlInterceptor())
+                    .build()
 
             val retrofit = Retrofit.Builder()
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

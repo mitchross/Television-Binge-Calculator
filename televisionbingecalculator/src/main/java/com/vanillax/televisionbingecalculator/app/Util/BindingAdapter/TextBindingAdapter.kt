@@ -21,3 +21,4 @@ class BindingTextHelper(@param:StringRes
 
 
 }
+

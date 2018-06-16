@@ -35,7 +35,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
     protected var showTitle: String = ""
     protected var thumbnailUrl: String = ""
     private var seasonSelected: Int = 0
-    private var selectedSearchType: SearchType = SearchType.TV
+    private lateinit var selectedSearchType: SearchType
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
 
         //Binding and View Model initilization
         binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details)
-        viewModel = DetailsViewModel(com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService.create(), JustWatchAPIService.create())
+        viewModel = DetailsViewModel(com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService.create(this), JustWatchAPIService.create(this))
         binding.item = viewModel
         viewModel.setListener(this)
 
@@ -161,99 +161,10 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
     {
          matchTitleAndGetData( detailsItemViewModel.justWatchResponse)
         initSpinners(detailsItemViewModel.seasonCount!!)
+        castListRecyclerAdapter.setCastList(detailsItemViewModel.castResponse)
 
     }
 
-    //View Setup
-
-//    private fun populateView( detailsItemViewModel: DetailsItemViewModel )
-//    {
-//        binding.episodeRuntime.text = runtime.toString() + " minutes"
-//        binding.episodeTotal.text = episodeCount
-//
-//        binding.bingeTime.text = bingeTime
-//        binding.switchToggle.isChecked = true
-//    }
-
-
-//    private fun initShowData(tvShowByIdResponse: TVShowByIdResponse) {
-//
-//        val seasons = tvShowByIdResponse.numberOfSeasons
-//        val items = ArrayList<String>()
-//        val allSeasons = "All ($seasons)"
-//        items.add(allSeasons)
-//
-//        for (i in 1 until seasons + 1) {
-//            items.add(i.toString())
-//        }
-//
-//        val adapter = ArrayAdapter(this, R.layout.season_spinner_row, items)
-//        binding.seasonSpinner.adapter = adapter
-//
-//
-//
-//        binding.seasonSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//            }
-//
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//
-//                if (position == 0) {
-//                    if (selectedSearchType != LandingActivityMain.SearchType.MOVIE) {
-//                        viewModel.getAllShowDetailsData(showId,selectedSearchType,showTitle )
-//                    }
-//                } else {
-//                    seasonSelected = position
-//                    initViewsForSpecificSeason(seasonSelected, tvShowByIdResponse)
-//                }
-//
-//            }
-//
-//        }
- //   }
-
-
-
-
-
-
-//
-//    private fun initViewsForSpecificSeason(seasonNumber: Int, tvShowByIdResponse: TVShowByIdResponse) {
-//        if (tvShowByIdResponse != null) {
-//            episodeCount = tvShowByIdResponse.getNumberOfEpisodesForSeason(seasonNumber).toString() + " Episodes"
-//            runtime = tvShowByIdResponse.getRunTimeAverage()
-//            bingeTime = CalculatorUtils.calcSpecificSeason(this, tvShowByIdResponse, seasonNumber)
-//
-//            imageUrl = if (seasonNumber == 0)
-//                tvShowByIdResponse.seasons?.get(seasonNumber).posterPath.toString()
-//            else
-//                tvShowByIdResponse.seasons?.get(seasonNumber - 1).posterPath.toString()
-//            //showTitle = tvShowByIdResponse.title;
-//
-//            binding.episodeRuntime.text = runtime.toString() + " minutes"
-//            binding.episodeTotal.text = episodeCount
-//            binding.bingeTime.text = bingeTime
-//            binding.switchToggle.isChecked = false
-//        }
-//    }
-
-
-
-    //Callbacks
-
-//    override fun onFetchDetails(tvShowByIdResponse: TVShowByIdResponse) {
-//        if (tvShowByIdResponse.seasons.size == 0) {
-//            val builder = AlertDialog.Builder(this@DetailsActivity)
-//            builder.setMessage("TV show has incomplete data. Sorry about that.")
-//                    .setCancelable(false)
-//                    .setPositiveButton("OK") { dialog, id -> finish() }
-//            val alert = builder.create()
-//            alert.show()
-//        }
-//
-//        initShowData(tvShowByIdResponse)
-//    }
 
 override fun onFetchAllDetails(detailsItemViewModel: DetailsItemViewModel) {
     Log.d("test", "got data")

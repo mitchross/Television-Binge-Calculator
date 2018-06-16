@@ -6,11 +6,10 @@
 
 	<data>
 
-		<import type="com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel" />
 
 		<variable
 				name="view"
-				type="com.vanillax.televisionbingecalculator.app.view.LandingActivityMain" />
+				type="com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel" />
 	</data>
 
 	<android.support.constraint.ConstraintLayout
@@ -106,7 +105,7 @@
 		    app:layout_constraintStart_toStartOf="parent"
 		    app:layout_constraintEnd_toStartOf="@id/guide"
 		    app:layout_constraintBottom_toBottomOf="@id/sub_header"
-					>
+			android:visibility="@{!view.isMovie, default=visible}">
 		</View>
 
 		<View
@@ -114,7 +113,7 @@
 				android:layout_width="0dp"
 				android:layout_height="4dp"
 				android:background="@android:color/white"
-				android:visibility="invisible"
+				android:visibility="@{safeUnbox(view.isMovie), default=invisible}"
 				app:layout_constraintStart_toStartOf="@id/guide"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintBottom_toBottomOf="@id/sub_header"

@@ -12,10 +12,13 @@ import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BindingTextHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+
+
 
 
 
@@ -28,6 +31,9 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     //Dependencies
     private var disposable: Disposable? = null
+    var disposables: CompositeDisposable? = null
+
+
     private var listener: DetailsViewModelInterface? = null
     private val movieDBService = theMovieDBService
     private val justWatchAPIService = justWatchAPIService
@@ -39,6 +45,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     var thumbnailUrl = ObservableField <String>("")
     var seasonSelected: Int = 0
     lateinit var selectedSearchType: SearchType
+    var isMovie = ObservableField <Boolean> ( false)
     var bingeTime: String = ""
     var posterUrl =  ObservableField <String>("")
     var category = ObservableField <String>("")
@@ -47,7 +54,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     var episodeCount:String = ""
     var episodeRuntime:String = ""
 
-    lateinit var detailsItemViewModel2: DetailsItemViewModel
+    var detailsItemViewModel: DetailsItemViewModel? = null
 
 
     //Databinding
@@ -68,6 +75,8 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
         disposable?.dispose()
     }
 
+
+
     //setup
     //Required to initialize network calls
     //Did not want to overpopulate the constructor
@@ -80,16 +89,14 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
         this.showTitle.set( showTitle)
         this.thumbnailUrl.set(thumbnailUrl)
         this.selectedSearchType = selectedSearchType
+
+        when (selectedSearchType) {
+            SearchType.MOVIE -> isMovie.set(true)
+            else -> isMovie.set(false)
+        }
     }
 
-//    private fun populateView( detailsItemViewModel: DetailsItemViewModel )
-//    {
-//        binding.episodeRuntime.text = runtime.toString() + " minutes"
-//        binding.episodeTotal.text = episodeCount
-//
-//        binding.bingeTime.text = bingeTime
-//        binding.switchToggle.isChecked = true
-//    }
+
 
 
     //Sets total binge time text
@@ -101,6 +108,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     private fun populateView( detailsItemViewModel: DetailsItemViewModel )
     {
+        //binding.switchToggle.isChecked = true
 
         //Binge Time Text
         bingeTime = detailsItemViewModel.bingeTime.toString()
@@ -121,8 +129,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
 
 
-        detailsItemViewModel2 = detailsItemViewModel
-        listener?.onFetchAllDetails(detailsItemViewModel2)
+        listener?.onFetchAllDetails(detailsItemViewModel)
 
 
     }
@@ -131,15 +138,15 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     {
         if ( seasonNumber == 0 )
         {
-            episodeCount= detailsItemViewModel2.episodeCount.toString()
+            episodeCount= detailsItemViewModel?.episodeCount.toString()
 
             episodesCountString.set(BindingTextHelper(R.string.episode_count,setBingeTime(episodeCount) ))
 
             //Binge Time Text
-            bingeTime = detailsItemViewModel2.bingeTime.toString()
+            bingeTime = detailsItemViewModel?.bingeTime.toString()
             totalBingeTimeString.set(BindingTextHelper(R.string.estimated_binge_time, setBingeTime(bingeTime)))
 
-            episodeRuntime = detailsItemViewModel2.runtime.toString()
+            episodeRuntime = detailsItemViewModel?.runtime.toString()
             runtimeString.set(BindingTextHelper(R.string.runtime,setBingeTime(episodeRuntime) ))
         }
         else {
@@ -150,7 +157,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
             bingeTime = calcUtils?.calcSpecificSeason(seasonNumber).toString()
             totalBingeTimeString.set(BindingTextHelper(R.string.estimated_binge_time, setBingeTime(bingeTime)))
 
-            episodeRuntime = detailsItemViewModel2.runtime.toString()
+            episodeRuntime = detailsItemViewModel?.runtime.toString()
             runtimeString.set(BindingTextHelper(R.string.runtime,setBingeTime(episodeRuntime) ))
         }
 
@@ -197,7 +204,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
         val year = calcUtils?.getYear()
         val seasonsCount = calcUtils?.numberOfSeasons()
 
-        val  vmItem = DetailsItemViewModel(
+          detailsItemViewModel = DetailsItemViewModel(
                 episodeCount,
                 runtime,
                 bingeTime,
@@ -213,17 +220,24 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
                 tvShowByIdResponse)
 
 
-        return  vmItem
+        return detailsItemViewModel as DetailsItemViewModel
     }
 
     fun getDetails(showId: Int): Observable<TVShowByIdResponse>
     {
-        return movieDBService.queryTVDetails(showId.toString())
+        when (selectedSearchType) {
+            SearchType.TV -> return movieDBService.queryTVDetails(showId.toString())
+            else -> return movieDBService.queryMovieDetails(showId.toString())
+        }
     }
 
     fun getCast( searchType: SearchType , showId: Int): Observable<CastResponse>
     {
-        return  movieDBService.queryCast( showId.toString(), searchType.toString() )
+        when( selectedSearchType) {
+            SearchType.TV -> return movieDBService.queryCast( showId.toString(), searchType.toString() )
+            else -> return movieDBService.queryMovieCast( showId.toString() )
+        }
+
     }
 
     fun getStream ( showTitle: String): Observable<JustWatchResponse>

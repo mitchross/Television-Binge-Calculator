@@ -169,7 +169,8 @@
 			android:layout_marginLeft="10dp"
 			android:layout_marginBottom="10dp"
 			android:fontFamily="sans-serif-light"
-			android:layout_marginStart="10dp" />
+			android:layout_marginStart="10dp"
+			android:visibility="gone"/>
 
 	<!--android:onCheckedChanged= "@{(switch, checked) -> item.onChecked(checked)}"-->
 
@@ -182,7 +183,7 @@
 			app:layout_constraintTop_toTopOf="@+id/all_seasons_title"
 			android:layout_marginEnd="10dp"
 			android:checked="true"
-			/>
+			android:visibility="@{safeUnbox(!item.isMovie())}"			/>
 
 	<android.support.v7.widget.AppCompatSpinner
 			android:layout_width="wrap_content"
@@ -192,7 +193,8 @@
 			android:layout_marginBottom="10dp"
 			app:layout_constraintBottom_toTopOf="@+id/episode_total"
 			app:layout_constraintLeft_toLeftOf="parent"
-			android:layout_marginStart="10dp">
+			android:layout_marginStart="10dp"
+			android:visibility="@{safeUnbox(!item.isMovie())}">
 
 
 	</android.support.v7.widget.AppCompatSpinner>
@@ -209,7 +211,8 @@
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintBottom_toTopOf="@+id/episode_runtime"
 			android:layout_marginStart="10dp"
-			text_helper="@{item.episodesCountString}"/>
+			text_helper="@{item.episodesCountString}"
+			android:visibility="@{safeUnbox(!item.isMovie())}"/>
 
 	<TextView
 			android:layout_width="wrap_content"
@@ -223,7 +226,8 @@
 			android:textSize="18sp"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintBottom_toTopOf="@+id/binge_title"
-			android:layout_marginStart="10dp" />
+			android:layout_marginStart="10dp"
+			android:visibility="@{safeUnbox(!item.isMovie())}"/>
 
 	<TextView
 			android:layout_width="wrap_content"

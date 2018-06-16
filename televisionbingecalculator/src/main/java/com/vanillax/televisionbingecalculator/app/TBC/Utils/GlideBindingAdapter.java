@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.vanillax.televisionbingecalculator.app.R;
 
 /**
@@ -17,10 +18,11 @@ public class GlideBindingAdapter
 	{
 		Glide.with( view.getContext() )
 				.load( url )
-				.placeholder( view.getContext().getResources().getDrawable( R.drawable.tv_icon ) )
+				.apply( new RequestOptions()
+				.placeholder(  R.drawable.tv_icon  )
 				.centerCrop()
 				.dontAnimate()
-				.error( view.getContext().getResources().getDrawable( R.drawable.tv_icon ) )
+				.error( view.getContext().getResources().getDrawable( R.drawable.tv_icon ) ) )
 				.into(view);
 	}
 

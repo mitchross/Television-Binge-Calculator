@@ -11,6 +11,7 @@
 				name="listener"
 				type="com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel.LandingActivityViewModelInterface">
 		</variable>
+
 	</data>
 
 
@@ -18,7 +19,7 @@
 			android:id="@+id/parent"
 			android:layout_width="match_parent"
 			android:layout_height="200dp"
-			android:onClick="@{()->listener.onTouch(viewModel.id, viewModel.posterUrl, viewModel.titlez, viewModel.searchType)}"
+			android:onClick="@{()-> viewModel.doSomething()}"
 			>
 
 		<ImageView

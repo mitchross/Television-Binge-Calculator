@@ -36,13 +36,6 @@
 					android:value=".Kotlin.LandingActivity" />
 		</activity>
 
-		<activity
-				android:name=".view.LandingActivityMain"
-				android:label="@string/title_activity_show_details"
-				android:screenOrientation="portrait">
-
-		</activity>
-
 		<meta-data
 				android:name="com.crashlytics.ApiKey"
 				android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808" />

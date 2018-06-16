@@ -4,12 +4,8 @@ import android.content.Context;
 
 import com.vanillax.televisionbingecalculator.app.ServerAPI.JustWatchAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerAPI;
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
-import com.vanillax.televisionbingecalculator.app.view.LandingActivityMain;
-import com.vanillax.televisionbingecalculator.app.view.ShowDetailsActivity;
-import com.vanillax.televisionbingecalculator.app.viewmodel.LandingActivityViewModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,12 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 (
 		injects =
 		{
-				LandingActivityMain.class,
-				ShowDetailsActivity.class,
-				TelevisionBingeCalculator.class,
-				LandingActivityViewModel.class
-
-
+				TelevisionBingeCalculator.class
 		},
 
 		complete = false,
@@ -96,22 +87,22 @@ public class TBCModule
 
 
 
-	@Provides
-	@Singleton
-	TVBCLoggerAPI providesTVBCShowQueryMasterAPI(@ForApplication Context context)
-	{
-		OkHttpClient okHttpClient = new OkHttpClient();
-
-		Retrofit restAdapter = new Retrofit.Builder()
-				.baseUrl( "https://tvbc-logger.herokuapp.com/api/" )
-				.client( getOkHttpClient( context ))
-				.addConverterFactory( GsonConverterFactory.create() )
-				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
-				.build();
-
-
-		return restAdapter.create( TVBCLoggerAPI.class );
-	}
+//	@Provides
+//	@Singleton
+//	TVBCLoggerAPI providesTVBCShowQueryMasterAPI(@ForApplication Context context)
+//	{
+//		OkHttpClient okHttpClient = new OkHttpClient();
+//
+//		Retrofit restAdapter = new Retrofit.Builder()
+//				.baseUrl( "https://tvbc-logger.herokuapp.com/api/" )
+//				.client( getOkHttpClient( context ))
+//				.addConverterFactory( GsonConverterFactory.create() )
+//				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
+//				.build();
+//
+//
+//		return restAdapter.create( TVBCLoggerAPI.class );
+//	}
 
 
 	@Provides

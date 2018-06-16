@@ -2,6 +2,8 @@ package com.vanillax.televisionbingecalculator.app.TBC.Utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.databinding.BindingAdapter;
+import android.view.View;
 
 import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule;
 import com.vanillax.televisionbingecalculator.app.R;
@@ -89,5 +91,10 @@ public class CalculatorUtils
 			return ( large ? TBCModule.BASE_IMAGE_PATH_LARGE : TBCModule.BASE_IMAGE_PATH ) + path;
 		}
 		return "";
+	}
+
+	@BindingAdapter("android:visibility")
+	public static void setVisibility(View view, Boolean value) {
+		view.setVisibility( value ? View.VISIBLE : View.GONE);
 	}
 }

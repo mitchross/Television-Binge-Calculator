@@ -19,14 +19,14 @@ public class CastViewModelItem
 
 	public String getCastImage()
 	{
-		return CalculatorUtils.getShowPosterThumbnail( cast.profilePath, false );
+		return CalculatorUtils.getShowPosterThumbnail( cast.getProfilePath(), false );
 	}
 
 
 
 	public String getCastName()
 	{
-		return cast.name;
+		return cast.getName();
 	}
 
 

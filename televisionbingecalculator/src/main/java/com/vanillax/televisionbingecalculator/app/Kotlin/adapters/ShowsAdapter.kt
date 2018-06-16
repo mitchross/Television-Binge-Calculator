@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.adapters
 
-import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.ShowPosterListing
+import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel
 import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.ShowPosterViewModelItem
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter
@@ -13,11 +13,10 @@ import java.util.*
  * Created by mitchross on 2/13/17.
  */
 
-class ShowsAdapter : BaseDataBindingAdapter<ShowCardItemBinding>() {
+class ShowsAdapter( private var listener: LandingActivityViewModel.LandingActivityViewModelInterface) : BaseDataBindingAdapter<ShowCardItemBinding>() {
 
 
     private val showsViewModelItems: MutableList<ShowPosterViewModelItem>
-    private var listener: com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel.LandingActivityViewModelInterface? = null
 
     init {
         showsViewModelItems = ArrayList()
@@ -28,10 +27,10 @@ class ShowsAdapter : BaseDataBindingAdapter<ShowCardItemBinding>() {
     }
 
 
-    fun setShowsViewModelItems(showPosterListings: List<ShowPosterListing>, searchType: SearchType) {
+    fun setShowsViewModelItems(showPosterListings: List<ShowPosterListing>) {
         showsViewModelItems.clear()
         for (listing in showPosterListings) {
-            this.showsViewModelItems.add(ShowPosterViewModelItem(listing, searchType.toString()))
+            this.showsViewModelItems.add(ShowPosterViewModelItem(listing, listener))
         }
 
         notifyDataSetChanged()

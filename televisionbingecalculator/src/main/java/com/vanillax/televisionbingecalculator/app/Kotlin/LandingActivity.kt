@@ -25,6 +25,7 @@ import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBServi
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel
 import com.vanillax.televisionbingecalculator.app.R
+import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerService
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
 
@@ -34,24 +35,31 @@ import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMateri
 
 class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingActivityViewModelInterface {
 
-    private var viewModel = LandingActivityViewModel(TheMovieDBService.create())
+
+    private lateinit var viewModel:LandingActivityViewModel
     private lateinit var binding: ActivityMainMaterialBinding
 
-    internal var showsAdapter = ShowsAdapter()
+    internal var showsAdapter = ShowsAdapter(this)
     internal lateinit var decoration: SpacesItemDecoration
     internal var selectedSearchType = SearchType.TV
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        //Binding and View Model initilization
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_material)
+        viewModel = LandingActivityViewModel(TheMovieDBService.create(this), TVBCLoggerService.create() )
+        binding.view = viewModel
+        viewModel.setListener(this)
+
 
         binding.listView.layoutManager = GridLayoutManager(this, 3)
         decoration = SpacesItemDecoration(3, 35, false)
         binding.listView.addItemDecoration(decoration)
         binding.listView.adapter = showsAdapter
 
-        viewModel.setListener(this)
         showsAdapter.setListener(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -82,7 +90,7 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
 
                val query = v.text.toString()
 
-                viewModel.onGetSearchShow( query, selectedSearchType)
+                viewModel.onGetSearchShow( query )
 
 
                 val inputMethodManager = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -142,7 +150,7 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
         binding.listView.visibility = View.VISIBLE
 
 
-        showsAdapter.setShowsViewModelItems(queryResponse.showPosterListing, selectedSearchType)
+        showsAdapter.setShowsViewModelItems(queryResponse.showPosterListing)
 
 
     }
@@ -154,24 +162,28 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
         intent.putExtra("tvshow_id", id)
         intent.putExtra("tvshow_thumbnail", posterUrl)
         intent.putExtra("title", title)
-        //intent.putExtra("show_type", selectedSearchType)
-        intent.putExtra("show_type",SearchType.TV)
+        intent.putExtra("show_type",selectedSearchType)
         intent.flags = FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
     }
 
 
+
+
+
     //Call backs
 
 
-    override fun updateShowList(queryResponse: QueryResponse) {
+    override fun updateShowList(queryResponse: QueryResponse, searchType: SearchType) {
 
+        selectedSearchType = searchType
         updateListView( queryResponse )
     }
 
-    override fun onTouch(id: Int, url: String, title: String, searchType: String) {
+    override fun onTouch(id: Int, url: String, title: String) {
        Log.d("success", "made it")
         navigateToDetails(id, url, title)
+        viewModel.logShow(title )
     }
 
     override fun error(error: String?) {

@@ -1,6 +1,8 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.network
 
+import android.content.Context
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchResponse
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,16 +11,32 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import java.io.File
 
-interface JustWatchAPIService {
+interface JustWatchAPIService  {
 
     companion object {
 
-        fun create(): JustWatchAPIService {
+        fun create( context: Context): JustWatchAPIService {
 
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+
+//            val interceptor = HttpLoggingInterceptor()
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+//            val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+//
+            val SIZE_OF_CACHE = (10 * 1024 * 1024).toLong() // 10 MiB
+            val cache = Cache(File(context.cacheDir, "http"), SIZE_OF_CACHE)
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            var httpClient = OkHttpClient.Builder()
+                    .cache(cache)
+                    .addInterceptor(RewriteRequestInterceptor())
+                    .addInterceptor(httpLoggingInterceptor)
+                    .addNetworkInterceptor(RewriteResponseCacheControlInterceptor())
+                    .build()
+
 
             val retrofit = Retrofit.Builder()
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -28,7 +46,29 @@ interface JustWatchAPIService {
                     .build()
             return retrofit.create(JustWatchAPIService::class.java)
         }
+
     }
+
+//
+//    fun getOkHttpClient(context: Context): OkHttpClient {
+//        val SIZE_OF_CACHE = (10 * 1024 * 1024).toLong() // 10 MiB
+//        val cache = Cache(File(context.cacheDir, "http"), SIZE_OF_CACHE)
+//
+//        val httpLoggingInterceptor = HttpLoggingInterceptor()
+//        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//
+//
+//        return OkHttpClient.Builder()
+//                .cache(cache)
+//                .addInterceptor(RewriteRequestInterceptor())
+//                .addInterceptor(httpLoggingInterceptor)
+//                .addNetworkInterceptor(RewriteResponseCacheControlInterceptor())
+//                .build()
+//
+//    }
+
+
+
 
     @Headers("content-type: application/json", "User-Agent: JustWatch Python client (github.com/dawoudt/JustWatchAPI)")
     @POST("titles/en_US/popular")
