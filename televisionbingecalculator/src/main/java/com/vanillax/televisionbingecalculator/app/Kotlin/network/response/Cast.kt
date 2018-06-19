@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.ServerAPI.TV
+package com.vanillax.televisionbingecalculator.app.Kotlin.network.response
 
 import com.google.gson.annotations.SerializedName
 
@@ -12,4 +12,10 @@ class Cast {
 
     @SerializedName("profile_path")
     var profilePath: String? = null
+
+    @SerializedName("character")
+    var character: String? = null
+
+
+
 }

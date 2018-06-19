@@ -2,58 +2,78 @@ package com.vanillax.televisionbingecalculator.app.Kotlin.Utils
 
 import android.content.Context
 import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule
-import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils
+import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
 import roboguice.util.Ln
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CalculatorUtils(internal var tvShowByIdResponse: com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse) {
+class CalculatorUtils(internal var tvShowByIdResponse: TVShowByIdResponse) {
 
 
-    fun getRunTimeAverage(): Int {
 
-        if (tvShowByIdResponse.episodeRunTimeArray.isEmpty()) {
-            return 0
+    fun getRunTimeAverage(searchType: SearchType): Int {
+
+        if  ( searchType == SearchType.TV ) {
+
+            if (tvShowByIdResponse.episodeRunTimeArray == null) {
+                return 0
+            }
+
+            if (tvShowByIdResponse.episodeRunTimeArray.isEmpty()) {
+                return 0
+            }
+            var sum = 0
+            tvShowByIdResponse.episodeRunTimeArray?.forEach { i -> sum += i }
+
+            return sum / tvShowByIdResponse.episodeRunTimeArray.size
         }
-        var sum = 0
-        tvShowByIdResponse.episodeRunTimeArray.forEach { i -> sum += i }
+        else {
+            return tvShowByIdResponse.movie_runtime
 
-        return sum / tvShowByIdResponse.episodeRunTimeArray.size
+        }
 
     }
 
-    fun numberOfSeasons(): Int {
+    fun numberOfSeasons(): Int? {
 
-        return if (tvShowByIdResponse.seasons.size == 1) {
+        if ( tvShowByIdResponse.seasons == null )
+        {
+            return 0
+        }
+
+        return if (tvShowByIdResponse.seasons?.size == 1) {
             1
         } else {
-            tvShowByIdResponse.seasons.size - 1
+            tvShowByIdResponse.seasons?.size?.minus(1)
         }
     }
 
      fun getEpisodeCount(): Int {
         var totalEpisodes = 0
 
-        for (s in tvShowByIdResponse.seasons) {
-            Ln.d("Season " + s.seasonNumber + "Size " + s.episodeCount)
-            if (s.seasonNumber != 0) {
-                totalEpisodes += s.episodeCount
-            }
-        }
+
+         tvShowByIdResponse.seasons?.forEach { s ->
+             Ln.d("Season " + s.seasonNumber + "Size " + s.episodeCount)
+             if (s.seasonNumber != 0) {
+                 totalEpisodes += s.episodeCount
+             }
+         }
+
 
         return totalEpisodes
     }
 
-    fun getRunTimeForSeason(seasonNumber: Int): Int {
+    fun getRunTimeForSeason(seasonNumber: Int, searchType: SearchType): Int {
         val totalEpisodes = getNumberOfEpisodesForSeason(seasonNumber)
 
-        return totalEpisodes * getRunTimeAverage()
+        return totalEpisodes * getRunTimeAverage(searchType)
 
     }
 
     fun getNumberOfEpisodesForSeason(seasonNumber: Int): Int {
-        for (s in tvShowByIdResponse.seasons) {
+        tvShowByIdResponse.seasons?.forEach { s ->
             if (s.seasonNumber == seasonNumber) {
                 return s.episodeCount
             }
@@ -61,11 +81,16 @@ class CalculatorUtils(internal var tvShowByIdResponse: com.vanillax.televisionbi
         return 0
     }
 
-    fun getYear(): String {
+    fun getYear(searchType: SearchType): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd")
         try {
             var date = Date()
-            date = inputFormat.parse(if (tvShowByIdResponse.firstAirDate != null) tvShowByIdResponse.firstAirDate else "")
+
+            when (searchType) {
+                SearchType.TV -> date = inputFormat.parse(if (tvShowByIdResponse.firstAirDate != null) tvShowByIdResponse.firstAirDate else "")
+                else -> date = inputFormat.parse(if (tvShowByIdResponse.movie_release_date != null) tvShowByIdResponse.movie_release_date else "")
+            }
+
             val c = Calendar.getInstance()
             c.time = date
             return c.get(Calendar.YEAR).toString()
@@ -81,7 +106,6 @@ class CalculatorUtils(internal var tvShowByIdResponse: com.vanillax.televisionbi
         val inputFormat = SimpleDateFormat("yyyy-MM-dd")
         try {
             var date = Date()
-            date = inputFormat.parse(if (tvShowByIdResponse.movie_release_date != null) tvShowByIdResponse.movie_release_date else "")
             val c = Calendar.getInstance()
             c.time = date
             return c.get(Calendar.YEAR).toString()
@@ -111,17 +135,19 @@ class CalculatorUtils(internal var tvShowByIdResponse: com.vanillax.televisionbi
 
     //Maths
 
-    fun getTotalBingeTime(): String {
-        val runTime = getRunTimeAverage()
-        val totalEpisodes = getEpisodeCount()
-
-        val totalBingTime = runTime * totalEpisodes
-
-        return convertToDaysHoursMins(totalBingTime)
+    fun getTotalBingeTime(searchType: SearchType): String {
+        when (searchType) {
+            SearchType.TV -> {
+                val runTime = getRunTimeAverage(searchType)
+                val totalEpisodes = getEpisodeCount()
+                val totalBingTime = runTime * totalEpisodes
+                return convertToDaysHoursMins(totalBingTime)
+            }
+            else -> return convertToDaysHoursMins( tvShowByIdResponse.movie_runtime )
+        }
 
     }
 
-    private val calcUtils = CalculatorUtils()
 
 
     fun calcFineTuneTime(context: Context, totalEpisodes: Int, runtime: Int, openingCreditTime: Int, closingCreditTime: Int, hasCommercials: Boolean): String {
@@ -146,10 +172,10 @@ class CalculatorUtils(internal var tvShowByIdResponse: com.vanillax.televisionbi
 
     }
 
-    fun calcSpecificSeason( seasonNumber: Int): String {
+    fun calcSpecificSeason( seasonNumber: Int, searchType: SearchType): String {
 
 
-        return convertToDaysHoursMins( getRunTimeForSeason(seasonNumber) )
+        return convertToDaysHoursMins( getRunTimeForSeason(seasonNumber, searchType) )
 
     }
 
@@ -179,17 +205,29 @@ class CalculatorUtils(internal var tvShowByIdResponse: com.vanillax.televisionbi
 
     }
 
+    //TODO figure this out.. static?
+    companion object {
+        fun getShowPosterThumbnail(path: String?, large: Boolean): String {
+            return if (path != null) {
+                (if (large) TBCModule.BASE_IMAGE_PATH_LARGE else TBCModule.BASE_IMAGE_PATH) + path
+            } else ""
+        }
+    }
+
     fun getShowPosterThumbnail(path: String?, large: Boolean): String {
         return if (path != null) {
             (if (large) TBCModule.BASE_IMAGE_PATH_LARGE else TBCModule.BASE_IMAGE_PATH) + path
         } else ""
     }
 
+
 //    fun getShowPosterThumbnail( large: Boolean ): String {
 //        return if (tvShowByIdResponse.imageUrl != null) {
 //            (if (large) TBCModule.BASE_IMAGE_PATH_LARGE else TBCModule.BASE_IMAGE_PATH) + tvShowByIdResponse.imageUrl
 //        } else ""
 //    }
+
+
 
 
 }

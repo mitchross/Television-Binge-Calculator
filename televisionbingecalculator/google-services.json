@@ -15,6 +15,18 @@
       },
       "oauth_client": [
         {
+          "client_id": "1041296916727-kfnm0smcof1m5ki19m3h4igigqds3vb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vanillax.televisionbingecalculator.app",
+            "certificate_hash": "95d6a87babd00b04ba6136186aa139ab145426c3"
+          }
+        },
+        {
+          "client_id": "1041296916727-c8prgigma56s2rajcu7li9vi00laf8rc.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "1041296916727-c8prgigma56s2rajcu7li9vi00laf8rc.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +41,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041296916727-c8prgigma56s2rajcu7li9vi00laf8rc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.ServerAPI
+package com.vanillax.televisionbingecalculator.app.Kotlin.network
 
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm

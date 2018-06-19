@@ -90,6 +90,11 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         viewModel.getAllShowDetailsData(showId,selectedSearchType,showTitle )
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.onDisconnect()
+    }
+
 
     override fun onStop() {
         super.onStop()

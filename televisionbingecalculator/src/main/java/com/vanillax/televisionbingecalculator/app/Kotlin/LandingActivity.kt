@@ -21,11 +21,11 @@ import android.view.inputmethod.InputMethodManager
 import com.google.android.gms.actions.SearchIntents
 import com.vanillax.televisionbingecalculator.app.Kotlin.adapters.ShowsAdapter
 import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.TVBCLoggerService
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerService
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
 

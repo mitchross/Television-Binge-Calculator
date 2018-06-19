@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels
 
+import com.vanillax.televisionbingecalculator.app.Kotlin.Utils.CalculatorUtils
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.ShowPosterListing
-import com.vanillax.televisionbingecalculator.app.TBC.Utils.CalculatorUtils
 
 /**
  * Created by mitchross on 2/6/17.
@@ -23,6 +23,8 @@ class ShowPosterViewModelItem(showPosterListing: ShowPosterListing, landingActiv
 
     val id: Int
         get() = showPosterListing.id
+
+    val score: String = "Score: " + showPosterListing.vote
 
 
     fun getTitle(): String

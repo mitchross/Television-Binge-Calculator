@@ -2,27 +2,18 @@ package com.vanillax.televisionbingecalculator.app.Dagger;
 
 import android.content.Context;
 
-import com.vanillax.televisionbingecalculator.app.ServerAPI.JustWatchAPI;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.ShowQueryMasterAPI;
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TheMovieDbAPI;
 import com.vanillax.televisionbingecalculator.app.TBC.TelevisionBingeCalculator;
 
 import java.io.File;
 import java.io.IOException;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
-import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by mitch on 5/27/14.
@@ -50,40 +41,40 @@ public class TBCModule
 
 
 
-
-	@Provides
-	@Singleton
-	TheMovieDbAPI providesTheMovieDbAPI ( @ForApplication Context context)
-	{
-
-		Retrofit restAdapter = new Retrofit.Builder()
-				.baseUrl( "http://api.themoviedb.org/3/" )
-				.client( getOkHttpClient( context ))
-				.addConverterFactory( GsonConverterFactory.create() )
-				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
-				.build();
-
-		return restAdapter.create( TheMovieDbAPI.class );
-	}
-
-
-	@Provides
-	@Singleton
-	ShowQueryMasterAPI providesShowQueryMasterAPI(  @ForApplication
-													Context context)
-	{
-
-		Retrofit restAdapter = new Retrofit.Builder()
-				.baseUrl( "https://api.themoviedb.org/3/" )
-				.client( getOkHttpClient( context ))
-				.addConverterFactory( GsonConverterFactory.create() )
-				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
-				.build();
+//
+//	@Provides
+//	@Singleton
+//	TheMovieDbAPI providesTheMovieDbAPI ( @ForApplication Context context)
+//	{
+//
+//		Retrofit restAdapter = new Retrofit.Builder()
+//				.baseUrl( "http://api.themoviedb.org/3/" )
+//				.client( getOkHttpClient( context ))
+//				.addConverterFactory( GsonConverterFactory.create() )
+//				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
+//				.build();
+//
+//		return restAdapter.create( TheMovieDbAPI.class );
+//	}
 
 
-		return restAdapter.create( ShowQueryMasterAPI.class );
-
-	}
+//	@Provides
+//	@Singleton
+//	ShowQueryMasterAPI providesShowQueryMasterAPI(  @ForApplication
+//													Context context)
+//	{
+//
+//		Retrofit restAdapter = new Retrofit.Builder()
+//				.baseUrl( "https://api.themoviedb.org/3/" )
+//				.client( getOkHttpClient( context ))
+//				.addConverterFactory( GsonConverterFactory.create() )
+//				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
+//				.build();
+//
+//
+//		return restAdapter.create( ShowQueryMasterAPI.class );
+//
+//	}
 
 
 
@@ -105,20 +96,20 @@ public class TBCModule
 //	}
 
 
-	@Provides
-	@Singleton
-	JustWatchAPI providesJustWatchAPI( @ForApplication Context context)
-	{
-
-		Retrofit restAdapter = new Retrofit.Builder()
-				.baseUrl( "https://api.justwatch.com/" )
-				.client( getOkHttpClient( context ))
-				.addConverterFactory( GsonConverterFactory.create() )
-				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
-				.build();
-
-		return restAdapter.create( JustWatchAPI.class );
-	}
+//	@Provides
+//	@Singleton
+//	JustWatchAPI providesJustWatchAPI( @ForApplication Context context)
+//	{
+//
+//		Retrofit restAdapter = new Retrofit.Builder()
+//				.baseUrl( "https://api.justwatch.com/" )
+//				.client( getOkHttpClient( context ))
+//				.addConverterFactory( GsonConverterFactory.create() )
+//				.addCallAdapterFactory( RxJavaCallAdapterFactory.create())
+//				.build();
+//
+//		return restAdapter.create( JustWatchAPI.class );
+//	}
 
 
 

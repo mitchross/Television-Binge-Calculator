@@ -5,7 +5,7 @@ import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLoggerService
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.TVBCLoggerService
 import io.reactivex.disposables.Disposable
 
 

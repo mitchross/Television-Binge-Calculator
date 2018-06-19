@@ -30,19 +30,35 @@
 
 	</de.hdodenhof.circleimageview.CircleImageView>
 
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/character"
+				tools:text="Buzzlightyear"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_marginBottom="6dp"
+				android:textSize="12sp"
+				android:textStyle="bold"
+				android:text="@{viewModel.characterName}"
+
+				app:layout_constraintTop_toBottomOf="@id/cast_image"
 
 
-	<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/actor_name"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/cast_image"
-			app:layout_constraintEnd_toEndOf="parent"
-			android:text="@{viewModel.castName}"
-			android:textSize="16sp"
-			android:textStyle="bold"
-			tools:text="Mark Walberg"/>
+				/>
+
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/actor_name"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:text="@{viewModel.castName}"
+				android:textSize="12sp"
+				android:textStyle="bold"
+				tools:text="Mark Walberg"
+				app:layout_constraintTop_toBottomOf="@+id/character" />
 
 	</android.support.constraint.ConstraintLayout>
 

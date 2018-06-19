@@ -7,13 +7,13 @@ import com.vanillax.televisionbingecalculator.app.Kotlin.network.JustWatchAPISer
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.CastResponse
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchResponse
+import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchSearch
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BindingTextHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -30,15 +30,14 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     }
 
     //Dependencies
-    private var disposable: Disposable? = null
-    var disposables: CompositeDisposable? = null
+   // private var disposable: Disposable? = null
+    private var disposables = CompositeDisposable()
 
 
     private var listener: DetailsViewModelInterface? = null
     private val movieDBService = theMovieDBService
     private val justWatchAPIService = justWatchAPIService
     private  var calcUtils : CalculatorUtils? = null
-
     //Initial view values
     var showId: Int = 0
     var showTitle =  ObservableField <String>("")
@@ -46,6 +45,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     var seasonSelected: Int = 0
     lateinit var selectedSearchType: SearchType
     var isMovie = ObservableField <Boolean> ( false)
+    var isLoading  = ObservableField <Boolean> ( true)
     var bingeTime: String = ""
     var posterUrl =  ObservableField <String>("")
     var category = ObservableField <String>("")
@@ -72,7 +72,8 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     //Lifecycle
     fun onDisconnect() {
-        disposable?.dispose()
+        disposables?.clear()
+
     }
 
 
@@ -108,7 +109,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     private fun populateView( detailsItemViewModel: DetailsItemViewModel )
     {
-        //binding.switchToggle.isChecked = true
+        isLoading.set(false)
 
         //Binge Time Text
         bingeTime = detailsItemViewModel.bingeTime.toString()
@@ -154,7 +155,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
             episodesCountString.set(BindingTextHelper(R.string.episode_count,setBingeTime(episodeCount) ))
 
             //Binge Time Text
-            bingeTime = calcUtils?.calcSpecificSeason(seasonNumber).toString()
+            bingeTime = calcUtils?.calcSpecificSeason(seasonNumber,selectedSearchType).toString()
             totalBingeTimeString.set(BindingTextHelper(R.string.estimated_binge_time, setBingeTime(bingeTime)))
 
             episodeRuntime = detailsItemViewModel?.runtime.toString()
@@ -167,15 +168,22 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     fun getAllShowDetailsData (showId: Int, searchType: SearchType, showTitle: String)
     {
-        zipAllShowDetailsData(showId,searchType,showTitle)
+        isLoading.set(true)
+
+        disposables.clear()
+        disposables.add(zipAllShowDetailsData(showId,searchType,showTitle)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         {result ->
                             populateView(result)
                         },
-                        { error -> listener?.error(error?.message)}
+                        {
+                            error -> listener?.error(error?.message)
+                            isLoading.set(false)
+                        }
                 )
+        )
     }
 
     fun zipAllShowDetailsData( showId: Int, searchType: SearchType, showTitle: String) : Observable<DetailsItemViewModel>
@@ -196,12 +204,12 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
 
         val episodeCount = calcUtils?.getEpisodeCount()
-        val runtime = calcUtils?.getRunTimeAverage()
-        val bingeTime = calcUtils?.getTotalBingeTime()
-        val imageUrl = calcUtils?.getShowPosterThumbnail(tvShowByIdResponse.imageUrl,true)
+        val runtime = calcUtils?.getRunTimeAverage(selectedSearchType)
+        val bingeTime = calcUtils?.getTotalBingeTime(selectedSearchType)
+        val imageUrl = calcUtils?.getShowPosterThumbnail(tvShowByIdResponse.imageUrl,false)
         val thumbnailUrl = calcUtils?.getShowPosterThumbnail(tvShowByIdResponse.imageUrl,false)
         val category = calcUtils?.getCategory()
-        val year = calcUtils?.getYear()
+        val year = calcUtils?.getYear(selectedSearchType)
         val seasonsCount = calcUtils?.numberOfSeasons()
 
           detailsItemViewModel = DetailsItemViewModel(
@@ -242,7 +250,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     fun getStream ( showTitle: String): Observable<JustWatchResponse>
     {
-        return justWatchAPIService.getMovieStreamingSources(com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchSearch(showTitle))
+        return justWatchAPIService.getMovieStreamingSources(JustWatchSearch(showTitle))
     }
 
 
