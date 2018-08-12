@@ -1,16 +1,15 @@
 package com.vanillax.televisionbingecalculator.app.Kotlin.Utils
 
 import android.content.Context
-import com.vanillax.televisionbingecalculator.app.Dagger.TBCModule
 import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
+import com.vanillax.televisionbingecalculator.app.TBC.Constants
 import roboguice.util.Ln
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class CalculatorUtils(internal var tvShowByIdResponse: TVShowByIdResponse) {
-
 
 
     fun getRunTimeAverage(searchType: SearchType): Int {
@@ -205,18 +204,25 @@ class CalculatorUtils(internal var tvShowByIdResponse: TVShowByIdResponse) {
 
     }
 
+
+
+
+
+
     //TODO figure this out.. static?
-    companion object {
+    companion object{
+
         fun getShowPosterThumbnail(path: String?, large: Boolean): String {
             return if (path != null) {
-                (if (large) TBCModule.BASE_IMAGE_PATH_LARGE else TBCModule.BASE_IMAGE_PATH) + path
+                (if (large) Constants.TVBC_Constants.BASE_IMAGE_PATH_LARGE else Constants.TVBC_Constants.BASE_IMAGE_PATH) + path
             } else ""
         }
+
     }
 
     fun getShowPosterThumbnail(path: String?, large: Boolean): String {
         return if (path != null) {
-            (if (large) TBCModule.BASE_IMAGE_PATH_LARGE else TBCModule.BASE_IMAGE_PATH) + path
+            (if (large) Constants.TVBC_Constants.BASE_IMAGE_PATH_LARGE else Constants.TVBC_Constants.BASE_IMAGE_PATH) + path
         } else ""
     }
 

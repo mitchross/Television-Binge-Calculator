@@ -105,7 +105,7 @@
 		    app:layout_constraintStart_toStartOf="parent"
 		    app:layout_constraintEnd_toStartOf="@id/guide"
 		    app:layout_constraintBottom_toBottomOf="@id/sub_header"
-			android:visibility="@{!view.isMovie, default=visible}">
+			android:visibility="@{safeUnbox(!view.isMovie), default=visible}">
 		</View>
 
 		<View

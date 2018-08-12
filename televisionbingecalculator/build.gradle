@@ -1,4 +1,8 @@
 buildscript {
+
+    ext.kotlin_version = '1.2.51'
+
+
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
@@ -9,13 +13,10 @@ buildscript {
     }
 
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'com.google.gms:google-services:3.2.1'
-        classpath 'io.fabric.tools:gradle:1.25.4'
-
+        classpath 'com.android.tools.build:gradle:3.2.0-beta05'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 
     }
@@ -31,7 +32,6 @@ repositories {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 apply plugin: 'kotlin-android'
 
@@ -55,8 +55,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 47
-        versionName '3.5.2'
+        versionCode 48
+        versionName '3.5.3'
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
 
@@ -72,7 +72,12 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/license/LICENSE.base64.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/MANIFEST.MF'
 
     }
     productFlavors {
@@ -96,8 +101,7 @@ ext {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.31"
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
@@ -113,17 +117,10 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex:rxjava:1.2.2'
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    implementation 'com.squareup.dagger:dagger-compiler:1.+'
-    annotationProcessor 'com.squareup.dagger:dagger-compiler:1.+'
-    implementation 'com.squareup.dagger:dagger:1.+'
     implementation 'org.roboguice:roboguice:3.0b-experimental'
     implementation 'com.squareup:otto:1.3.8'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-    implementation 'com.google.firebase:firebase-core:16.0.0'
-    implementation 'com.google.firebase:firebase-crash:16.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
-
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support.constraint:constraint-layout-solver:1.1.2'
     testImplementation 'junit:junit:4.12'
@@ -133,6 +130,11 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-android:2.13.0'
     androidTestImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.0.6'
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+
+
 }
 
 

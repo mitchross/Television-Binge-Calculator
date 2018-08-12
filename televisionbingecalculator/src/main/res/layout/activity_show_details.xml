@@ -179,15 +179,16 @@
 
         <!--android:onCheckedChanged= "@{(switch, checked) -> item.onChecked(checked)}"-->
 
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:checked="true"
-            android:visibility="@{safeUnbox(!item.isMovie())}"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/all_seasons_title" />
+        <!--<android.support.v7.widget.SwitchCompat-->
+            <!--android:id="@+id/switch_toggle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:checked="true"-->
+            <!--android:visibility="@{safeUnbox(!item.isMovie())}"-->
+
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/all_seasons_title" />-->
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/season_spinner"
@@ -214,30 +215,27 @@
             tools:text="14 Episodes" />
 
         <TextView
-            android:id="@+id/episode_runtime"
-            text_helper="@{item.runtimeString}"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-light"
-            android:textSize="18sp"
-            android:visibility="@{safeUnbox(!item.isMovie())}"
-            app:layout_constraintBottom_toTopOf="@id/binge_title"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/episode_total"
-            tools:text="30 minutes" />
+                android:id="@+id/episode_runtime"
+                text_helper="@{item.runtimeString}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-light"
+                android:textSize="18sp"
+                android:visibility="@{safeUnbox(!item.isMovie())}"
+                tools:text="30 minutes"
+                app:layout_constraintStart_toEndOf="@+id/episode_total"
+                app:layout_constraintBottom_toBottomOf="@+id/episode_total" />
 
         <TextView
-            android:id="@+id/metacritic_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:fontFamily="sans-serif-light"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/binge_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Metacritic Score: 80" />
+                android:id="@+id/metacritic_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Metacritic Score: 80"
+                app:layout_constraintBottom_toBottomOf="@+id/episode_runtime" />
 
         <TextView
             android:id="@+id/binge_title"
