@@ -20,7 +20,7 @@ class CastListRecyclerAdapter : BaseDataBindingAdapter<CastListingBinding>() {
         castList = ArrayList()
     }
 
-    fun setCastList(castResponse: com.vanillax.televisionbingecalculator.app.Kotlin.network.response.CastResponse) {
+    fun setCastList(castResponse: com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastResponse) {
         castList.clear()
         if (castResponse.castList != null) {
             for (c in castResponse.castList!!) {

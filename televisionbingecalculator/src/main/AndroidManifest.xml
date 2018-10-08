@@ -17,7 +17,7 @@
 			android:label="@string/app_name"
 			android:theme="@style/AppTheme">
 		<activity
-				android:name=".Kotlin.LandingActivity"
+				android:name=".kotlin.LandingActivity"
 				android:label="@string/app_name"
 				android:screenOrientation="portrait">
 			<intent-filter>
@@ -27,13 +27,13 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name=".Kotlin.DetailsActivity"
+				android:name=".kotlin.DetailsActivity"
 				android:label="@string/title_activity_show_details"
-				android:parentActivityName=".Kotlin.LandingActivity"
+				android:parentActivityName=".kotlin.LandingActivity"
 				android:screenOrientation="portrait">
 			<meta-data
 					android:name="android.support.PARENT_ACTIVITY"
-					android:value=".Kotlin.LandingActivity" />
+					android:value=".kotlin.LandingActivity" />
 		</activity>
 
 		<meta-data

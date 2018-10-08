@@ -5,11 +5,11 @@
 	<data>
 		<variable
 				name="viewModel"
-				type="com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.ShowPosterViewModelItem" >
+				type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.ShowPosterViewModelItem" >
 		</variable>
 		<variable
 				name="listener"
-				type="com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel.LandingActivityViewModelInterface">
+				type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel.LandingActivityViewModelInterface">
 		</variable>
 
 	</data>

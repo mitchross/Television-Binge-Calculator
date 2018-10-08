@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin
+package com.vanillax.televisionbingecalculator.app.kotlin
 
 import android.annotation.TargetApi
 import android.app.Activity
@@ -19,15 +19,15 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import com.google.android.gms.actions.SearchIntents
-import com.vanillax.televisionbingecalculator.app.Kotlin.adapters.ShowsAdapter
-import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.TVBCLoggerService
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
+import com.vanillax.televisionbingecalculator.app.kotlin.adapters.ShowsAdapter
+import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.kotlin.network.TVBCLoggerService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel
 
 /**
  * Created by mitchross on 4/14/18.
@@ -137,13 +137,13 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
 
     private fun hideListView() {
         binding.listView.visibility = View.GONE
-        binding.defaultListviewText.visibility = View.VISIBLE
+       // binding.defaultListviewText.visibility = View.VISIBLE
         binding.welcomeTitle.visibility = View.VISIBLE
         binding.resultsFound.text = "Results Found: 0"
     }
 
     private fun updateListView(queryResponse: QueryResponse) {
-        binding.defaultListviewText.visibility = View.GONE
+      //  binding.defaultListviewText.visibility = View.GONE
         binding.welcomeTitle.visibility = View.GONE
 
 

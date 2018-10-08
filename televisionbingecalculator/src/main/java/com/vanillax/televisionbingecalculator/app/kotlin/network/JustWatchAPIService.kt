@@ -1,7 +1,7 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.network
+package com.vanillax.televisionbingecalculator.app.kotlin.network
 
 import android.content.Context
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -72,6 +72,6 @@ interface JustWatchAPIService  {
 
     @Headers("content-type: application/json", "User-Agent: JustWatch Python client (github.com/dawoudt/JustWatchAPI)")
     @POST("titles/en_US/popular")
-    fun getMovieStreamingSources(@Body movieSearch: com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchSearch): io.reactivex.Observable<JustWatchResponse>
+    fun getMovieStreamingSources(@Body movieSearch: com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchSearch): io.reactivex.Observable<JustWatchResponse>
 
 }

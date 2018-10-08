@@ -1,10 +1,10 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.network
+package com.vanillax.televisionbingecalculator.app.kotlin.network
 
 import android.content.Context
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.CastResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
 import com.vanillax.televisionbingecalculator.app.TBC.Constants
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
 import io.reactivex.Observable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -61,6 +61,7 @@ interface TheMovieDBService {
     @GET("{searchType}/{showId}/credits" + "?api_key=" + Constants.TVBC_Constants.API_KEY)
      fun queryCast(@Path("showId") showId: String, @Path("searchType") searchType: String): Observable<CastResponse>
 
+
     @GET("search/movie?" + "api_key=" + Constants.TVBC_Constants.API_KEY)
      fun queryMovie(@Query("query") show: String): Observable<QueryResponse>
 
@@ -69,4 +70,7 @@ interface TheMovieDBService {
 
     @GET("movie/{showId}/credits" + "?api_key=" + Constants.TVBC_Constants.API_KEY)
      fun queryMovieCast(@Path("showId") showId: String): Observable<CastResponse>
+
+
 }
+

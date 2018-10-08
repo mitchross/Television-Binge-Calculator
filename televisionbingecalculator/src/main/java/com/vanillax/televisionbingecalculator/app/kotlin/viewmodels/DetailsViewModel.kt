@@ -1,16 +1,18 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels
+package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
 import android.databinding.ObservableField
-import com.vanillax.televisionbingecalculator.app.Kotlin.Utils.CalculatorUtils
-import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.JustWatchAPIService
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.CastResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchSearch
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
+import android.util.Log
+
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BindingTextHelper
+import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchSearch
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -173,7 +175,6 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
         disposables.clear()
         disposables.add(zipAllShowDetailsData(showId,searchType,showTitle)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
                 .subscribe(
                         {result ->
                             populateView(result)
@@ -189,10 +190,10 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     fun zipAllShowDetailsData( showId: Int, searchType: SearchType, showTitle: String) : Observable<DetailsItemViewModel>
     {
         return Observable.zip(
-                getDetails(showId),
-                getCast(searchType, showId),
-                getStream(showTitle),
-                Function3 { tvShowByIDResponse:TVShowByIdResponse, castResponse: CastResponse, streamDetails:JustWatchResponse ->
+                getDetails(showId).subscribeOn(Schedulers.io()),
+                getCast(searchType, showId).subscribeOn(Schedulers.io()),
+                getStream(showTitle).subscribeOn(Schedulers.io()),
+                Function3 { tvShowByIDResponse: TVShowByIdResponse, castResponse: CastResponse, streamDetails: JustWatchResponse ->
                     makeDetailsItemViewModel(tvShowByIDResponse,castResponse,streamDetails)
                 }
         )
@@ -200,7 +201,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     fun makeDetailsItemViewModel( tvShowByIdResponse: TVShowByIdResponse, castResponse: CastResponse, streamDetails:JustWatchResponse) : DetailsItemViewModel
     {
-        calcUtils = com.vanillax.televisionbingecalculator.app.Kotlin.Utils.CalculatorUtils(tvShowByIdResponse)
+        calcUtils = CalculatorUtils(tvShowByIdResponse)
 
 
         val episodeCount = calcUtils?.getEpisodeCount()
@@ -233,9 +234,12 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     fun getDetails(showId: Int): Observable<TVShowByIdResponse>
     {
+
+
         when (selectedSearchType) {
             SearchType.TV -> return movieDBService.queryTVDetails(showId.toString())
-            else -> return movieDBService.queryMovieDetails(showId.toString())
+            else -> return movieDBService.queryMovieDetails(showId.toString()).subscribeOn(Schedulers.io()).doOnSubscribe { Log.d("test", "1Thread id: "  + Thread.currentThread().getId())
+             }
         }
     }
 
@@ -243,14 +247,16 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     {
         when( selectedSearchType) {
             SearchType.TV -> return movieDBService.queryCast( showId.toString(), searchType.toString() )
-            else -> return movieDBService.queryMovieCast( showId.toString() )
+            else -> return movieDBService.queryMovieCast( showId.toString() ).subscribeOn(Schedulers.io()).doOnSubscribe { Log.d("test", "2Thread id: "  + Thread.currentThread().getId())
+             }
         }
 
     }
 
     fun getStream ( showTitle: String): Observable<JustWatchResponse>
     {
-        return justWatchAPIService.getMovieStreamingSources(JustWatchSearch(showTitle))
+        return justWatchAPIService.getMovieStreamingSources(JustWatchSearch(showTitle)).subscribeOn(Schedulers.io()).doOnSubscribe { Log.d("test", "3Thread id: "  + Thread.currentThread().getId())
+         }
     }
 
 

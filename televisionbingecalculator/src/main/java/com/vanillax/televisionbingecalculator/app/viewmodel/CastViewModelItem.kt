@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.viewmodel
 
-import com.vanillax.televisionbingecalculator.app.Kotlin.Utils.CalculatorUtils
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.Cast
+import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.Cast
 
 /**
  * Created by mitchross on 5/21/17.

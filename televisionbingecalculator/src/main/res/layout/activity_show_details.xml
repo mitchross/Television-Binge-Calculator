@@ -6,21 +6,23 @@
     <data>
 
         <variable
-            name="item"
-            type="com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.DetailsViewModel" />
+            name="object"
+            type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel" />
     </data>
 
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/material_gray_800"
+		    >
 
         <ProgressBar
             android:id="@+id/progress_loader"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{safeUnbox(item.isLoading())}"
+            android:visibility="@{safeUnbox(object.isLoading())}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -31,10 +33,11 @@
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:background="@android:color/black"
-            app:imageUrl="@{item.posterUrl}"
+            app:imageUrl="@{object.posterUrl}"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintRight_creator="1"
             tools:src="@drawable/bbreakingbad">
@@ -57,7 +60,7 @@
             android:id="@+id/blue_bar"
             android:layout_width="0dp"
             android:layout_height="52dp"
-            android:background="@color/material_blue"
+            android:background="@color/material_gray_800"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/poster_image"
@@ -71,7 +74,7 @@
             android:layout_marginBottom="54dp"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            app:imageUrl="@{item.thumbnailUrl}"
+            app:imageUrl="@{object.thumbnailUrl}"
             app:layout_constraintBottom_toBottomOf="@+id/blue_bar"
             app:layout_constraintLeft_toLeftOf="@+id/blue_bar"
             app:layout_constraintRight_toLeftOf="@+id/title"
@@ -84,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="4dp"
-            android:text="@{item.showTitle}"
+            android:text="@{object.showTitle}"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintLeft_toRightOf="@+id/thumbnail"
@@ -97,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-light"
-            android:text="@{item.year}"
+            android:text="@{object.year}"
             android:textColor="@android:color/white"
             app:layout_constraintLeft_toRightOf="@+id/category_title"
             app:layout_constraintTop_toTopOf="@+id/category_title"
@@ -121,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-light"
-            android:text="@{item.category}"
+            android:text="@{object.category}"
             android:textColor="@android:color/white"
             app:layout_constraintLeft_toRightOf="@+id/thumbnail"
             app:layout_constraintTop_toBottomOf="@+id/title"
@@ -147,8 +150,8 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="@{item.showDescription}"
-                android:textColor="@color/material_gray_600"
+                android:text="@{object.showDescription}"
+                android:textColor="@android:color/white"
                 tools:text="The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island." />
 
         </ScrollView>
@@ -177,7 +180,7 @@
             app:layout_constraintStart_toEndOf="@id/season_spinner"
             app:layout_constraintTop_toTopOf="@id/season_spinner" />
 
-        <!--android:onCheckedChanged= "@{(switch, checked) -> item.onChecked(checked)}"-->
+        <!--android:onCheckedChanged= "@{(switch, checked) -> object.onChecked(checked)}"-->
 
         <!--<android.support.v7.widget.SwitchCompat-->
             <!--android:id="@+id/switch_toggle"-->
@@ -185,7 +188,7 @@
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_marginEnd="10dp"-->
             <!--android:checked="true"-->
-            <!--android:visibility="@{safeUnbox(!item.isMovie())}"-->
+            <!--android:visibility="@{safeUnbox(!object.isMovie())}"-->
 
             <!--app:layout_constraintRight_toRightOf="parent"-->
             <!--app:layout_constraintTop_toTopOf="@+id/all_seasons_title" />-->
@@ -195,34 +198,37 @@
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_marginStart="10dp"
-            android:visibility="@{safeUnbox(!item.isMovie())}"
+            android:visibility="@{safeUnbox(!object.isMovie())}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cast_recycler_view"
             tools:visibility="visible" />
 
         <TextView
             android:id="@+id/episode_total"
-            text_helper="@{item.episodesCountString}"
+            text_helper="@{object.episodesCountString}"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="6dp"
             android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/white"
+
             android:textSize="18sp"
-            android:visibility="@{safeUnbox(!item.isMovie())}"
+            android:visibility="@{safeUnbox(!object.isMovie())}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/season_spinner"
             tools:text="14 Episodes" />
 
         <TextView
                 android:id="@+id/episode_runtime"
-                text_helper="@{item.runtimeString}"
+                text_helper="@{object.runtimeString}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-light"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:visibility="@{safeUnbox(!item.isMovie())}"
+                android:visibility="@{safeUnbox(!object.isMovie())}"
                 tools:text="30 minutes"
                 app:layout_constraintStart_toEndOf="@+id/episode_total"
                 app:layout_constraintBottom_toBottomOf="@+id/episode_total" />
@@ -234,6 +240,8 @@
                 android:fontFamily="sans-serif-light"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@android:color/white"
+
                 tools:text="Metacritic Score: 80"
                 app:layout_constraintBottom_toBottomOf="@+id/episode_runtime" />
 
@@ -241,7 +249,7 @@
             android:id="@+id/binge_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/material_blue"
+            android:background="@color/material_gray_800"
             android:gravity="center"
             android:text="TOTAL BINGE TIME"
             android:textColor="@android:color/white"
@@ -250,14 +258,14 @@
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintRight_creator="1" />
-        <!--text_helper="@{item.totalBingeTimeString}"-->
+        <!--text_helper="@{object.totalBingeTimeString}"-->
 
         <TextView
             android:id="@+id/binge_time"
-            text_helper="@{item.totalBingeTimeString}"
+            text_helper="@{object.totalBingeTimeString}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/material_blue"
+            android:background="@color/material_gray_800"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="22sp"
@@ -274,6 +282,8 @@
             android:layout_height="wrap_content"
             android:text="Available to stream on"
             app:layout_constraintBottom_toTopOf="@+id/steaming_logo_recycler_view"
+            android:textColor="@android:color/white"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintLeft_creator="1"

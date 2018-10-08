@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.enum
+package com.vanillax.televisionbingecalculator.app.kotlin.enum
 
 enum class SearchType private constructor(private val searchType: String) {
     TV("tv"),

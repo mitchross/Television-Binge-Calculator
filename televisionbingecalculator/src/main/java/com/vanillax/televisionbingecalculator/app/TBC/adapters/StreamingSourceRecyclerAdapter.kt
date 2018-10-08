@@ -1,6 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.TBC.adapters
 
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.Offer
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.Offer
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder

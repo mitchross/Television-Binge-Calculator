@@ -1,11 +1,11 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels
+package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
 import android.databinding.ObservableField
-import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.QueryResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.kotlin.network.TVBCLoggerService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.TVBCLoggerService
 import io.reactivex.disposables.Disposable
 
 

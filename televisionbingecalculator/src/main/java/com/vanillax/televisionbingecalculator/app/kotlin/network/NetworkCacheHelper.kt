@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.network
+package com.vanillax.televisionbingecalculator.app.kotlin.network
 
 import okhttp3.Interceptor
 import okhttp3.Request

@@ -1,8 +1,8 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.adapters
+package com.vanillax.televisionbingecalculator.app.kotlin.adapters
 
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.ShowPosterListing
-import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel
-import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.ShowPosterViewModelItem
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.ShowPosterListing
+import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel
+import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.ShowPosterViewModelItem
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter
 import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder
@@ -22,7 +22,7 @@ class ShowsAdapter( private var listener: LandingActivityViewModel.LandingActivi
         showsViewModelItems = ArrayList()
     }
 
-    fun setListener(listener: com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel.LandingActivityViewModelInterface) {
+    fun setListener(listener: com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel.LandingActivityViewModelInterface) {
         this.listener = listener
     }
 

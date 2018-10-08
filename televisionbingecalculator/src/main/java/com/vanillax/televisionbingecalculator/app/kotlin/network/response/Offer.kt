@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.network.response
+package com.vanillax.televisionbingecalculator.app.kotlin.network.response
 
 import com.google.gson.annotations.SerializedName
 

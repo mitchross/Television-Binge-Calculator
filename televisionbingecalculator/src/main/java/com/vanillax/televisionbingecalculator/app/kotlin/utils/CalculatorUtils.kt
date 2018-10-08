@@ -1,8 +1,8 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.Utils
+package com.vanillax.televisionbingecalculator.app.kotlin.utils
 
 import android.content.Context
-import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
 import com.vanillax.televisionbingecalculator.app.TBC.Constants
 import roboguice.util.Ln
 import java.text.ParseException

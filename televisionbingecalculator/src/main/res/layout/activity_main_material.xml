@@ -9,19 +9,20 @@
 
 		<variable
 				name="view"
-				type="com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.LandingActivityViewModel" />
+				type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel" />
 	</data>
 
 	<android.support.constraint.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			android:background="@color/material_gray_800">
 
 
 		<LinearLayout
 				android:id="@+id/search_field_view"
 				android:layout_width="0dp"
 				android:layout_height="60dp"
-				android:background="@color/material_blue"
+				android:background="@color/material_gray_800"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +53,7 @@
 				android:id="@+id/sub_header"
 				android:layout_width="0dp"
 				android:layout_height="52dp"
-				android:background="@color/material_blue"
+				android:background="@color/material_gray_800"
 				app:layout_constraintTop_toBottomOf="@+id/search_field_view"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +65,7 @@
 				android:text="Television"
 				android:textSize="24sp"
 				android:textColor="@android:color/white"
-				android:background="@color/material_blue"
+				android:background="@color/material_gray_800"
 				android:gravity="center_vertical"
 				android:id="@+id/tv_tab"
 				android:onClick="@{() ->view.onTelevisionClick()}"
@@ -89,7 +90,7 @@
 				android:text="Movies"
 				android:textSize="24sp"
 				android:textColor="@android:color/white"
-				android:background="@color/material_blue"
+				android:background="@color/material_gray_800"
 				app:layout_constraintTop_toTopOf="@+id/sub_header"
 				app:layout_constraintBottom_toBottomOf="@id/sub_header"
 				app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +135,7 @@
 		<!--android:text="Television"-->
 		<!--android:textSize="30sp"-->
 		<!--android:textColor="@android:color/white"-->
-		<!--android:background="@color/material_blue"-->
+		<!--android:background="@color/material_gray_800"-->
 		<!--android:id="@+id/tv_tab"-->
 		<!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
 		<!--app:layout_constraintStart_toStartOf="parent"-->
@@ -167,7 +168,7 @@
 		<!--android:text="Movies"-->
 		<!--android:textSize="30sp"-->
 		<!--android:textColor="@android:color/white"-->
-		<!--android:background="@color/material_blue"-->
+		<!--android:background="@color/material_gray_800"-->
 		<!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
 		<!--app:layout_constraintEnd_toEndOf="parent"-->
 		<!--app:layout_constraintStart_toEndOf="@id/anchor"-->
@@ -180,7 +181,7 @@
 		        android:text="Welcome to the \nTelevision Binge Calculator!"
 		        android:layout_marginTop="40dp"
 		        android:gravity="center"
-		        android:textColor="@color/material_gray_600"
+				android:textColor="@android:color/white"
 		        android:textStyle="bold"
 		        android:textSize="24sp"
 		        app:layout_constraintTop_toBottomOf="@+id/sub_header"
@@ -189,15 +190,15 @@
 				/>
 
 
-		<ImageView
-				android:id="@+id/default_listview_text"
-				android:layout_width="393dp"
-				android:layout_height="240dp"
-				android:layout_marginTop="40dp"
-				android:src="@drawable/tutorial_large"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/welcome_title" />
+		<!--<ImageView-->
+				<!--android:id="@+id/default_listview_text"-->
+				<!--android:layout_width="393dp"-->
+				<!--android:layout_height="240dp"-->
+				<!--android:layout_marginTop="40dp"-->
+				<!--android:src="@drawable/tutorial_large"-->
+				<!--app:layout_constraintStart_toStartOf="parent"-->
+				<!--app:layout_constraintEnd_toEndOf="parent"-->
+				<!--app:layout_constraintTop_toBottomOf="@+id/welcome_title" />-->
 
 
 
@@ -226,6 +227,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:background="@color/black_15"
+			android:textColor="@android:color/white"
 			android:textSize="24sp"
 			android:gravity="center"
 			app:layout_constraintBottom_toBottomOf="parent"

@@ -1,8 +1,8 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels
+package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.CastResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.TVShowByIdResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
 
 class DetailsItemViewModel
 (

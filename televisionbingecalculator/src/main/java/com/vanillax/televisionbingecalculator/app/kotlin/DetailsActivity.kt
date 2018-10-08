@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Kotlin
+package com.vanillax.televisionbingecalculator.app.kotlin
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -9,16 +9,16 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.vanillax.televisionbingecalculator.app.Kotlin.enum.SearchType
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.JustWatchAPIService
-import com.vanillax.televisionbingecalculator.app.Kotlin.network.response.JustWatchResponse
-import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.DetailsItemViewModel
-import com.vanillax.televisionbingecalculator.app.Kotlin.viewmodels.DetailsViewModel
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Scoring
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.CastListRecyclerAdapter
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.StreamingSourceRecyclerAdapter
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetailsBinding
+import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
+import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsItemViewModel
+import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
 import java.util.*
 
 class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
@@ -43,8 +43,8 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
 
         //Binding and View Model initilization
         binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details)
-        viewModel = DetailsViewModel(com.vanillax.televisionbingecalculator.app.Kotlin.network.TheMovieDBService.create(this), JustWatchAPIService.create(this))
-        binding.item = viewModel
+        viewModel = DetailsViewModel(com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService.create(this), JustWatchAPIService.create(this))
+        binding.`object` = viewModel
         viewModel.setListener(this)
 
         //Intent data from previous activitiy
