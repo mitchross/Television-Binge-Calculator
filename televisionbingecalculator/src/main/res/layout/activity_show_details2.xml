@@ -58,6 +58,8 @@
 
         <View
             android:id="@+id/blue_bar"
+            android:elevation="6dp"
+
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:background="@color/material_gray_800"
@@ -69,6 +71,7 @@
 
         <ImageView
             android:id="@+id/thumbnail"
+            android:elevation="6dp"
             android:layout_width="60dp"
             android:layout_height="80dp"
             android:layout_marginBottom="54dp"
@@ -83,6 +86,8 @@
 
         <TextView
             android:id="@+id/title"
+            android:elevation="6dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -96,6 +101,8 @@
 
         <TextView
             android:id="@+id/year"
+            android:elevation="6dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -108,6 +115,8 @@
 
         <TextView
             android:id="@+id/imdb_score"
+            android:elevation="6dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
@@ -120,6 +129,8 @@
 
         <TextView
             android:id="@+id/category_title"
+            android:elevation="6dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -130,110 +141,148 @@
             app:layout_constraintTop_toBottomOf="@+id/title"
             tools:text="Animation, Comedy" />
 
+	    <android.support.v4.widget.NestedScrollView
+			    android:id="@+id/nested_scroll"
+			    android:layout_width="0dp"
+			    android:layout_height="0dp"
+			    app:layout_constraintTop_toBottomOf="@id/blue_bar"
+			    app:layout_constraintStart_toStartOf="parent"
+			    app:layout_constraintEnd_toEndOf="parent"
+			    app:layout_constraintBottom_toTopOf="@id/available_title">
+
+		    <android.support.constraint.ConstraintLayout
+				    android:id="@+id/container"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content">
+
+			    <TextView
+					    android:id="@+id/binge_title"
+					    android:layout_width="0dp"
+					    android:layout_height="26dp"
+					    android:background="@color/material_gray_800"
+					    android:gravity="center"
+					    android:text="TOTAL BINGE TIME"
+					    app:layout_constraintStart_toStartOf="parent"
+					    app:layout_constraintEnd_toEndOf="parent"
+					    app:layout_constraintTop_toTopOf="parent"
+					    android:textColor="@android:color/white"
+					   />
+			    <!--text_helper="@{object.totalBingeTimeString}"-->
+
+			    <TextView
+					    android:id="@+id/binge_time"
+					    text_helper="@{object.totalBingeTimeString}"
+					    android:layout_width="0dp"
+					    android:layout_height="wrap_content"
+					    android:background="@color/material_gray_800"
+					    android:gravity="center"
+					    android:textColor="@android:color/white"
+					    app:layout_constraintTop_toBottomOf="@id/binge_title"
+					    app:layout_constraintStart_toStartOf="parent"
+					    app:layout_constraintEnd_toEndOf="parent"
+
+					    android:textSize="22sp"
+					    tools:text="3d 14h 43m" />
+
+			    <TextView
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:id="@+id/summary"
+					    android:text="Summary"
+					    android:textColor="@android:color/white"
+					    app:layout_constraintStart_toStartOf="parent"
+					    app:layout_constraintTop_toBottomOf="@id/binge_time"
+					   />
 
 
-        <ScrollView
-            android:id="@+id/desc_scrollview"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:fadingEdgeLength="5dp"
-            android:requiresFadingEdge="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/blue_bar"
-            tools:layout_editor_absoluteX="8dp">
 
-            <TextView
-                android:id="@+id/episode_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-light"
-                android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="@{object.showDescription}"
-                android:textColor="@android:color/white"
-                tools:text="The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island." />
+			    <TextView
+					    android:id="@+id/episode_description"
+					    android:layout_width="match_parent"
+					    android:layout_height="wrap_content"
+					    android:layout_marginTop="10dp"
+					    android:fontFamily="sans-serif-light"
+					    android:paddingBottom="10dp"
+					    android:paddingLeft="5dp"
+					    android:paddingRight="5dp"
+					    android:text="@{object.showDescription}"
+					    android:textColor="@android:color/white"
+					    app:layout_constraintTop_toBottomOf="@id/summary"
+					    tools:text="tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island.The survivors of a plane crash are forced to work together in order to survive on a seemingly deserted tropical island." />
 
-        </ScrollView>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/cast_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/desc_scrollview"
-            tools:listitem="@layout/cast_listing" />
+			    <android.support.v7.widget.RecyclerView
+					    android:id="@+id/cast_recycler_view"
+					    android:layout_width="384dp"
+					    android:layout_height="114dp"
+					    android:orientation="horizontal"
+					    android:visibility="visible"
+					    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+					    app:layout_constraintTop_toBottomOf="@id/episode_description"
+					    app:layout_constraintStart_toStartOf="parent"
+					    tools:listitem="@layout/cast_listing"
+					    />
 
-        <TextView
-            android:id="@+id/all_seasons_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="sans-serif-light"
-            android:text="All Seasons"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@id/season_spinner"
-            app:layout_constraintTop_toTopOf="@id/season_spinner" />
+			    <TextView
+					    android:id="@+id/all_seasons_title"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_marginStart="10dp"
+					    android:fontFamily="sans-serif-light"
+					    android:text="All Seasons"
+					    android:textSize="18sp"
+					    android:visibility="visible"
+					    app:layout_constraintStart_toEndOf="@id/season_spinner"
+					    app:layout_constraintTop_toTopOf="@id/season_spinner"
+					    />
 
-        <!--android:onCheckedChanged= "@{(switch, checked) -> object.onChecked(checked)}"-->
 
-        <!--<android.support.v7.widget.SwitchCompat-->
-            <!--android:id="@+id/switch_toggle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="10dp"-->
-            <!--android:checked="true"-->
-            <!--android:visibility="@{safeUnbox(!object.isMovie())}"-->
 
-            <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="@+id/all_seasons_title" />-->
+			    <android.support.v7.widget.AppCompatSpinner
+					    android:id="@+id/season_spinner"
+					    android:layout_width="wrap_content"
+					    android:layout_height="24dp"
+					    android:layout_marginStart="10dp"
+					    android:visibility="@{safeUnbox(!object.isMovie())}"
+					    app:layout_constraintStart_toStartOf="parent"
+					    app:layout_constraintTop_toBottomOf="@id/cast_recycler_view"
+					    tools:visibility="visible" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/season_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_marginStart="10dp"
-            android:visibility="@{safeUnbox(!object.isMovie())}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cast_recycler_view"
-            tools:visibility="visible" />
+			    <TextView
+					    android:id="@+id/episode_total"
+					    text_helper="@{object.episodesCountString}"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_marginStart="10dp"
+					    android:layout_marginTop="6dp"
+					    android:fontFamily="sans-serif-light"
+					    android:textColor="@android:color/white"
+					    android:textSize="18sp"
+					    android:visibility="@{safeUnbox(!object.isMovie())}"
+					    app:layout_constraintLeft_toLeftOf="parent"
+					    app:layout_constraintTop_toBottomOf="@id/season_spinner"
+					    tools:text="14 Episodes" />
 
-        <TextView
-            android:id="@+id/episode_total"
-            text_helper="@{object.episodesCountString}"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@android:color/white"
+			    <TextView
+					    android:id="@+id/episode_runtime"
+					    text_helper="@{object.runtimeString}"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_marginStart="8dp"
+					    android:fontFamily="sans-serif-light"
+					    android:textColor="@android:color/white"
+					    android:textSize="18sp"
+					    android:visibility="@{safeUnbox(!object.isMovie())}"
+					    tools:text="30 minutes"
+					    app:layout_constraintStart_toEndOf="@+id/episode_total"
+					    app:layout_constraintTop_toTopOf="@id/episode_total"
+					    />
 
-            android:textSize="18sp"
-            android:visibility="@{safeUnbox(!object.isMovie())}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/season_spinner"
-            tools:text="14 Episodes" />
+		    </android.support.constraint.ConstraintLayout>
 
-        <TextView
-                android:id="@+id/episode_runtime"
-                text_helper="@{object.runtimeString}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:visibility="@{safeUnbox(!object.isMovie())}"
-                tools:text="30 minutes"
-                app:layout_constraintStart_toEndOf="@+id/episode_total"
-                app:layout_constraintBottom_toBottomOf="@+id/episode_total" />
+
+	    </android.support.v4.widget.NestedScrollView>
+
 
         <TextView
                 android:id="@+id/metacritic_score"
@@ -241,42 +290,13 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@android:color/white"
-
                 tools:text="Metacritic Score: 80"
-                app:layout_constraintBottom_toBottomOf="@+id/episode_runtime" />
+                />
 
-        <TextView
-            android:id="@+id/binge_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/material_gray_800"
-            android:gravity="center"
-            android:text="TOTAL BINGE TIME"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@+id/binge_time"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1" />
-        <!--text_helper="@{object.totalBingeTimeString}"-->
 
-        <TextView
-            android:id="@+id/binge_time"
-            text_helper="@{object.totalBingeTimeString}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/material_gray_800"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toTopOf="@+id/available_title"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1"
-            tools:text="3d 14h 43m" />
+
+
 
         <TextView
             android:id="@+id/available_title"
@@ -285,7 +305,6 @@
             android:text="Available to stream on"
             app:layout_constraintBottom_toTopOf="@+id/steaming_logo_recycler_view"
             android:textColor="@android:color/white"
-
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintLeft_creator="1"

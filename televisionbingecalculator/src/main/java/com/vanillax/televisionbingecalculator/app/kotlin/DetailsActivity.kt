@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Scoring
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.CastListRecyclerAdapter
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.StreamingSourceRecyclerAdapter
@@ -19,7 +18,7 @@ import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPISer
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsItemViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
-import java.util.*
+
 
 class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
 
@@ -42,7 +41,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         super.onCreate(savedInstanceState)
 
         //Binding and View Model initilization
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details2)
         viewModel = DetailsViewModel(com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService.create(this), JustWatchAPIService.create(this))
         binding.`object` = viewModel
         viewModel.setListener(this)
@@ -78,7 +77,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         binding.castRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.castRecyclerView.adapter = castListRecyclerAdapter
 
-
+       // binding.episodeDescription.setMovementMethod(ScrollingMovementMethod())
 
 
     }
@@ -103,7 +102,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
 
 
 
-    private fun matchTitleAndGetData(justWatchResponse: JustWatchResponse ) {
+    private fun matchTitleAndGetData(justWatchResponse: JustWatchResponse) {
         if (justWatchResponse.items != null || justWatchResponse.items!!.size != 0) {
             for (justWatchSearchItem in justWatchResponse.items!!) {
                 if (showTitle.contains(justWatchSearchItem.title!!)) {
@@ -162,7 +161,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
 
     //
 
-    private fun populateRecyclerViews( detailsItemViewModel: DetailsItemViewModel )
+    private fun populateRecyclerViews( detailsItemViewModel: DetailsItemViewModel)
     {
          matchTitleAndGetData( detailsItemViewModel.justWatchResponse)
         initSpinners(detailsItemViewModel.seasonCount!!)
