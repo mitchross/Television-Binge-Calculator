@@ -6,18 +6,24 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import com.vanillax.televisionbingecalculator.app.R
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Scoring
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.CastListRecyclerAdapter
 import com.vanillax.televisionbingecalculator.app.TBC.adapters.StreamingSourceRecyclerAdapter
+import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetails2Binding
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetailsBinding
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsItemViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
+import java.util.*
+import android.text.method.ScrollingMovementMethod
+
+
 
 
 class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
@@ -25,7 +31,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
 
 
     private lateinit var viewModel:DetailsViewModel
-    private lateinit var binding: ActivityShowDetailsBinding
+    private lateinit var binding: ActivityShowDetails2Binding
 
     internal var streamingSourceRecyclerAdapter = StreamingSourceRecyclerAdapter()
     internal var castListRecyclerAdapter = CastListRecyclerAdapter()
@@ -78,6 +84,8 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         binding.castRecyclerView.adapter = castListRecyclerAdapter
 
        // binding.episodeDescription.setMovementMethod(ScrollingMovementMethod())
+
+        binding.episodeDescription.movementMethod = ScrollingMovementMethod()
 
 
     }
