@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.Util.BindingAdapter
 
-import android.databinding.BindingAdapter
-import android.support.annotation.StringRes
+import androidx.databinding.BindingAdapter
+import androidx.annotation.StringRes
 import android.widget.TextView
 
 @BindingAdapter("text_helper")

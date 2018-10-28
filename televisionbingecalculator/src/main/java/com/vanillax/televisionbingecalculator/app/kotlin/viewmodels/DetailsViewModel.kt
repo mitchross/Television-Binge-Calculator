@@ -1,6 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import android.util.Log
 
 import com.vanillax.televisionbingecalculator.app.R

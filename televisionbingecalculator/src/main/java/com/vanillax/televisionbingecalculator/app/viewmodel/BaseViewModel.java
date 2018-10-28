@@ -1,6 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.viewmodel;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by mitchross on 2/4/17.

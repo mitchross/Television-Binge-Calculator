@@ -5,11 +5,11 @@ import android.app.Activity
 import android.app.SearchManager
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionInflater
@@ -55,7 +55,7 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
         viewModel.setListener(this)
 
 
-        binding.listView.layoutManager = GridLayoutManager(this, 3)
+        binding.listView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(this, 3)
         decoration = SpacesItemDecoration(3, 35, false)
         binding.listView.addItemDecoration(decoration)
         binding.listView.adapter = showsAdapter

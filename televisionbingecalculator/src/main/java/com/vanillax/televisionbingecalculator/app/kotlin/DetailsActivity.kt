@@ -1,10 +1,10 @@
 package com.vanillax.televisionbingecalculator.app.kotlin
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import com.vanillax.televisionbingecalculator.app.R
 import android.view.View
@@ -76,11 +76,11 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         }
 
         //TODO change
-        binding.steamingLogoRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.steamingLogoRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         binding.steamingLogoRecyclerView.adapter = streamingSourceRecyclerAdapter
 
 
-        binding.castRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.castRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         binding.castRecyclerView.adapter = castListRecyclerAdapter
 
        // binding.episodeDescription.setMovementMethod(ScrollingMovementMethod())
