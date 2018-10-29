@@ -55,7 +55,7 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
         viewModel.setListener(this)
 
 
-        binding.listView.layoutManager = GridLayoutManager(this, 3)
+        binding.listView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(this, 3)
         decoration = SpacesItemDecoration(3, 35, false)
         binding.listView.addItemDecoration(decoration)
         binding.listView.adapter = showsAdapter

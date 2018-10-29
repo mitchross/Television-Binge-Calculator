@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TBC.iml" filepath="$PROJECT_DIR$/TBC.iml" />
-      <module fileurl="file://$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator.iml" filepath="$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/televisionbingecalculator.iml" filepath="$PROJECT_DIR$/televisionbingecalculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator-televisionbingecalculator.iml" filepath="$PROJECT_DIR$/televisionbingecalculator/televisionbingecalculator-televisionbingecalculator.iml" />
     </modules>
   </component>
 </project>
