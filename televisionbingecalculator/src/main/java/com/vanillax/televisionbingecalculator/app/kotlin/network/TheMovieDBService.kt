@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.network
 
 import android.content.Context
-import com.vanillax.televisionbingecalculator.app.TBC.Constants
+import com.vanillax.televisionbingecalculator.app.tbc.Constants
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse

@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.network.response
 
 import com.google.gson.annotations.SerializedName
-import com.vanillax.televisionbingecalculator.app.ServerAPI.movie.Scoring
+import com.vanillax.televisionbingecalculator.app.serverapi.movie.Scoring
 
 class JustWatchSearch(@SerializedName("query")
                          var justWatchSearchQuery: String )

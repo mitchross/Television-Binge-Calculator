@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.TBC.Utils;
+package com.vanillax.televisionbingecalculator.app.tbc.utils;
 
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;

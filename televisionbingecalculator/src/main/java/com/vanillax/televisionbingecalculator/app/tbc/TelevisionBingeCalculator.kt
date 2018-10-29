@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.TBC
+package com.vanillax.televisionbingecalculator.app.tbc
 
 import android.app.Application
 import android.support.multidex.MultiDex

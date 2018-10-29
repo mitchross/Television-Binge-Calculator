@@ -20,7 +20,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import com.google.android.gms.actions.SearchIntents
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.TBC.adapters.SpacesItemDecoration
+import com.vanillax.televisionbingecalculator.app.tbc.adapters.SpacesItemDecoration
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
 import com.vanillax.televisionbingecalculator.app.kotlin.adapters.ShowsAdapter
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType

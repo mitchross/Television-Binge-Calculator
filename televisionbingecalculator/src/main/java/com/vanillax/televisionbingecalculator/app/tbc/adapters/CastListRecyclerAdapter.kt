@@ -1,9 +1,9 @@
-package com.vanillax.televisionbingecalculator.app.TBC.adapters
+package com.vanillax.televisionbingecalculator.app.tbc.adapters
 
 
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter
-import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingAdapter
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder
 import com.vanillax.televisionbingecalculator.app.databinding.CastListingBinding
 import com.vanillax.televisionbingecalculator.app.viewmodel.CastViewModelItem
 import java.util.*

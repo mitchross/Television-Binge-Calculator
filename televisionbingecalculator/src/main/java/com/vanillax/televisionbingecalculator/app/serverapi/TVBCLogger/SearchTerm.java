@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger;
+package com.vanillax.televisionbingecalculator.app.serverapi.TVBCLogger;
 
 import com.google.gson.annotations.SerializedName;
 

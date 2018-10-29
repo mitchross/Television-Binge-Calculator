@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.TBC
+package com.vanillax.televisionbingecalculator.app.tbc
 
 class Constants
 {

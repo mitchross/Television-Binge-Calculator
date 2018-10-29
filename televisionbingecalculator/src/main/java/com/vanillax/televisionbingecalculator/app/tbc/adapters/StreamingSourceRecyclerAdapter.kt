@@ -1,17 +1,16 @@
-package com.vanillax.televisionbingecalculator.app.TBC.adapters
+package com.vanillax.televisionbingecalculator.app.tbc.adapters
 
-import com.vanillax.televisionbingecalculator.app.kotlin.network.response.Offer
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter
-import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder
-import com.vanillax.televisionbingecalculator.app.databinding.StreamingSourceBinding
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.Offer
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingAdapter
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder
 import com.vanillax.televisionbingecalculator.app.viewmodel.StreamingSourceViewModelItem
 import java.util.*
 
 /**
  * Created by mitchross on 12/9/14.
  */
-class StreamingSourceRecyclerAdapter : BaseDataBindingAdapter<StreamingSourceBinding>() {
+class StreamingSourceRecyclerAdapter : BaseDataBindingAdapter<com.vanillax.televisionbingecalculator.app.databinding.StreamingSourceBinding>() {
 
     private val streamingSourceViewModelItems: MutableList<StreamingSourceViewModelItem>
 
@@ -62,7 +61,7 @@ class StreamingSourceRecyclerAdapter : BaseDataBindingAdapter<StreamingSourceBin
 
 
 
-    override fun bindItem(holder: DataBoundViewHolder<StreamingSourceBinding>, position: Int, payloads: List<Any>) {
+    override fun bindItem(holder: DataBoundViewHolder<com.vanillax.televisionbingecalculator.app.databinding.StreamingSourceBinding>, position: Int, payloads: List<Any>) {
         holder.binding.viewModel = streamingSourceViewModelItems[position]
     }
 
@@ -72,6 +71,7 @@ class StreamingSourceRecyclerAdapter : BaseDataBindingAdapter<StreamingSourceBin
 
     override fun getItemViewType(position: Int): Int {
         return R.layout.streaming_source
+
     }
 
 

@@ -4,8 +4,8 @@ import com.vanillax.televisionbingecalculator.app.kotlin.network.response.ShowPo
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.ShowPosterViewModelItem
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BaseDataBindingAdapter
-import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.DataBoundViewHolder
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingAdapter
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder
 import com.vanillax.televisionbingecalculator.app.databinding.ShowCardItemBinding
 import java.util.*
 

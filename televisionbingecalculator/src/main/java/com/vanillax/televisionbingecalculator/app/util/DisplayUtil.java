@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Util;
+package com.vanillax.televisionbingecalculator.app.util;
 
 import android.content.Context;
 import android.content.res.Resources;

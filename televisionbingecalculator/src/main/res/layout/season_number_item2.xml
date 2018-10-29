@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+
+	<data>
+
+		<import type="com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewModelItem" />
+
+		<variable
+				name="viewModel"
+				type="SeasonNumberViewModelItem" />
+
+	</data>
+
+
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/season_number"
+			android:text="@{viewModel.seasonNumber}"
+			android:textSize="16dp"
+			android:textStyle="bold"
+			tools:text="1"/>
+
+
+
+</layout>

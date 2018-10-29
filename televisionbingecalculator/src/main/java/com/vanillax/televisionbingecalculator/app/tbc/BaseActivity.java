@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.TBC;
+package com.vanillax.televisionbingecalculator.app.tbc;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

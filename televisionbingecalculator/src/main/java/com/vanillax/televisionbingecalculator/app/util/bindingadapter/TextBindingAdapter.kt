@@ -1,10 +1,10 @@
-package com.vanillax.televisionbingecalculator.app.Util.BindingAdapter
+package com.vanillax.televisionbingecalculator.app.util.bindingadapter
 
 import android.databinding.BindingAdapter
 import android.support.annotation.StringRes
 import android.widget.TextView
 
-@BindingAdapter("text_helper")
+@BindingAdapter("android:text_helper")
 fun setText(textView: TextView, bindingTextHelper: BindingTextHelper?) {
     if (bindingTextHelper == null || bindingTextHelper.stringResId == 0) {
         textView.text = ""

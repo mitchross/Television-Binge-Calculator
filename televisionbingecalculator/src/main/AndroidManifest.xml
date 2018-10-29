@@ -10,7 +10,7 @@
 
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<application
-			android:name=".TBC.TelevisionBingeCalculator"
+			android:name=".tbc.TelevisionBingeCalculator"
 			android:allowBackup="true"
 			android:hardwareAccelerated="true"
 			android:icon="@mipmap/ic_launcher"

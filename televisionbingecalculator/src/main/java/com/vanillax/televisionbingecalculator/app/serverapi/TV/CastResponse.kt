@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.ServerAPI.TV
+package com.vanillax.televisionbingecalculator.app.serverapi.TV
 
 import com.google.gson.annotations.SerializedName
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.Cast

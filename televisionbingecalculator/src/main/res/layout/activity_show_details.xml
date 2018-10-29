@@ -207,7 +207,7 @@
 
         <TextView
             android:id="@+id/episode_total"
-            text_helper="@{object.episodesCountString}"
+            android:text_helper="@{object.episodesCountString}"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
@@ -223,7 +223,7 @@
 
         <TextView
                 android:id="@+id/episode_runtime"
-                text_helper="@{object.runtimeString}"
+                android:text_helper="@{object.runtimeString}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -264,7 +264,7 @@
 
         <TextView
             android:id="@+id/binge_time"
-            text_helper="@{object.totalBingeTimeString}"
+            android:text_helper="@{object.totalBingeTimeString}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/material_gray_800"

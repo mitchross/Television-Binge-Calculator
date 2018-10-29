@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Util.BindingAdapter;
+package com.vanillax.televisionbingecalculator.app.util.bindingadapter;
 
 /**
  * Created by mitchross on 2/14/17.

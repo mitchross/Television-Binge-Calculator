@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.ServerAPI.movie
+package com.vanillax.televisionbingecalculator.app.serverapi.movie
 
 import com.google.gson.annotations.SerializedName
 

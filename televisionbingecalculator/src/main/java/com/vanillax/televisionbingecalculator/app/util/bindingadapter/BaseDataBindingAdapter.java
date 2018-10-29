@@ -1,4 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.Util.BindingAdapter;
+package com.vanillax.televisionbingecalculator.app.util.bindingadapter;
 
 import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;

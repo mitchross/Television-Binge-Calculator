@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.network
 
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.EmptyResponse
-import com.vanillax.televisionbingecalculator.app.ServerAPI.TVBCLogger.SearchTerm
+import com.vanillax.televisionbingecalculator.app.serverapi.TVBCLogger.EmptyResponse
+import com.vanillax.televisionbingecalculator.app.serverapi.TVBCLogger.SearchTerm
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

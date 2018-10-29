@@ -4,7 +4,7 @@ import android.databinding.ObservableField
 import android.util.Log
 
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.Util.BindingAdapter.BindingTextHelper
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BindingTextHelper
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService

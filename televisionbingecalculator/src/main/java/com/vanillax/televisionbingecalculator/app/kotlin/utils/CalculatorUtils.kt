@@ -3,7 +3,7 @@ package com.vanillax.televisionbingecalculator.app.kotlin.utils
 import android.content.Context
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
-import com.vanillax.televisionbingecalculator.app.TBC.Constants
+import com.vanillax.televisionbingecalculator.app.tbc.Constants
 import roboguice.util.Ln
 import java.text.ParseException
 import java.text.SimpleDateFormat
