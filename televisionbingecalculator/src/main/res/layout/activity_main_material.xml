@@ -12,7 +12,7 @@
 				type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel" />
 	</data>
 
-	<android.support.constraint.ConstraintLayout
+	<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:background="@color/material_gray_800">
@@ -75,7 +75,7 @@
 				app:layout_constraintEnd_toEndOf="@+id/guide"
 				tools:layout_editor_absoluteX="68dp" />
 
-		<android.support.constraint.Guideline
+		<androidx.constraintlayout.widget.Guideline
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/guide"
@@ -203,7 +203,7 @@
 
 
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_view"
         android:clipToPadding="false"
         android:layout_width="match_parent"
@@ -247,6 +247,6 @@
 
 
 
-	</android.support.constraint.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

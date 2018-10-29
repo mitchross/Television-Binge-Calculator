@@ -1,6 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TVBCLoggerService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService

@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.tbc
 
 import android.app.Application
-import android.support.multidex.MultiDex
+import androidx.multidex.MultiDex
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.fabric.sdk.android.Fabric

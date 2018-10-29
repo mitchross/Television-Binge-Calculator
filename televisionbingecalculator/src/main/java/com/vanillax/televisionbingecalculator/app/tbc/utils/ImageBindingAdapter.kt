@@ -1,6 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.tbc.utils
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.view.View
 
 /**
