@@ -1,5 +1,4 @@
-package com.vanillax.televisionbingecalculator.app.TBC
-
+package com.vanillax.televisionbingecalculator.app.tbc
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
@@ -15,18 +14,13 @@ import io.fabric.sdk.android.Fabric
  */
 class TelevisionBingeCalculator : Application() {
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
 
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
 
-
-
     override fun onCreate() {
         super.onCreate()
+        MultiDex.install(this)
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
