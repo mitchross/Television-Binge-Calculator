@@ -163,8 +163,8 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         }
 
         val adapter = ArrayAdapter(this, R.layout.season_spinner_row, items)
-        binding.seasonSpinner.adapter = adapter
-        binding.seasonSpinner.setOnItemSelectedListener(this)
+       // binding.seasonSpinner.adapter = adapter
+        //binding.seasonSpinner.setOnItemSelectedListener(this)
     }
 
     //
