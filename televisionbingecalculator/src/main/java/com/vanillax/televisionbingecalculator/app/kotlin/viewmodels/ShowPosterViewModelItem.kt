@@ -1,7 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
-import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.ShowPosterListing
+import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
 
 /**
  * Created by mitchross on 2/6/17.
@@ -46,7 +46,6 @@ class ShowPosterViewModelItem(showPosterListing: ShowPosterListing, landingActiv
     fun doSomething()
 
     {
-        var i = 1
         listener.onTouch(showPosterListing.id,posterUrl,getTitle())
 
     }

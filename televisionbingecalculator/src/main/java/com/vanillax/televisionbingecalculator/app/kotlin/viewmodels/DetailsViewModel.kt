@@ -1,10 +1,8 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
-import androidx.databinding.ObservableField
 import android.util.Log
-
+import androidx.databinding.ObservableField
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BindingTextHelper
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
@@ -13,6 +11,7 @@ import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWa
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchSearch
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BindingTextHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -29,6 +28,8 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     interface DetailsViewModelInterface {
         fun onFetchAllDetails ( detailsItemViewModel: DetailsItemViewModel)
         fun error( error: String?)
+        fun onSeasonNumberTouch( seasonNumber: Int )
+
     }
 
     //Dependencies

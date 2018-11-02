@@ -218,10 +218,12 @@
 
 	    <androidx.recyclerview.widget.RecyclerView
 			    android:id="@+id/seasons_number_list"
-			    android:layout_width="0dp"
+			    android:layout_width="wrap_content"
 			    android:layout_height="48dp"
 			    android:orientation="horizontal"
-			    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:gravity="center"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 			    app:layout_constraintBottom_toTopOf="@id/episode_total"
 			    app:layout_constraintStart_toStartOf="parent"
 			    app:layout_constraintEnd_toEndOf="parent"
@@ -292,7 +294,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/steaming_logo_recycler_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
