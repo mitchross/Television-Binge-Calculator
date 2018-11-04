@@ -1,31 +1,33 @@
 package com.vanillax.televisionbingecalculator.app.kotlin
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.Toolbar
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.serverapi.movie.Scoring
-import com.vanillax.televisionbingecalculator.app.tbc.adapters.CastListRecyclerAdapter
-import com.vanillax.televisionbingecalculator.app.tbc.adapters.SeasonNumberRecyclerAdapter
-import com.vanillax.televisionbingecalculator.app.tbc.adapters.StreamingSourceRecyclerAdapter
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetails2Binding
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsItemViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
+import com.vanillax.televisionbingecalculator.app.serverapi.movie.Scoring
+import com.vanillax.televisionbingecalculator.app.tbc.adapters.CastListRecyclerAdapter
+import com.vanillax.televisionbingecalculator.app.tbc.adapters.SeasonNumberRecyclerAdapter
+import com.vanillax.televisionbingecalculator.app.tbc.adapters.StreamingSourceRecyclerAdapter
 import java.util.*
 
 
 class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
-
+    override fun onSeasonNumberTouch(seasonNumber: Int) {
+        Log.d("test","" + seasonNumber)
+    }
 
 
     private lateinit var viewModel:DetailsViewModel
@@ -33,7 +35,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
 
     internal var streamingSourceRecyclerAdapter = StreamingSourceRecyclerAdapter()
     internal var castListRecyclerAdapter = CastListRecyclerAdapter()
-    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter()
+    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter(this)
 
     internal var showId: Int = 0
     protected var showTitle: String = ""

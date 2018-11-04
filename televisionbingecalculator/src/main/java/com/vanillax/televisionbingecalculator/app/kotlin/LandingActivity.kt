@@ -5,11 +5,8 @@ import android.app.Activity
 import android.app.SearchManager
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
-import androidx.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionInflater
@@ -18,16 +15,17 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.google.android.gms.actions.SearchIntents
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.tbc.adapters.SpacesItemDecoration
-import com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
 import com.vanillax.televisionbingecalculator.app.kotlin.adapters.ShowsAdapter
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TVBCLoggerService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel
+import com.vanillax.televisionbingecalculator.app.tbc.adapters.SpacesItemDecoration
 
 /**
  * Created by mitchross on 4/14/18.
@@ -37,7 +35,7 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
 
 
     private lateinit var viewModel:LandingActivityViewModel
-    private lateinit var binding: ActivityMainMaterialBinding
+    private lateinit var binding: com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
 
     internal var showsAdapter = ShowsAdapter(this)
     internal lateinit var decoration: SpacesItemDecoration
