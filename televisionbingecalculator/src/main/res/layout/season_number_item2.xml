@@ -27,9 +27,9 @@
         android:layout_marginLeft="10dp"
         android:padding="8dp"
         android:textColor="@color/material_gray_200"
-        tools:text="1"
-        android:onClick="@{()-> viewModel.onTouch()}"
-        />
+        tools:text="1" />
+        <!--android:onClick="@{(view)-> viewModel.onTouch(view)}"-->
+        <!--/>-->
 
 
 

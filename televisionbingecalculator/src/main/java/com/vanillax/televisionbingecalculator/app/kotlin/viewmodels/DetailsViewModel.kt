@@ -32,6 +32,10 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     }
 
+    interface SeasonNumberAdapterInterface {
+        fun onSeasonNumberChange ( seasonNumber: Int)
+    }
+
     //Dependencies
    // private var disposable: Disposable? = null
     private var disposables = CompositeDisposable()
@@ -135,6 +139,11 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
         listener?.onFetchAllDetails(detailsItemViewModel)
 
+
+    }
+
+    fun toggleOffOtherSeasons ( seasonNumber: Int)
+    {
 
     }
 

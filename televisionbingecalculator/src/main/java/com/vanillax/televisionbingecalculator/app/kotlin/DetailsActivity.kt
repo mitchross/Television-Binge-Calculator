@@ -25,8 +25,13 @@ import java.util.*
 
 
 class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
+
+
     override fun onSeasonNumberTouch(seasonNumber: Int) {
         Log.d("test","" + seasonNumber)
+        viewModel.selectSeason(seasonNumber)
+
+
     }
 
 

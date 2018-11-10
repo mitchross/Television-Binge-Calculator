@@ -1,5 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.tbc.adapters
 
+import android.util.Log
+import android.widget.TextView
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.databinding.SeasonNumberItem2Binding
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
@@ -29,12 +31,37 @@ class SeasonNumberRecyclerAdapter (private var listener: DetailsViewModel.Detail
         notifyDataSetChanged()
     }
 
+
+
     override fun bindItem(holder: DataBoundViewHolder<SeasonNumberItem2Binding>, position: Int, payloads: List<Any>) {
 
         if ( holder !=null ) {
             holder.binding.viewModel = seasonList[position]
+            //click listener
+            holder.binding.seasonNumber.setOnClickListener { v ->
+
+                Log.d("test", "it worked!" + position)
+                //change color of item on tap
+                setColor(position, v as TextView)
+                //update view to do new time calcuation based on season
+                listener.onSeasonNumberTouch(position)
+            }
+
         }
 
+
+    }
+
+    fun setColor( seasonNumber: Int, view: TextView )
+    {
+        //how do I tell adapter to uncolor other items in the recycler view to not be blue and
+        //make only the selected item blue?
+        //I know when a item is tapped, but I dont know how to tell adapter to uncolor an item because
+        //coloring happens at click logic, I dont have a way back into bind item?
+
+
+        var blue = view.resources.getColor(com.vanillax.televisionbingecalculator.app.R.color.material_blue)
+        view.setTextColor(blue)
     }
 
     override fun getItemCount(): Int {
