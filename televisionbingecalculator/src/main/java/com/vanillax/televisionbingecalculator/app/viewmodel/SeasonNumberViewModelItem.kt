@@ -1,7 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.viewmodel
 
 import android.view.View
-import android.widget.TextView
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
 
@@ -11,6 +10,8 @@ class SeasonNumberViewModelItem(internal var number: Int, detailsViewModelInterf
         get() = number.toString()
 
     val listener = detailsViewModelInterface
+
+    var isClicked:Boolean = false
 
     fun onTouch(view: View)
     {

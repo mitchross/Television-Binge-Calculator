@@ -1,7 +1,9 @@
 package com.vanillax.televisionbingecalculator.app.tbc.adapters
 
+import android.content.Context
 import android.util.Log
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.databinding.SeasonNumberItem2Binding
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
@@ -36,20 +38,47 @@ class SeasonNumberRecyclerAdapter (private var listener: DetailsViewModel.Detail
     override fun bindItem(holder: DataBoundViewHolder<SeasonNumberItem2Binding>, position: Int, payloads: List<Any>) {
 
         if ( holder !=null ) {
-            holder.binding.viewModel = seasonList[position]
+
+             holder.binding.viewModel = seasonList[position]
+
+
             //click listener
             holder.binding.seasonNumber.setOnClickListener { v ->
 
                 Log.d("test", "it worked!" + position)
+
+                unselectAllSeasonsAndReapply(position, v as TextView)
                 //change color of item on tap
-                setColor(position, v as TextView)
+               // setColor(position, v as TextView)
                 //update view to do new time calcuation based on season
                 listener.onSeasonNumberTouch(position)
             }
 
+            var context: Context = holder.binding.seasonNumber.context
+
+            if(seasonList[position].isClicked )
+            {
+                var blue = ContextCompat.getColor(context, R.color.material_blue)
+                holder.binding.seasonNumber.setTextColor(blue)
+            }
+            else{
+                var white = ContextCompat.getColor(context, R.color.material_gray_200)
+                holder.binding.seasonNumber.setTextColor(white)
+            }
+
+
         }
 
 
+    }
+
+    fun unselectAllSeasonsAndReapply( position: Int , v: TextView)
+    {
+       for ( season in seasonList )
+       {
+           //+1 because my season view model item is based on 1 base as seasson 1 is index 0
+           season.isClicked = season.number  == position + 1
+       }
     }
 
     fun setColor( seasonNumber: Int, view: TextView )

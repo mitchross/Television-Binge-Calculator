@@ -30,6 +30,7 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
     override fun onSeasonNumberTouch(seasonNumber: Int) {
         Log.d("test","" + seasonNumber)
         viewModel.selectSeason(seasonNumber)
+        seasonNumberRecyclerAdapter.notifyDataSetChanged()
 
 
     }
