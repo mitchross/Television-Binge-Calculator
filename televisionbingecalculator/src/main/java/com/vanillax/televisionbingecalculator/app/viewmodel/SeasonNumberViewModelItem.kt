@@ -1,32 +1,23 @@
 package com.vanillax.televisionbingecalculator.app.viewmodel
 
-import android.view.View
+
+import androidx.databinding.ObservableInt
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
 
-class SeasonNumberViewModelItem(internal var number: Int, detailsViewModelInterface: DetailsViewModel.DetailsViewModelInterface) {
+class SeasonNumberViewModelItem(internal var number: Int, val listener: DetailsViewModel.DetailsViewModelInterface) {
 
     val seasonNumber: String
         get() = number.toString()
 
-    val listener = detailsViewModelInterface
+    var textColor: ObservableInt = ObservableInt(R.color.material_gray_200)
 
-    var isClicked:Boolean = false
+    fun setColorToDefault() {
+        textColor.set(R.color.material_gray_200)
+    }
 
-    fun onTouch(view: View)
-    {
-
-
+    fun onItemClicked() {
         listener.onSeasonNumberTouch(number)
-
+        textColor.set(R.color.material_blue)
     }
-
-    fun se (): Int {
-        return R.color.material_blue
-    }
-
-//    var blue  =view.itemView.resources.getColor(com.vanillax.televisionbingecalculator.app.R.color.material_blue)
-//    holder.binding.seasonNumber.setOnClickListener { v-> Log.d("test", "im tappped")  }
-//    holder.binding.seasonNumber.setTextColor(blue)
-
 }

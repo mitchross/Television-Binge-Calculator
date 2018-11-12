@@ -21,34 +21,24 @@ import com.vanillax.televisionbingecalculator.app.serverapi.movie.Scoring
 import com.vanillax.televisionbingecalculator.app.tbc.adapters.CastListRecyclerAdapter
 import com.vanillax.televisionbingecalculator.app.tbc.adapters.SeasonNumberRecyclerAdapter
 import com.vanillax.televisionbingecalculator.app.tbc.adapters.StreamingSourceRecyclerAdapter
+import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewModelItem
 import java.util.*
 
 
-class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
+class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
 
-
-    override fun onSeasonNumberTouch(seasonNumber: Int) {
-        Log.d("test","" + seasonNumber)
-        viewModel.selectSeason(seasonNumber)
-        seasonNumberRecyclerAdapter.notifyDataSetChanged()
-
-
-    }
-
-
-    private lateinit var viewModel:DetailsViewModel
+    private lateinit var viewModel: DetailsViewModel
     private lateinit var binding: ActivityShowDetails2Binding
 
     internal var streamingSourceRecyclerAdapter = StreamingSourceRecyclerAdapter()
     internal var castListRecyclerAdapter = CastListRecyclerAdapter()
-    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter(this)
+    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter()
 
     internal var showId: Int = 0
     protected var showTitle: String = ""
     protected var thumbnailUrl: String = ""
     private var seasonSelected: Int = 0
     private lateinit var selectedSearchType: SearchType
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,13 +56,12 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         selectedSearchType = intent.getSerializableExtra("show_type") as SearchType
 
         //Set Up and pass data to our view model
-        viewModel.setShowMetaData(showId,showTitle, thumbnailUrl, selectedSearchType)
+        viewModel.setShowMetaData(showId, showTitle, thumbnailUrl, selectedSearchType)
 
         setUpViews()
     }
 
-    private fun setUpViews()
-    {
+    private fun setUpViews() {
 
         //Toolbar init
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
@@ -91,18 +80,16 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         binding.castRecyclerView.adapter = castListRecyclerAdapter
         binding.seasonsNumberList.adapter = seasonNumberRecyclerAdapter
 
-       // binding.episodeDescription.setMovementMethod(ScrollingMovementMethod())
+        // binding.episodeDescription.setMovementMethod(ScrollingMovementMethod())
 
         binding.episodeDescription.movementMethod = ScrollingMovementMethod()
-
-
     }
 
     override fun onResume() {
         super.onResume()
 
         //Lifecycle get showData
-        viewModel.getAllShowDetailsData(showId,selectedSearchType,showTitle )
+        viewModel.getAllShowDetailsData(showId, selectedSearchType, showTitle)
     }
 
     override fun onPause() {
@@ -110,13 +97,10 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         viewModel.onDisconnect()
     }
 
-
     override fun onStop() {
         super.onStop()
         viewModel.onDisconnect()
     }
-
-
 
     private fun matchTitleAndGetData(justWatchResponse: JustWatchResponse) {
         if (justWatchResponse.items != null || justWatchResponse.items!!.size != 0) {
@@ -131,8 +115,6 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
             }
         }
     }
-
-
 
     private fun initScoring(scoringList: List<Scoring>) {
         val metaCritic = "metacritic:score:"
@@ -152,14 +134,10 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
                 binding.imdbScore.visibility = View.VISIBLE
                 binding.imdbScore.text = "IMDB Score: " + s.value!!
             }
-
         }
-
-
     }
 
-    private fun initSpinners(seasonCount:Int) {
-
+    private fun initSpinners(seasonCount: Int) {
 
         val items = ArrayList<String>()
 
@@ -171,44 +149,51 @@ class DetailsActivity: AppCompatActivity(), DetailsViewModel.DetailsViewModelInt
         }
 
         val adapter = ArrayAdapter(this, R.layout.season_spinner_row, items)
-       // binding.seasonSpinner.adapter = adapter
+        // binding.seasonSpinner.adapter = adapter
         //binding.seasonSpinner.setOnItemSelectedListener(this)
     }
 
-    //
-
-    private fun populateRecyclerViews( detailsItemViewModel: DetailsItemViewModel)
-    {
-         matchTitleAndGetData( detailsItemViewModel.justWatchResponse)
+    private fun populateRecyclerViews(detailsItemViewModel: DetailsItemViewModel) {
+        matchTitleAndGetData(detailsItemViewModel.justWatchResponse)
         initSpinners(detailsItemViewModel.seasonCount!!)
-        seasonNumberRecyclerAdapter.setSeasonList(detailsItemViewModel.seasonCount!!)
-        castListRecyclerAdapter.setCastList(detailsItemViewModel.castResponse)
 
+        val seasonNumberViewmodelList = arrayListOf<SeasonNumberViewModelItem>()
+
+        for (i in 0 until detailsItemViewModel.seasonCount) {
+            seasonNumberViewmodelList.add(SeasonNumberViewModelItem(i, this))
+        }
+
+        seasonNumberRecyclerAdapter.setSeasonList(seasonNumberViewmodelList)
+        castListRecyclerAdapter.setCastList(detailsItemViewModel.castResponse)
     }
 
+    override fun onFetchAllDetails(detailsItemViewModel: DetailsItemViewModel) {
+        Log.d("test", "got data")
+        populateRecyclerViews(detailsItemViewModel)
+    }
 
-override fun onFetchAllDetails(detailsItemViewModel: DetailsItemViewModel) {
-    Log.d("test", "got data")
-    populateRecyclerViews( detailsItemViewModel )
-}
-
-override fun error(error: String?) {
-    Log.d("test", "error")
-
-}
+    override fun error(error: String?) {
+        Log.d("test", "error")
+    }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
 
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-
-            viewModel.selectSeason( p2 )
-
+        viewModel.selectSeason(p2)
     }
 
+    override fun onSeasonNumberTouch(seasonNumber: Int) {
+        Log.d("test", "" + seasonNumber)
+        viewModel.selectSeason(seasonNumber)
 
+        for (item: SeasonNumberViewModelItem in seasonNumberRecyclerAdapter.seasonList) {
 
+            if (item.number != seasonNumber) {
+                item.setColorToDefault()
+            }
+        }
+    }
 }
 
