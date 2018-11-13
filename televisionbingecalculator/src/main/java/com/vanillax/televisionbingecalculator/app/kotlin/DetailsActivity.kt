@@ -159,7 +159,8 @@ class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelIn
 
         val seasonNumberViewmodelList = arrayListOf<SeasonNumberViewModelItem>()
 
-        for (i in 0 until detailsItemViewModel.seasonCount) {
+        // +1 to the seasonCount so that 0 is ALL seasons
+        for (i in 0 until detailsItemViewModel.seasonCount + 1) {
             seasonNumberViewmodelList.add(SeasonNumberViewModelItem(i, this))
         }
 
