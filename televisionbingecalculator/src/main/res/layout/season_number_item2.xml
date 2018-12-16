@@ -23,7 +23,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:padding="8dp"
-        android:textColor="@{context.getColor(viewModel.textColor)}"
+        android:textColor="@{context.getResources.getColor(viewModel.textColor)}"
         android:onClick="@{() -> viewModel.onItemClicked()}"
         tools:text="1" />
 
