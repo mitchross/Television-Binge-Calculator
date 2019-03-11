@@ -45,8 +45,31 @@ class CalculatorUtils(internal var tvShowByIdResponse: TVShowByIdResponse) {
         return if (tvShowByIdResponse.seasons?.size == 1) {
             1
         } else {
-            tvShowByIdResponse.seasons?.size?.minus(1)
+            if ( checkIfSpecial() )
+            {
+               return tvShowByIdResponse.seasons?.size?.minus(1)
+            }
+            else
+            {
+                return tvShowByIdResponse.seasons?.size
+            }
+
         }
+    }
+
+    fun checkIfSpecial(): Boolean {
+
+        var seasonZero = tvShowByIdResponse.seasons?.get(0)
+
+        if (seasonZero?.seasonName != null)
+        {
+            return seasonZero.seasonName!!.toLowerCase().contains("special")
+
+        }
+        else {
+            return false
+        }
+
     }
 
      fun getEpisodeCount(): Int {

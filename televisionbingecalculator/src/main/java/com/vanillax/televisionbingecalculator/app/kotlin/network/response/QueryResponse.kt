@@ -69,7 +69,10 @@ data class Seasons(
         var episodeCount: Int = 0,
 
         @SerializedName("poster_path")
-        var posterPath: String? = null
+        var posterPath: String? = null,
+
+        @SerializedName("name")
+        var seasonName: String? = ""
 )
 
 data class CastResponse (
