@@ -42,7 +42,7 @@ interface JustWatchAPIService  {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient)
-                    .baseUrl("https://api.justwatch.com/")
+                    .baseUrl("https://apis.justwatch.com/")
                     .build()
             return retrofit.create(JustWatchAPIService::class.java)
         }
@@ -71,7 +71,7 @@ interface JustWatchAPIService  {
 
 
     @Headers("content-type: application/json", "User-Agent: JustWatch Python client (github.com/dawoudt/JustWatchAPI)")
-    @POST("titles/en_US/popular")
+    @POST("/content/titles/en_US/popular")
     fun getMovieStreamingSources(@Body movieSearch: com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchSearch): io.reactivex.Observable<JustWatchResponse>
 
 }

@@ -14,6 +14,7 @@ import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetails2Binding
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
+import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService.Companion.create
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsItemViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
@@ -45,7 +46,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelIn
 
         //Binding and View Model initilization
         binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details2)
-        viewModel = DetailsViewModel(com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService.create(this), JustWatchAPIService.create(this))
+        viewModel = DetailsViewModel(create(this), JustWatchAPIService.create(this))
         binding.`object` = viewModel
         viewModel.setListener(this)
 
