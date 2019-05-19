@@ -12,24 +12,27 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by mitchross on 4/14/18.
  */
-class  LandingActivityViewModel(theMovieDBService: TheMovieDBService, tvbcLoggerService: TVBCLoggerService) {
+class LandingActivityViewModel(
+        theMovieDBService: TheMovieDBService,
+        tvbcLoggerService: TVBCLoggerService
+) {
 
     interface LandingActivityViewModelInterface {
-        fun updateShowList( queryResponse: QueryResponse, searchType: SearchType)
-        fun onTouch( id: Int, url: String, title: String )
-        fun error( error: String?)
+        fun updateShowList(queryResponse: QueryResponse, searchType: SearchType)
+        fun onTouch(id: Int, url: String, title: String)
+        fun error(error: String?)
     }
 
     private var disposable: Disposable? = null
     private var listener: LandingActivityViewModelInterface? = null
     private val service = theMovieDBService
     private val tvbcLoggerService = tvbcLoggerService
-    var isMovie = ObservableField <Boolean> ( false)
+    var isMovie = ObservableField<Boolean>(false)
     var searchType: SearchType = SearchType.TV
-     var searchQuery: String = ""
+    var searchQuery: String = ""
 
 
-    fun setListener( listener: LandingActivityViewModelInterface) {
+    fun setListener(listener: LandingActivityViewModelInterface) {
         this.listener = listener
     }
 
@@ -37,24 +40,21 @@ class  LandingActivityViewModel(theMovieDBService: TheMovieDBService, tvbcLogger
         disposable?.dispose()
     }
 
-    fun onGetSearchShow( query: String? )
-    {
-        if ( query !=null && !query.isNullOrEmpty() )
-        {
-            searchShow( query )
-        }
-        else {
+    fun onGetSearchShow(query: String?) {
+        if (!query.isNullOrEmpty()) {
+            searchShow(query)
+        } else {
             listener?.error("Please Enter a Search Term")
         }
     }
 
-    private fun searchShow ( query: String) {
+    private fun searchShow(query: String) {
 
         //Hold on to it for later
         searchQuery = query
 
 
-        if( searchType.equals(SearchType.TV )) {
+        if (searchType.equals(SearchType.TV)) {
             disposable = service.queryTV(query)
                     .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                     .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
@@ -63,9 +63,7 @@ class  LandingActivityViewModel(theMovieDBService: TheMovieDBService, tvbcLogger
                             { error -> listener?.error(error?.message) }
 
                     )
-        }
-        else
-        {
+        } else {
             disposable = service.queryMovie(query)
                     .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                     .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
@@ -82,8 +80,8 @@ class  LandingActivityViewModel(theMovieDBService: TheMovieDBService, tvbcLogger
 
         isMovie.set(true)
 
-       searchType = SearchType.MOVIE
-       when {
+        searchType = SearchType.MOVIE
+        when {
             !searchQuery.isNullOrEmpty() -> searchShow(searchQuery)
         }
 
@@ -121,8 +119,6 @@ class  LandingActivityViewModel(theMovieDBService: TheMovieDBService, tvbcLogger
 
         }
     }
-
-
 
 
 }

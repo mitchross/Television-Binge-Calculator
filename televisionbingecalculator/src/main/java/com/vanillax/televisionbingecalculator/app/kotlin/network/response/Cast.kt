@@ -6,16 +6,13 @@ import com.google.gson.annotations.SerializedName
  * Created by mitchross on 5/21/17.
  */
 
-class Cast {
+data class Cast (
     @SerializedName("name")
-    var name: String? = null
+    var name: String? = null,
 
     @SerializedName("profile_path")
-    var profilePath: String? = null
+    var profilePath: String? = null,
 
     @SerializedName("character")
     var character: String? = null
-
-
-
-}
+)

@@ -9,7 +9,6 @@ import java.io.IOException
 interface BaseService
 {
 
-
      fun getOkHttpClient(context: Context): OkHttpClient {
         val SIZE_OF_CACHE = (10 * 1024 * 1024).toLong() // 10 MiB
         val cache = Cache(File(context.cacheDir, "http"), SIZE_OF_CACHE)

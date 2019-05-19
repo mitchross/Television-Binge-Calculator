@@ -1,5 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.adapters
 
+import androidx.databinding.ViewDataBinding
+import com.vanillax.televisionbingecalculator.app.BR
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.databinding.ShowCardItemBinding
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.ShowPosterListing
@@ -13,7 +15,7 @@ import java.util.*
  * Created by mitchross on 2/13/17.
  */
 
-class ShowsAdapter( private var listener: LandingActivityViewModel.LandingActivityViewModelInterface) : BaseDataBindingAdapter<ShowCardItemBinding>() {
+class ShowsAdapter( private val listener: LandingActivityViewModel.LandingActivityViewModelInterface) : BaseDataBindingAdapter<ViewDataBinding>() {
 
 
     private val showsViewModelItems: MutableList<ShowPosterViewModelItem>
@@ -21,11 +23,6 @@ class ShowsAdapter( private var listener: LandingActivityViewModel.LandingActivi
     init {
         showsViewModelItems = ArrayList()
     }
-
-    fun setListener(listener: com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel.LandingActivityViewModelInterface) {
-        this.listener = listener
-    }
-
 
     fun setShowsViewModelItems(showPosterListings: List<ShowPosterListing>) {
         showsViewModelItems.clear()
@@ -36,13 +33,11 @@ class ShowsAdapter( private var listener: LandingActivityViewModel.LandingActivi
         notifyDataSetChanged()
     }
 
-
-
-    override fun bindItem(holder: DataBoundViewHolder<ShowCardItemBinding>?, position: Int, payloads: MutableList<Any>?) {
+    override fun bindItem(holder: DataBoundViewHolder<ViewDataBinding>?, position: Int, payloads: MutableList<Any>?) {
 
         if (holder != null) {
-            holder.binding.viewModel = showsViewModelItems[position]
-            holder.binding.listener = listener
+            holder.binding.setVariable(BR.viewModel, showsViewModelItems[position])
+            holder.binding.setVariable(BR.listener, listener)
         }
     }
 

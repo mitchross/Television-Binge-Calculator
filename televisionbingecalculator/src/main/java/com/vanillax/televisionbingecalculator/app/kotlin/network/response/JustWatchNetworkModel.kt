@@ -3,23 +3,27 @@ package com.vanillax.televisionbingecalculator.app.kotlin.network.response
 import com.google.gson.annotations.SerializedName
 import com.vanillax.televisionbingecalculator.app.serverapi.movie.Scoring
 
-class JustWatchSearch(@SerializedName("query")
-                         var justWatchSearchQuery: String )
+class JustWatchSearch(
+        @SerializedName("query")
+        var justWatchSearchQuery: String
+)
 
-class JustWatchSearchitem (
+data class JustWatchSearchitem(
 
         @SerializedName("title")
-        var title: String? = null,
+        var title: String?,
 
         @SerializedName("offers")
         var offers: List<Offer>?,
 
         @SerializedName("original_release_year")
-        var release_year: Int = 0,
+        var release_year: Int,
 
         @SerializedName("scoring")
-        var scoringList: List<Scoring>? = null
+        var scoringList: List<Scoring>?
 )
 
-class JustWatchResponse(@SerializedName("items")
-                         var items: List<JustWatchSearchitem>? = null)
+data class JustWatchResponse(
+        @SerializedName("items")
+        var items: List<JustWatchSearchitem>?
+)
