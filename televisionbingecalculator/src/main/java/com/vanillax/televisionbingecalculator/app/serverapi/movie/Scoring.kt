@@ -7,9 +7,9 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class Scoring(
-    @SerializedName("provider_type")
-    var providerType: String? = null,
+        @SerializedName("provider_type")
+        val providerType: String? = null,
 
-    @SerializedName("value")
-    var value: Double? = null
+        @SerializedName("value")
+        val value: Double? = null
 )

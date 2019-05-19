@@ -5,25 +5,25 @@ import com.vanillax.televisionbingecalculator.app.serverapi.movie.Scoring
 
 class JustWatchSearch(
         @SerializedName("query")
-        var justWatchSearchQuery: String
+        val justWatchSearchQuery: String
 )
 
 data class JustWatchSearchitem(
 
         @SerializedName("title")
-        var title: String?,
+        val title: String? = null,
 
         @SerializedName("offers")
-        var offers: List<Offer>?,
+        val offers: List<Offer>? = listOf(),
 
         @SerializedName("original_release_year")
-        var release_year: Int,
+        val release_year: Int = 0,
 
         @SerializedName("scoring")
-        var scoringList: List<Scoring>?
+        val scoringList: List<Scoring>? = listOf()
 )
 
 data class JustWatchResponse(
         @SerializedName("items")
-        var items: List<JustWatchSearchitem>?
+        val items: List<JustWatchSearchitem>? = listOf()
 )

@@ -8,11 +8,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Cast (
     @SerializedName("name")
-    var name: String? = null,
+    val name: String? = null,
 
     @SerializedName("profile_path")
-    var profilePath: String? = null,
+    val profilePath: String? = null,
 
     @SerializedName("character")
-    var character: String? = null
+    val character: String? = null
 )
