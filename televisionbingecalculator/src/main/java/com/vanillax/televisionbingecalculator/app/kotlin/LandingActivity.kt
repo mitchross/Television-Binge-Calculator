@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.google.android.gms.actions.SearchIntents
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.kotlin.adapters.ShowsAdapter
@@ -163,6 +164,8 @@ class LandingActivity : AppCompatActivity(),
         intent.flags = FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
     }
+
+
 
 
     //Call backs

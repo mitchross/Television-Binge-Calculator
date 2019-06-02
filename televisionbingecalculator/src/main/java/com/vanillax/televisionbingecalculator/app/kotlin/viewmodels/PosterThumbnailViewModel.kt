@@ -7,9 +7,10 @@ import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
  * Created by mitchross on 2/6/17.
  */
 
-class ShowPosterViewModelItem(showPosterListing: ShowPosterListing, landingActivityViewModelInterface: LandingActivityViewModel.LandingActivityViewModelInterface)  {
-
-
+class PosterThumbnailViewModel(
+    showPosterListing: ShowPosterListing,
+    landingActivityViewModelInterface: LandingActivityViewModel.LandingActivityViewModelInterface
+) {
 
     val showPosterListing = showPosterListing
     val listener = landingActivityViewModelInterface
@@ -27,29 +28,20 @@ class ShowPosterViewModelItem(showPosterListing: ShowPosterListing, landingActiv
     val score: String = "Score: " + showPosterListing.vote
 
 
-    fun getTitle(): String
-    {
-        if ( !showPosterListing.original_name.isNullOrEmpty() )
-        {
+    fun getTitle(): String {
+        if (!showPosterListing.original_name.isNullOrEmpty()) {
             return showPosterListing.original_name
-        }
-        else if ( !showPosterListing.movie_title.isNullOrEmpty())
-        {
+        } else if (!showPosterListing.movie_title.isNullOrEmpty()) {
             return showPosterListing.movie_title
-        }
-        else
-        {
+        } else {
             return ""
         }
     }
 
-    fun doSomething()
-
-    {
-        listener.onTouch(showPosterListing.id,posterUrl,getTitle())
+    fun doSomething() {
+        listener.onTouch(showPosterListing.id, posterUrl, getTitle())
 
     }
-
 
 
 }

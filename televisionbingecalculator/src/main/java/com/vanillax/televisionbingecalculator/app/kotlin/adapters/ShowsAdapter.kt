@@ -3,10 +3,9 @@ package com.vanillax.televisionbingecalculator.app.kotlin.adapters
 import androidx.databinding.ViewDataBinding
 import com.vanillax.televisionbingecalculator.app.BR
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.databinding.ShowCardItemBinding
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.ShowPosterListing
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel
-import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.ShowPosterViewModelItem
+import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.PosterThumbnailViewModel
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingAdapter
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder
 import java.util.*
@@ -18,16 +17,16 @@ import java.util.*
 class ShowsAdapter( private val listener: LandingActivityViewModel.LandingActivityViewModelInterface) : BaseDataBindingAdapter<ViewDataBinding>() {
 
 
-    private val showsViewModelItems: MutableList<ShowPosterViewModelItem>
+    private val posterThumbnailViewModels: MutableList<PosterThumbnailViewModel>
 
     init {
-        showsViewModelItems = ArrayList()
+        posterThumbnailViewModels = ArrayList()
     }
 
     fun setShowsViewModelItems(showPosterListings: List<ShowPosterListing>) {
-        showsViewModelItems.clear()
+        posterThumbnailViewModels.clear()
         for (listing in showPosterListings) {
-            this.showsViewModelItems.add(ShowPosterViewModelItem(listing, listener))
+            this.posterThumbnailViewModels.add(PosterThumbnailViewModel(listing, listener))
         }
 
         notifyDataSetChanged()
@@ -36,13 +35,13 @@ class ShowsAdapter( private val listener: LandingActivityViewModel.LandingActivi
     override fun bindItem(holder: DataBoundViewHolder<ViewDataBinding>?, position: Int, payloads: MutableList<Any>?) {
 
         if (holder != null) {
-            holder.binding.setVariable(BR.viewModel, showsViewModelItems[position])
+            holder.binding.setVariable(BR.viewModel, posterThumbnailViewModels[position])
             holder.binding.setVariable(BR.listener, listener)
         }
     }
 
     override fun getItemCount(): Int {
-        return showsViewModelItems.size
+        return posterThumbnailViewModels.size
     }
 
     override fun getItemViewType(position: Int): Int {
