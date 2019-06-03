@@ -2,6 +2,7 @@ package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBServi
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.serverapi.TVBCLogger.SearchTerm
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 
 
 /**
@@ -19,7 +21,7 @@ import io.reactivex.disposables.Disposable
 class LandingActivityViewModel(
     theMovieDBService: TheMovieDBService,
     tvbcLoggerService: TVBCLoggerService
-) : ViewModel() {
+) : ViewModel(),DefaultLifecycleObserver {
 
     private val _queryResponse = MutableLiveData<QueryResponse>()
     val queryResponse: LiveData<QueryResponse>
@@ -107,16 +109,12 @@ class LandingActivityViewModel(
             when (searchType) {
                 SearchType.MOVIE -> titleDetails = "Movie: $title"
                 SearchType.TV -> titleDetails = "TV: $title"
-                else -> titleDetails = "TV: $title"
             }
-
-
 
             disposable = tvbcLoggerService.postSearchTerm(SearchTerm(titleDetails))
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe { }
-
+                .subscribe(Consumer { Log.d(this.javaClass.simpleName, "Post search term call completed") })
 
         }
     }

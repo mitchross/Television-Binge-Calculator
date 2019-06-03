@@ -1,54 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.vanillax.televisionbingecalculator.app">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vanillax.televisionbingecalculator.app"
+    >
 
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
-	<supports-screens android:smallScreens="false">
-	</supports-screens>
+    <supports-screens android:smallScreens="false"></supports-screens>
 
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<application
-			android:name=".tbc.TelevisionBingeCalculator"
-			android:allowBackup="true"
-			android:hardwareAccelerated="true"
-			android:icon="@mipmap/ic_launcher"
-			android:label="@string/app_name"
-			android:theme="@style/AppTheme">
-		<activity
-				android:name=".kotlin.LandingActivity"
-				android:label="@string/app_name"
-				android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <application
+        android:name=".tbc.TelevisionBingeCalculator"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        >
+        <activity
+            android:name=".kotlin.LandingActivity"
+            android:label="@string/app_name"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity
-				android:name=".kotlin.DetailsActivity"
-				android:label="@string/title_activity_show_details"
-				android:parentActivityName=".kotlin.LandingActivity"
-				android:screenOrientation="portrait">
-			<meta-data
-					android:name="android.support.PARENT_ACTIVITY"
-					android:value=".kotlin.LandingActivity" />
-		</activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".kotlin.DetailsActivity"
+            android:label="@string/title_activity_show_details"
+            android:parentActivityName=".kotlin.LandingActivity"
+            android:screenOrientation="portrait"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".kotlin.LandingActivity"
+                />
+        </activity>
 
-		<meta-data
-				android:name="com.crashlytics.ApiKey"
-				android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808" />
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="1db1f617dd035d3cf864f4501cfa7274cfba1808"
+            />
 
-		<!--<activity-->
-				<!--android:name=".view.LandingActivityMain"-->
-				<!--android:windowSoftInputMode="adjustNothing">-->
-			<!--<intent-filter>-->
-				<!--<action android:name="com.google.android.gms.actions.SEARCH_ACTION" />-->
+        <!--<activity-->
+        <!--android:name=".view.LandingActivityMain"-->
+        <!--android:windowSoftInputMode="adjustNothing">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.android.gms.actions.SEARCH_ACTION" />-->
 
-				<!--<category android:name="android.intent.category.DEFAULT" />-->
-			<!--</intent-filter>-->
-		<!--</activity>-->
-	</application>
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+    </application>
 
 </manifest>
