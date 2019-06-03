@@ -19,6 +19,7 @@ import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
+//TODO make this use LiveData and ViewModel and remove orientation this screen might need seperate landscape layout.
 class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService: JustWatchAPIService) {
     interface DetailsViewModelInterface {
         fun onFetchAllDetails(detailsItemViewModel: DetailsItemViewModel)
