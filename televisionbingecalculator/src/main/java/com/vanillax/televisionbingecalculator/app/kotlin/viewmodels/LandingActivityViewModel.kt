@@ -18,6 +18,7 @@ import io.reactivex.functions.Consumer
 /**
  * Created by mitchross on 4/14/18.
  */
+//TODO add tests around livedata and this viewmodel
 class LandingActivityViewModel(
     theMovieDBService: TheMovieDBService,
     tvbcLoggerService: TVBCLoggerService
