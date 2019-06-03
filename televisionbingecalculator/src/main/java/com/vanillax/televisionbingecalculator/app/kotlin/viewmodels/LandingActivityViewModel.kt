@@ -19,6 +19,7 @@ import io.reactivex.functions.Consumer
  * Created by mitchross on 4/14/18.
  */
 //TODO add tests around livedata and this viewmodel
+//TODO make this viewmodel lifecycleobserver to handle n/w calls without activity telling it
 class LandingActivityViewModel(
     theMovieDBService: TheMovieDBService,
     tvbcLoggerService: TVBCLoggerService
