@@ -14,7 +14,7 @@ import java.util.*
  * Created by mitchross on 2/13/17.
  */
 
-class ShowsAdapter( private val listener: LandingActivityViewModel.LandingActivityViewModelInterface) : BaseDataBindingAdapter<ViewDataBinding>() {
+class ShowsAdapter( private val listener: PosterThumbnailViewModel.PosterThumbnailViewModelCallback) : BaseDataBindingAdapter<ViewDataBinding>() {
 
 
     private val posterThumbnailViewModels: MutableList<PosterThumbnailViewModel>
@@ -45,6 +45,6 @@ class ShowsAdapter( private val listener: LandingActivityViewModel.LandingActivi
     }
 
     override fun getItemViewType(position: Int): Int {
-        return R.layout.show_card_item
+        return R.layout.poster_thumbnail_item
     }
 }

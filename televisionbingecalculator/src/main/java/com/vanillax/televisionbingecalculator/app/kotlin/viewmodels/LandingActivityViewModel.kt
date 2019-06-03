@@ -1,5 +1,6 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,29 +21,17 @@ class LandingActivityViewModel(
     tvbcLoggerService: TVBCLoggerService
 ) : ViewModel() {
 
-    interface LandingActivityViewModelInterface {
-        fun updateShowList(queryResponse: QueryResponse, searchType: SearchType)
-        fun onTouch(id: Int, url: String, title: String)
-        fun error(error: String?)
-    }
-
     private val _queryResponse = MutableLiveData<QueryResponse>()
     val queryResponse: LiveData<QueryResponse>
         get() = _queryResponse
 
 
     private var disposable: Disposable? = null
-    private var listener: LandingActivityViewModelInterface? = null
     private val service = theMovieDBService
     private val tvbcLoggerService = tvbcLoggerService
     var isMovie = ObservableField<Boolean>(false)
     var searchType: SearchType = SearchType.TV
     var searchQuery: String = ""
-
-
-    fun setListener(listener: LandingActivityViewModelInterface) {
-        this.listener = listener
-    }
 
     fun onDisconnect() {
         disposable?.dispose()
@@ -52,7 +41,7 @@ class LandingActivityViewModel(
         if (!query.isNullOrEmpty()) {
             searchShow(query)
         } else {
-            listener?.error("Please Enter a Search Term")
+            Log.d(this.javaClass.simpleName, "Please Enter a Search Term")
         }
     }
 
@@ -70,7 +59,7 @@ class LandingActivityViewModel(
                         result.searchType = searchType
                         _queryResponse.value = result
                     },
-                    { error -> listener?.error(error?.message) }
+                    { error -> Log.d(this.javaClass.simpleName,error?.message)}
 
                 )
         } else {
@@ -82,7 +71,7 @@ class LandingActivityViewModel(
                         result.searchType = searchType
                         _queryResponse.value = result
                     },
-                    { error -> listener?.error(error?.message) }
+                    { error -> Log.d(this.javaClass.simpleName,error?.message)}
 
                 )
         }
@@ -97,7 +86,6 @@ class LandingActivityViewModel(
         when {
             !searchQuery.isNullOrEmpty() -> searchShow(searchQuery)
         }
-
 
     }
 

@@ -9,11 +9,15 @@ import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
 
 class PosterThumbnailViewModel(
     showPosterListing: ShowPosterListing,
-    landingActivityViewModelInterface: LandingActivityViewModel.LandingActivityViewModelInterface
+    posterThumbnailListener: PosterThumbnailViewModelCallback
 ) {
 
+    interface PosterThumbnailViewModelCallback {
+        fun onTouch(id: Int, url: String, title: String)
+    }
+
     val showPosterListing = showPosterListing
-    val listener = landingActivityViewModelInterface
+    val listener = posterThumbnailListener
 
 
     val titlez: String
@@ -40,7 +44,6 @@ class PosterThumbnailViewModel(
 
     fun doSomething() {
         listener.onTouch(showPosterListing.id, posterUrl, getTitle())
-
     }
 
 
