@@ -2,6 +2,7 @@ package com.vanillax.televisionbingecalculator.app.kotlin.network
 
 import com.vanillax.televisionbingecalculator.app.serverapi.TVBCLogger.EmptyResponse
 import com.vanillax.televisionbingecalculator.app.serverapi.TVBCLogger.SearchTerm
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -38,5 +39,5 @@ interface TVBCLoggerService {
 
     @Headers("Content-type: application/json")
     @POST("searchterms")
-    fun postSearchTerm(@Body searchTerm: SearchTerm): io.reactivex.Observable<EmptyResponse>
+    fun postSearchTerm(@Body searchTerm: SearchTerm): Single<Unit>
 }

@@ -1,11 +1,11 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.network
 
 import android.content.Context
-import com.vanillax.televisionbingecalculator.app.tbc.Constants
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
-import io.reactivex.Observable
+import com.vanillax.televisionbingecalculator.app.tbc.Constants
+import io.reactivex.Single
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -53,24 +53,23 @@ interface TheMovieDBService {
     }
 
     @GET("search/tv?" + "api_key=" + Constants.TVBC_Constants.API_KEY)
-     fun queryTV(@Query("query") show: String): Observable<QueryResponse>
+     fun queryTV(@Query("query") show: String): Single<QueryResponse>
 
     @GET("tv/{showId}" + "?api_key=" + Constants.TVBC_Constants.API_KEY)
-     fun queryTVDetails(@Path("showId") showId: String): Observable<TVShowByIdResponse>
+     fun queryTVDetails(@Path("showId") showId: String): Single<TVShowByIdResponse>
 
     @GET("{searchType}/{showId}/credits" + "?api_key=" + Constants.TVBC_Constants.API_KEY)
-     fun queryCast(@Path("showId") showId: String, @Path("searchType") searchType: String): Observable<CastResponse>
+     fun queryCast(@Path("showId") showId: String, @Path("searchType") searchType: String): Single<CastResponse>
 
 
     @GET("search/movie?" + "api_key=" + Constants.TVBC_Constants.API_KEY)
-     fun queryMovie(@Query("query") show: String): Observable<QueryResponse>
+     fun queryMovie(@Query("query") show: String): Single<QueryResponse>
 
     @GET("movie/{showId}" + "?api_key=" + Constants.TVBC_Constants.API_KEY)
-     fun queryMovieDetails(@Path("showId") showId: String): Observable<TVShowByIdResponse>
+     fun queryMovieDetails(@Path("showId") showId: String): Single<TVShowByIdResponse>
 
     @GET("movie/{showId}/credits" + "?api_key=" + Constants.TVBC_Constants.API_KEY)
-     fun queryMovieCast(@Path("showId") showId: String): Observable<CastResponse>
-
+     fun queryMovieCast(@Path("showId") showId: String): Single<CastResponse>
 
 }
 

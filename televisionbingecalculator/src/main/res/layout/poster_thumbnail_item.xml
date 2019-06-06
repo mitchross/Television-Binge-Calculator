@@ -1,0 +1,67 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.PosterThumbnailViewModel"
+            />
+
+        <variable
+            name="listener"
+            type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.PosterThumbnailViewModel.PosterThumbnailViewModelCallback"
+            />
+
+    </data>
+
+
+    <RelativeLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:onClick="@{()-> viewModel.doSomething()}"
+        >
+
+        <ImageView
+            android:id="@+id/poster_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:imageUrl="@{viewModel.posterUrl}"
+            tools:background="@drawable/ic_launcher"
+            />
+
+
+        <TextView
+            android:id="@+id/show_title"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_above="@+id/score"
+            android:layout_alignParentStart="true"
+            android:background="@color/black_15"
+            android:gravity="center"
+            android:text="@{viewModel.titlez}"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Lost"
+            />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black_15"
+            android:gravity="center_horizontal"
+            android:text="@{viewModel.score}"
+            android:textColor="@android:color/white"
+            tools:text="Score: 5"
+            />
+
+
+    </RelativeLayout>
+</layout>
