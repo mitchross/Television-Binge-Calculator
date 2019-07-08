@@ -57,7 +57,6 @@ class LandingActivityViewModel(
         if (searchType.equals(SearchType.TV)) {
             disposable = service.queryTV(query)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(
                     { result ->
                         result.searchType = searchType
@@ -69,7 +68,6 @@ class LandingActivityViewModel(
         } else {
             disposable = service.queryMovie(query)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(
                     { result ->
                         result.searchType = searchType
