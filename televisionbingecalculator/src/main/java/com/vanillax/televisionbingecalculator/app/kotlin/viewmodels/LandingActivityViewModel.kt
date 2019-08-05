@@ -21,9 +21,9 @@ import io.reactivex.functions.Consumer
 //TODO add tests around livedata and this viewmodel
 //TODO make this viewmodel lifecycleobserver to handle n/w calls without activity telling it
 class LandingActivityViewModel(
-    theMovieDBService: TheMovieDBService,
-    tvbcLoggerService: TVBCLoggerService
-) : ViewModel(),DefaultLifecycleObserver {
+        theMovieDBService: TheMovieDBService,
+        tvbcLoggerService: TVBCLoggerService
+) : ViewModel(), DefaultLifecycleObserver {
 
     private val _queryResponse = MutableLiveData<QueryResponse>()
     val queryResponse: LiveData<QueryResponse>
@@ -56,26 +56,26 @@ class LandingActivityViewModel(
 
         if (searchType.equals(SearchType.TV)) {
             disposable = service.queryTV(query)
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .subscribe(
-                    { result ->
-                        result.searchType = searchType
-                        _queryResponse.postValue(result)
-                    },
-                    { error -> Log.d(this.javaClass.simpleName,error?.message)}
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                    .subscribe(
+                            { result ->
+                                result.searchType = searchType
+                                _queryResponse.postValue(result)
+                            },
+                            { error -> Log.d(this.javaClass.simpleName, error?.message) }
 
-                )
+                    )
         } else {
             disposable = service.queryMovie(query)
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .subscribe(
-                    { result ->
-                        result.searchType = searchType
-                        _queryResponse.postValue(result)
-                    },
-                    { error -> Log.d(this.javaClass.simpleName,error?.message)}
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                    .subscribe(
+                            { result ->
+                                result.searchType = searchType
+                                _queryResponse.postValue(result)
+                            },
+                            { error -> Log.d(this.javaClass.simpleName, error?.message) }
 
-                )
+                    )
         }
 
     }
@@ -112,9 +112,9 @@ class LandingActivityViewModel(
             }
 
             disposable = tvbcLoggerService.postSearchTerm(SearchTerm(titleDetails))
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(Consumer { Log.d(this.javaClass.simpleName, "Post search term call completed") })
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribe(Consumer { Log.d(this.javaClass.simpleName, "Post search term call completed") })
 
         }
     }
