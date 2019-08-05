@@ -60,7 +60,7 @@ class LandingActivityViewModel(
                 .subscribe(
                     { result ->
                         result.searchType = searchType
-                        _queryResponse.value = result
+                        _queryResponse.postValue(result)
                     },
                     { error -> Log.d(this.javaClass.simpleName,error?.message)}
 
@@ -71,7 +71,7 @@ class LandingActivityViewModel(
                 .subscribe(
                     { result ->
                         result.searchType = searchType
-                        _queryResponse.value = result
+                        _queryResponse.postValue(result)
                     },
                     { error -> Log.d(this.javaClass.simpleName,error?.message)}
 

@@ -20,7 +20,7 @@ buildscript {
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.google.gms:google-services:4.2.0'
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'io.fabric.tools:gradle:1.27.1'
         classpath 'com.google.firebase:firebase-plugins:1.1.5'
@@ -47,7 +47,6 @@ android {
     }
     dexOptions {
         javaMaxHeapSize "4g"
-        incremental = true
         preDexLibraries = false
     }
 
