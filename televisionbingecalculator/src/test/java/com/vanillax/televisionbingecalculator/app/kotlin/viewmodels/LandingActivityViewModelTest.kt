@@ -1,6 +1,7 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
@@ -15,7 +16,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,8 +31,6 @@ class LandingActivityViewModelTest {
 
     @get:Rule
     val instantTaskRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
-
-    val lifecycle = LifecycleRegistry(Mockito.mock(LifecycleOwner::class.java))
 
     private val okHttpClient = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build()
     private lateinit var movieDBService: TheMovieDBService
@@ -65,8 +63,7 @@ class LandingActivityViewModelTest {
     fun `test able to make search call inside viewmodel`() {
         //given
         viewModel = LandingActivityViewModel(movieDBService, tvbcLoggerService)
-        lifecycle.addObserver(viewModel)
-        val lifecycleOwner = LifecycleOwner { lifecycle }
+
         server.enqueue(MockResponse().setBody(
                 """
                     {
@@ -80,17 +77,19 @@ class LandingActivityViewModelTest {
                 """.trimIndent()
         ))
 
-        //Todo check if the below assert statments inside observe are getting hit.
         //when
-        viewModel.queryResponse.observe(lifecycleOwner, Observer {
-            assertThat(it.searchType).isEqualTo(SearchType.TV)
-            assertThat(it.showPosterListing.size).isEqualTo(4)
-        })
         viewModel.onGetSearchShow("Avengers")
 
         server.takeRequest().also { request ->
             assertThat(request.method).isEqualTo("GET")
             assertThat(request.path).contains("search/tv?")
+        }
+
+        viewModel.queryResponse.value!!.also {
+            assertThat(it.searchType).isEqualTo(SearchType.TV)
+            assertThat(it.showPosterListing.size).isEqualTo(4)
+            assertThat(it.showPosterListing[0].movie_title).isEqualTo("Avengers ultron")
+            assertThat(it.showPosterListing[3].movie_title).isEqualTo("Avengers ending")
         }
 
     }
