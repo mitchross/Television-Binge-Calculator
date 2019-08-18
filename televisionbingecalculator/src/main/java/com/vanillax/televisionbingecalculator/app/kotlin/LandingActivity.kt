@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.google.android.gms.actions.SearchIntents
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.kotlin.adapters.ShowsAdapter
@@ -24,20 +25,22 @@ import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TVBCLoggerService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.QueryResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.utils.getViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel
+import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.PosterThumbnailViewModel
 import com.vanillax.televisionbingecalculator.app.tbc.adapters.SpacesItemDecoration
 
 /**
  * Created by mitchross on 4/14/18.
  */
 
-class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingActivityViewModelInterface {
+class LandingActivity : AppCompatActivity(),
+    PosterThumbnailViewModel.PosterThumbnailViewModelCallback {
 
-
-    private lateinit var viewModel:LandingActivityViewModel
+    private lateinit var viewModel: LandingActivityViewModel
     private lateinit var binding: com.vanillax.televisionbingecalculator.app.databinding.ActivityMainMaterialBinding
 
-    internal var showsAdapter = ShowsAdapter(this)
+    private var showsAdapter = ShowsAdapter(this)
     internal lateinit var decoration: SpacesItemDecoration
     internal var selectedSearchType = SearchType.TV
 
@@ -45,20 +48,23 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         //Binding and View Model initilization
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_material)
-        viewModel = LandingActivityViewModel(TheMovieDBService.create(this), TVBCLoggerService.create() )
+        viewModel = getViewModel {
+            LandingActivityViewModel(
+                TheMovieDBService.create(this),
+                TVBCLoggerService.create()
+            )
+        }
         binding.view = viewModel
-        viewModel.setListener(this)
-
 
         binding.listView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(this, 3)
         decoration = SpacesItemDecoration(3, 35, false)
         binding.listView.addItemDecoration(decoration)
         binding.listView.adapter = showsAdapter
-
-        showsAdapter.setListener(this)
+        viewModel
+            .queryResponse
+            .observe(this, Observer{updateShowList(it)})
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setupWindowAnimations()
@@ -67,7 +73,6 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
 
         setUpEditTextListener()
         handleIntent(intent)
-
 
     }
 
@@ -81,22 +86,23 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
 
         binding.searchField.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                    actionId == EditorInfo.IME_ACTION_DONE ||
-                    actionId == EditorInfo.IME_ACTION_GO ||
-                    event.keyCode == KeyEvent.KEYCODE_ENTER) {
+                actionId == EditorInfo.IME_ACTION_DONE ||
+                actionId == EditorInfo.IME_ACTION_GO ||
+                event.keyCode == KeyEvent.KEYCODE_ENTER
+            ) {
 
 
-               val query = v.text.toString()
+                val query = v.text.toString()
 
-                viewModel.onGetSearchShow( query )
+                viewModel.onGetSearchShow(query)
 
 
-                val inputMethodManager = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                val inputMethodManager =
+                    this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(this.currentFocus!!.windowToken, 0)
 
                 true
-            }
-            else {
+            } else {
                 false
             }
         }
@@ -135,22 +141,16 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
 
     private fun hideListView() {
         binding.listView.visibility = View.GONE
-       // binding.defaultListviewText.visibility = View.VISIBLE
+        // binding.defaultListviewText.visibility = View.VISIBLE
         binding.welcomeTitle.visibility = View.VISIBLE
         binding.resultsFound.text = "Results Found: 0"
     }
 
     private fun updateListView(queryResponse: QueryResponse) {
-      //  binding.defaultListviewText.visibility = View.GONE
+        //  binding.defaultListviewText.visibility = View.GONE
         binding.welcomeTitle.visibility = View.GONE
-
-
         binding.listView.visibility = View.VISIBLE
-
-
         showsAdapter.setShowsViewModelItems(queryResponse.showPosterListing)
-
-
     }
 
     private fun navigateToDetails(id: Int, posterUrl: String, title: String) {
@@ -160,32 +160,23 @@ class LandingActivity : AppCompatActivity(), LandingActivityViewModel.LandingAct
         intent.putExtra("tvshow_id", id)
         intent.putExtra("tvshow_thumbnail", posterUrl)
         intent.putExtra("title", title)
-        intent.putExtra("show_type",selectedSearchType)
+        intent.putExtra("show_type", selectedSearchType)
         intent.flags = FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
     }
 
 
-
-
-
     //Call backs
 
-
-    override fun updateShowList(queryResponse: QueryResponse, searchType: SearchType) {
-
-        selectedSearchType = searchType
-        updateListView( queryResponse )
+    fun updateShowList(queryResponse: QueryResponse) {
+        selectedSearchType = queryResponse.searchType
+        updateListView(queryResponse)
     }
 
     override fun onTouch(id: Int, url: String, title: String) {
-       Log.d("success", "made it")
+        Log.d("success", "made it")
         navigateToDetails(id, url, title)
-        viewModel.logShow(title )
-    }
-
-    override fun error(error: String?) {
-        Log.d("error", error)
+        viewModel.logShow(title)
     }
 
 

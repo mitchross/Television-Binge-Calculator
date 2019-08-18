@@ -1,27 +1,12 @@
 package com.vanillax.televisionbingecalculator.app.viewmodel;
 
+import androidx.lifecycle.ViewModel;
+
 /**
  * Created by mitchross on 2/4/17.
  */
-
-public class SplashScreenViewModel extends BaseViewModel
+//TODO use the homescreen_landing_view.xml
+public class SplashScreenViewModel extends ViewModel
 {
-
-	public interface SplashScreenViewModelCallback extends LifeCycle.View{
-		void onEditTextTapped();
-	}
-
-	protected SplashScreenViewModelCallback getViewCallback()
-	{
-		return (SplashScreenViewModelCallback) super.getViewCallback();
-	}
-
-	public void onEditTextTapped()
-	{
-		if ( hasViewCallback() )
-		{
-			getViewCallback().onEditTextTapped();
-		}
-	}
 
 }
