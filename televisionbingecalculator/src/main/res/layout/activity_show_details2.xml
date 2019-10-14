@@ -10,7 +10,6 @@
             type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -191,7 +190,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/summary"
-            tools:text="Lorem ipsum dolor sit amet, vel fastidii medio nostrum cu. Inani melius nonumes et mel, tale suscipit iudicabit pro at, vel amet etiam veniam at. Ne sea tollit perfecto indoctum, ex vel legimus intellegat abhorreant. Id delicata similique definitionem vis, per no congue iuvaret, an ipsum doctus efficiantur eum." />
+            app:layout_constraintBottom_toTopOf="@id/cast_recycler_view"
+            tools:text="A contemporary and culturally resonant drama about a young programmer, Elliot, who suffers from a debilitating anti-social disorder and decides that he can only connect to people by hacking them. He wields his skills as a weapon to protect the people that he cares about. Elliot will find himself in the intersection between a cybersecurity firm he works for and the underworld organizations that are recruiting him to bring down corporate America." />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cast_recycler_view"
@@ -199,48 +199,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/seasons_number_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/episode_description"
             tools:listitem="@layout/cast_listing" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/all_seasons_title"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="10dp"-->
-        <!--android:fontFamily="sans-serif-light"-->
-        <!--android:text="All Seasons"-->
-        <!--android:textSize="18sp"-->
-        <!--android:visibility="visible"-->
-        <!--app:layout_constraintStart_toEndOf="@id/season_spinner"-->
-        <!--app:layout_constraintTop_toTopOf="@id/season_spinner" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/seasons_number_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
-
+            android:gravity="center_horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/episode_total"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cast_recycler_view"
             tools:listitem="@layout/season_number_item2" />
-
-        <!--<android.support.v7.widget.AppCompatSpinner-->
-        <!--android:id="@+id/season_spinner"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="24dp"-->
-        <!--android:layout_marginStart="10dp"-->
-        <!--android:visibility="@{safeUnbox(!object.isMovie())}"-->
-        <!--app:layout_constraintBottom_toTopOf="@id/episode_total"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@id/cast_recycler_view"-->
-        <!--tools:visibility="invisible" />-->
 
         <TextView
             android:id="@+id/episode_total"
@@ -298,6 +273,7 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:orientation="horizontal"
+            android:gravity="center_horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
