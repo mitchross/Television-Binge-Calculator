@@ -1,252 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
-		xmlns:app="http://schemas.android.com/apk/res-auto" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<data>
+    <data>
 
+        <variable
+            name="viewState"
+            type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel.LandingViewState" />
+    </data>
 
-		<variable
-				name="view"
-				type="com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel" />
-	</data>
-
-	<androidx.constraintlayout.widget.ConstraintLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:background="@color/material_gray_800">
-
-
-		<LinearLayout
-				android:id="@+id/search_field_view"
-				android:layout_width="0dp"
-				android:layout_height="60dp"
-				android:background="@color/material_gray_800"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				tools:layout_editor_absoluteX="0dp">
-		<EditText
-				android:id="@+id/search_field"
-				android:transitionName="test"
-				android:layout_width="match_parent"
-				android:layout_height="44dp"
-				android:inputType="text"
-				android:imeOptions="actionSearch"
-				android:layout_marginTop="8dp"
-				android:layout_marginLeft="6dp"
-				android:layout_marginRight="6dp"
-				android:hint="Search for a show to begin"
-				android:gravity="left|center_vertical"
-				android:elevation="3dp"
-				android:paddingLeft="30dp"
-				android:layout_gravity="center_vertical"
-				android:textColor="@android:color/darker_gray"
-				android:background="@drawable/rounded_corners"
-				tools:layout_editor_absoluteX="8dp" />
-		</LinearLayout>
-
-
-
-		<View
-				android:id="@+id/sub_header"
-				android:layout_width="0dp"
-				android:layout_height="52dp"
-				android:background="@color/material_gray_800"
-				app:layout_constraintTop_toBottomOf="@+id/search_field_view"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:layout_editor_absoluteX="8dp" />
-
-		<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="30dp"
-				android:text="Television"
-				android:textSize="24sp"
-				android:textColor="@android:color/white"
-				android:background="@color/material_gray_800"
-				android:gravity="center_vertical"
-				android:id="@+id/tv_tab"
-				android:onClick="@{() ->view.onTelevisionClick()}"
-				app:layout_constraintTop_toTopOf="@+id/sub_header"
-				app:layout_constraintBottom_toBottomOf="@id/sub_header"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="@+id/guide"
-				tools:layout_editor_absoluteX="68dp" />
-
-		<androidx.constraintlayout.widget.Guideline
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/guide"
-				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.5"
-				tools:layout_editor_absoluteY="25dp"
-				tools:layout_editor_absoluteX="300dp" />
-
-		<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="30dp"
-				android:text="Movies"
-				android:textSize="24sp"
-				android:textColor="@android:color/white"
-				android:background="@color/material_gray_800"
-				app:layout_constraintTop_toTopOf="@+id/sub_header"
-				app:layout_constraintBottom_toBottomOf="@id/sub_header"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="@id/guide"
-				android:onClick="@{() -> view.onMovieClick()}"
-				android:id="@+id/movie_tab"
-				tools:layout_editor_absoluteX="396dp" />
-		<View
-			android:id="@+id/television_selector"
-		    android:layout_width="0dp"
-		    android:layout_height="4dp"
-		    android:background="@android:color/white"
-		    app:layout_constraintStart_toStartOf="parent"
-		    app:layout_constraintEnd_toStartOf="@id/guide"
-		    app:layout_constraintBottom_toBottomOf="@id/sub_header"
-			android:visibility="@{safeUnbox(!view.isMovie), default=visible}">
-		</View>
-
-		<View
-				android:id="@+id/movie_selector"
-				android:layout_width="0dp"
-				android:layout_height="4dp"
-				android:background="@android:color/white"
-				android:visibility="@{safeUnbox(view.isMovie), default=invisible}"
-				app:layout_constraintStart_toStartOf="@id/guide"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintBottom_toBottomOf="@id/sub_header"
-				>
-		</View>
-
-		<View android:layout_width="match_parent"
-		      android:layout_height="5dp"
-		      android:id="@+id/drop_shadow"
-		      app:layout_constraintTop_toBottomOf="@id/television_selector"
-		      app:layout_constraintStart_toStartOf="parent"
-		      android:background="@drawable/toolbar_dropshadow"/>
-
-
-		<!--<TextView-->
-		<!--android:layout_width="wrap_content"-->
-		<!--android:layout_height="wrap_content"-->
-		<!--android:text="Television"-->
-		<!--android:textSize="30sp"-->
-		<!--android:textColor="@android:color/white"-->
-		<!--android:background="@color/material_gray_800"-->
-		<!--android:id="@+id/tv_tab"-->
-		<!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
-		<!--app:layout_constraintStart_toStartOf="parent"-->
-		<!--app:layout_constraintEnd_toStartOf="@+id/anchor"-->
-		<!--app:layout_constraintHorizontal_chainStyle="spread"-->
-
-
-				<!--/>-->
-
-		<!--&lt;!&ndash;<android.support.constraint.Guideline&ndash;&gt;-->
-				<!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-				<!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-				<!--&lt;!&ndash;android:id="@+id/guide"&ndash;&gt;-->
-				<!--&lt;!&ndash;app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
-				<!--&lt;!&ndash;app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
-				<!--&lt;!&ndash;/>&ndash;&gt;-->
-
-		<!--<TextView-->
-				<!--android:id="@+id/anchor"-->
-				<!--android:layout_width="wrap_content"-->
-				<!--android:layout_height="wrap_content"-->
-				<!--android:text=""-->
-				<!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
-				<!--app:layout_constraintStart_toEndOf="@+id/tv_tab"-->
-				<!--app:layout_constraintEnd_toStartOf="@+id/movie_tab"/>-->
-
-		<!--<TextView-->
-		<!--android:layout_width="wrap_content"-->
-		<!--android:layout_height="wrap_content"-->
-		<!--android:text="Movies"-->
-		<!--android:textSize="30sp"-->
-		<!--android:textColor="@android:color/white"-->
-		<!--android:background="@color/material_gray_800"-->
-		<!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
-		<!--app:layout_constraintEnd_toEndOf="parent"-->
-		<!--app:layout_constraintStart_toEndOf="@id/anchor"-->
-		<!--android:id="@+id/movie_tab" />-->
-
-		<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/welcome_title"
-		        android:text="Welcome to the \nTelevision Binge Calculator!"
-		        android:layout_marginTop="40dp"
-		        android:gravity="center"
-				android:textColor="@android:color/white"
-		        android:textStyle="bold"
-		        android:textSize="24sp"
-		        app:layout_constraintTop_toBottomOf="@+id/sub_header"
-		        app:layout_constraintStart_toStartOf="parent"
-		        app:layout_constraintEnd_toEndOf="parent"
-				/>
-
-
-		<!--<ImageView-->
-				<!--android:id="@+id/default_listview_text"-->
-				<!--android:layout_width="393dp"-->
-				<!--android:layout_height="240dp"-->
-				<!--android:layout_marginTop="40dp"-->
-				<!--android:src="@drawable/tutorial_large"-->
-				<!--app:layout_constraintStart_toStartOf="parent"-->
-				<!--app:layout_constraintEnd_toEndOf="parent"-->
-				<!--app:layout_constraintTop_toBottomOf="@+id/welcome_title" />-->
-
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_view"
-        android:clipToPadding="false"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movie_selector"
-        app:layout_constraintBottom_toBottomOf="parent"
-         />
+        android:layout_height="match_parent"
+        android:background="@color/material_gray_800">
+
+        <LinearLayout
+            android:id="@+id/search_field_view"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@color/material_gray_800"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/search_field"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/rounded_corners"
+                android:elevation="3dp"
+                android:gravity="left|center_vertical"
+                android:hint="Search for a show to begin"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:paddingLeft="30dp"
+                android:text="@{viewState.searchQuery}"
+                android:textColor="@android:color/darker_gray"
+                android:transitionName="test" />
+
+        </LinearLayout>
 
 
+        <View
+            android:id="@+id/sub_header"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:background="@color/material_gray_800"
+            app:layout_constraintTop_toBottomOf="@+id/search_field_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteX="8dp" />
+
+        <TextView
+            android:id="@+id/tv_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@color/material_gray_800"
+            android:gravity="center_vertical"
+            android:text="Television"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="@+id/sub_header"
+            app:layout_constraintBottom_toBottomOf="@id/sub_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guide" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/movie_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@color/material_gray_800"
+            android:text="Movies"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="@+id/sub_header"
+            app:layout_constraintBottom_toBottomOf="@id/sub_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guide" />
+
+        <View
+            android:id="@+id/television_selector"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@android:color/white"
+            android:visibility="@{viewState.tvSelectionVisibility}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guide"
+            app:layout_constraintBottom_toBottomOf="@id/sub_header" />
+
+        <View
+            android:id="@+id/movie_selector"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:background="@android:color/white"
+            android:visibility="@{viewState.movieSelectionVisibility}"
+            app:layout_constraintStart_toStartOf="@id/guide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/sub_header" />
+
+        <View
+            android:id="@+id/drop_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/toolbar_dropshadow"
+            app:layout_constraintTop_toBottomOf="@id/television_selector"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
-	<TextView
-			android:id="@+id/results_found"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:background="@color/black_15"
-			android:textColor="@android:color/white"
-			android:textSize="24sp"
-			android:gravity="center"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			android:visibility="gone"
-			tools:text="displaying 5 search results"
-
-			tools:layout_editor_absoluteX="300dp">
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Television"-->
+        <!--android:textSize="30sp"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:background="@color/material_gray_800"-->
+        <!--android:id="@+id/tv_tab"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/anchor"-->
+        <!--app:layout_constraintHorizontal_chainStyle="spread"-->
 
 
+        <!--/>-->
+
+        <!--&lt;!&ndash;<android.support.constraint.Guideline&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/guide"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/anchor"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text=""-->
+        <!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/tv_tab"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/movie_tab"/>-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Movies"-->
+        <!--android:textSize="30sp"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:background="@color/material_gray_800"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/search_field_view"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toEndOf="@id/anchor"-->
+        <!--android:id="@+id/movie_tab" />-->
+
+        <TextView
+            android:id="@+id/welcome_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:visibility="@{viewState.emptyShowVisibility}"
+            android:text="Welcome to the \nTelevision Binge Calculator!"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/sub_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
-	</TextView>
+        <!--<ImageView-->
+        <!--android:id="@+id/default_listview_text"-->
+        <!--android:layout_width="393dp"-->
+        <!--android:layout_height="240dp"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:src="@drawable/tutorial_large"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/welcome_title" />-->
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="false"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:visibility="@{viewState.hasShowsVisibility}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_selector"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
+        <TextView
+            android:id="@+id/results_found"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/black_15"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="displaying 5 search results" />
 
-
-
-	</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
