@@ -2,6 +2,10 @@ package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
@@ -20,27 +24,30 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 //TODO make this use LiveData and ViewModel and remove orientation this screen might need seperate landscape layout.
-class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService: JustWatchAPIService) {
-    interface DetailsViewModelInterface {
-        fun onFetchAllDetails(detailsItemViewModel: DetailsItemViewModel)
-        fun error(error: String?)
-        fun onSeasonNumberTouch(seasonNumber: Int)
+class DetailsViewModel(
+        theMovieDBService: TheMovieDBService,
+        justWatchAPIService: JustWatchAPIService
+) : ViewModel(),DefaultLifecycleObserver
 
-    }
+{
 
-    interface SeasonNumberAdapterInterface {
-        fun onSeasonNumberChange(seasonNumber: Int)
-    }
+    private val _detailsItemViewModel = MutableLiveData<DetailsItemViewModel>()
+     val detailsItemViewModel: LiveData<DetailsItemViewModel>
+        get() =_detailsItemViewModel
+
+
+
 
     //Dependencies
     // private var disposable: Disposable? = null
     private var disposables = CompositeDisposable()
 
 
-    private var listener: DetailsViewModelInterface? = null
+
     private val movieDBService = theMovieDBService
     private val justWatchAPIService = justWatchAPIService
     private var calcUtils: CalculatorUtils? = null
+
     //Initial view values
     var showId: Int = 0
     var showTitle = ObservableField<String>("")
@@ -57,7 +64,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     var episodeCount: String = ""
     var episodeRuntime: String = ""
 
-    var detailsItemViewModel: DetailsItemViewModel? = null
+
 
 
     //Databinding
@@ -68,10 +75,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     var list = ArrayList<String>()
 
-    fun setListener(listener: DetailsViewModelInterface) {
 
-        this.listener = listener
-    }
 
     //Lifecycle
     fun onDisconnect() {
@@ -105,7 +109,7 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
     }
 
-    private fun populateView(detailsItemViewModel: DetailsItemViewModel) {
+     fun populateView(detailsItemViewModel: DetailsItemViewModel) {
         isLoading.set(false)
 
         //Binge Time Text
@@ -127,8 +131,6 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
 
 
 
-        listener?.onFetchAllDetails(detailsItemViewModel)
-
 
     }
 
@@ -137,6 +139,9 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
     }
 
     fun selectSeason(seasonNumber: Int) {
+
+        //TODO is this right?
+        val detailsItemViewModel = detailsItemViewModel.value
         if (seasonNumber == 0) {
             episodeCount = detailsItemViewModel?.episodeCount.toString()
 
@@ -171,10 +176,12 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            populateView(result)
+                           // populateView(result)
+                            _detailsItemViewModel.postValue( result )
+
                         },
                         { error ->
-                            listener?.error(error?.message)
+                            Log.d(this.javaClass.simpleName,error?.message)
                             isLoading.set(false)
                         }
                 )
@@ -205,23 +212,21 @@ class DetailsViewModel(theMovieDBService: TheMovieDBService, justWatchAPIService
         val year = calcUtils?.getYear(selectedSearchType)
         val seasonsCount = calcUtils?.numberOfSeasons()
 
-        detailsItemViewModel = DetailsItemViewModel(
-                episodeCount,
-                runtime,
-                bingeTime,
-                imageUrl,
-                thumbnailUrl,
-                castResponse,
-                streamDetails,
-                year,
-                category,
-                showTitle.get().toString(),
-                tvShowByIdResponse.episodeDescription,
-                seasonsCount,
-                tvShowByIdResponse)
 
-
-        return detailsItemViewModel as DetailsItemViewModel
+        return DetailsItemViewModel(
+                 episodeCount,
+                 runtime,
+                 bingeTime,
+                 imageUrl,
+                 thumbnailUrl,
+                 castResponse,
+                 streamDetails,
+                 year,
+                 category,
+                 showTitle.get().toString(),
+                 tvShowByIdResponse.episodeDescription,
+                 seasonsCount,
+                 tvShowByIdResponse)
     }
 
     fun getDetails(showId: Int): Single<TVShowByIdResponse> {
