@@ -141,19 +141,33 @@ class DetailsViewModel(
     fun selectSeason(seasonNumber: Int) {
 
         //TODO is this right?
-        val detailsItemViewModel = detailsItemViewModel.value
+
         if (seasonNumber == 0) {
-            episodeCount = detailsItemViewModel?.episodeCount.toString()
+            _detailsItemViewModel.value?.let{
 
-            episodesCountString.set(BindingTextHelper(R.string.episode_count, setBingeTime(episodeCount)))
+                episodeCount = it.episodeCount.toString()
+                episodesCountString.set(BindingTextHelper(R.string.episode_count, setBingeTime(episodeCount)))
 
-            //Binge Time Text
-            bingeTime = detailsItemViewModel?.bingeTime.toString()
-            totalBingeTimeString.set(BindingTextHelper(R.string.estimated_binge_time, setBingeTime(bingeTime)))
 
-            episodeRuntime = detailsItemViewModel?.runtime.toString()
-            runtimeString.set(BindingTextHelper(R.string.runtime, setBingeTime(episodeRuntime)))
+                bingeTime = it.bingeTime.toString()
+                totalBingeTimeString.set(BindingTextHelper(R.string.estimated_binge_time, setBingeTime(bingeTime)))
+
+                episodeRuntime = it.runtime.toString()
+                runtimeString.set(BindingTextHelper(R.string.runtime, setBingeTime(episodeRuntime)))
+
+
+
+            }
+
+
         } else {
+
+            _detailsItemViewModel.value?.let {
+
+               episodeRuntime=  it.runtime.toString()
+                runtimeString.set(BindingTextHelper(R.string.runtime, setBingeTime(episodeRuntime)))
+            }
+
             episodeCount = calcUtils?.getNumberOfEpisodesForSeason(seasonNumber).toString()
             episodesCountString.set(BindingTextHelper(R.string.episode_count, setBingeTime(episodeCount)))
 
@@ -161,8 +175,6 @@ class DetailsViewModel(
             bingeTime = calcUtils?.calcSpecificSeason(seasonNumber, selectedSearchType).toString()
             totalBingeTimeString.set(BindingTextHelper(R.string.estimated_binge_time, setBingeTime(bingeTime)))
 
-            episodeRuntime = detailsItemViewModel?.runtime.toString()
-            runtimeString.set(BindingTextHelper(R.string.runtime, setBingeTime(episodeRuntime)))
         }
 
     }
