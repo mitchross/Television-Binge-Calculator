@@ -4,7 +4,7 @@ import com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastRe
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
 
-class DetailsItemViewModel
+data class DetailsItemViewModel
 (
         val episodeCount: Int?,
         val runtime:Int?,

@@ -2,9 +2,15 @@ package com.vanillax.televisionbingecalculator.app.viewmodel
 
 import androidx.databinding.ObservableInt
 import com.vanillax.televisionbingecalculator.app.R
-import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
 
-class SeasonNumberViewModelItem(internal var number: Int, val listener: DetailsViewModel.DetailsViewModelInterface) {
+class SeasonNumberViewModelItem(internal var number: Int,
+                                seasonClickListener: SeasonNumberViewModelitemCallback) {
+
+    interface SeasonNumberViewModelitemCallback {
+        fun onSeasonTouch(seasonNumber: Int)
+    }
+
+    val listener = seasonClickListener
 
     val seasonNumber: String
         get() = if (number == 0) "All" else number.toString()
@@ -22,7 +28,7 @@ class SeasonNumberViewModelItem(internal var number: Int, val listener: DetailsV
     }
 
     fun onItemClicked() {
-        listener.onSeasonNumberTouch(number)
+        listener.onSeasonTouch(number)
         textColor.set(R.color.material_blue)
     }
 }

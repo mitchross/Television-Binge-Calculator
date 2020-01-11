@@ -5,7 +5,6 @@ import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -16,6 +15,7 @@ import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService.Companion.create
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.utils.getViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsItemViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel
 import com.vanillax.televisionbingecalculator.app.serverapi.movie.Scoring
@@ -26,14 +26,15 @@ import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewMode
 import java.util.*
 
 
-class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelInterface, AdapterView.OnItemSelectedListener {
+class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, SeasonNumberViewModelItem.SeasonNumberViewModelitemCallback {
+
 
     private lateinit var viewModel: DetailsViewModel
     private lateinit var binding: ActivityShowDetails2Binding
 
     internal var streamingSourceRecyclerAdapter = StreamingSourceRecyclerAdapter()
     internal var castListRecyclerAdapter = CastListRecyclerAdapter()
-    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter()
+    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter(this)
 
     internal var showId: Int = 0
     protected var showTitle: String = ""
@@ -45,10 +46,17 @@ class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelIn
         super.onCreate(savedInstanceState)
 
         //Binding and View Model initilization
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details2)
-        viewModel = DetailsViewModel(create(this), JustWatchAPIService.create(this))
+
+        viewModel = getViewModel {
+            DetailsViewModel(create(this),
+            JustWatchAPIService.create(this)
+            )
+        }
+
         binding.`object` = viewModel
-        viewModel.setListener(this)
+
 
         //Intent data from previous activitiy
         showId = intent.getIntExtra("tvshow_id", 0)
@@ -56,10 +64,15 @@ class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelIn
         showTitle = intent.getStringExtra("title")
         selectedSearchType = intent.getSerializableExtra("show_type") as SearchType
 
+        setUpViews()
+
         //Set Up and pass data to our view model
         viewModel.setShowMetaData(showId, showTitle, thumbnailUrl, selectedSearchType)
+        viewModel
+                .detailsItemViewModel
+                .observe(this, androidx.lifecycle.Observer { onFetchAllDetails(it) })
 
-        setUpViews()
+
     }
 
     private fun setUpViews() {
@@ -149,7 +162,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelIn
             items.add(i.toString())
         }
 
-        val adapter = ArrayAdapter(this, R.layout.season_spinner_row, items)
+        //val adapter = ArrayAdapter(this, R.layout.season_spinner_row, items)
         // binding.seasonSpinner.adapter = adapter
         //binding.seasonSpinner.setOnItemSelectedListener(this)
     }
@@ -167,16 +180,16 @@ class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelIn
 
         seasonNumberRecyclerAdapter.setSeasonList(seasonNumberViewmodelList)
         castListRecyclerAdapter.setCastList(detailsItemViewModel.castResponse)
+
+        viewModel.populateView(detailsItemViewModel)
+
     }
 
-    override fun onFetchAllDetails(detailsItemViewModel: DetailsItemViewModel) {
+     fun onFetchAllDetails(detailsItemViewModel: DetailsItemViewModel) {
         Log.d("test", "got data")
         populateRecyclerViews(detailsItemViewModel)
     }
 
-    override fun error(error: String?) {
-        Log.d("test", "error")
-    }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
 
@@ -186,7 +199,11 @@ class DetailsActivity : AppCompatActivity(), DetailsViewModel.DetailsViewModelIn
         viewModel.selectSeason(p2)
     }
 
-    override fun onSeasonNumberTouch(seasonNumber: Int) {
+//    override fun onSeasonNumberTouch(seasonNumber: Int) {
+
+//    }
+
+    override fun onSeasonTouch(seasonNumber: Int) {
         Log.d("test", "" + seasonNumber)
         viewModel.selectSeason(seasonNumber)
 
