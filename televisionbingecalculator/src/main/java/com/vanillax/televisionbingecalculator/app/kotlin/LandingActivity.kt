@@ -57,7 +57,7 @@ class LandingActivity : AppCompatActivity() {
 
             showsAdapter.setShowsViewModelItems(it.showPosterListings)
 
-            it.landingEvent?.let { event ->
+            it.landingEvent?.value?.let { event ->
 
                 when (event) {
 

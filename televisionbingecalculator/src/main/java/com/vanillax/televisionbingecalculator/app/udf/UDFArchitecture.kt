@@ -1,23 +1,30 @@
 package com.vanillax.televisionbingecalculator.app.udf
 
-import androidx.lifecycle.MutableLiveData
-
-class UIEvent<T> : MutableLiveData<T>() {
+class UIEvent<T> {
 
     private var consumed = false
 
-    override fun getValue(): T? {
+    var value: T? = null
+        set(value) {
+            consumed = false
+            field = value
+        }
+        get() {
 
-        if (consumed) {
-            return null
+            if (consumed) {
+                return null
+            }
+
+            consumed = true
+            return field
         }
 
-        consumed = true
-        return super.getValue()
-    }
+    companion object {
 
-    override fun setValue(value: T) {
-        consumed = false
-        super.setValue(value)
+        fun <T> create(t: T): UIEvent<T> {
+            return UIEvent<T>().apply {
+                value = t
+            }
+        }
     }
 }
