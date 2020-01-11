@@ -55,7 +55,7 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
             )
         }
 
-        binding.`object` = viewModel
+        binding.`viewState` = viewModel
 
 
         //Intent data from previous activitiy

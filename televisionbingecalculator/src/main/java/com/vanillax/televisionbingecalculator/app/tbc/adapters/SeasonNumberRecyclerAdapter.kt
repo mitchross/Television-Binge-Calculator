@@ -7,19 +7,27 @@ import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBi
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder
 import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewModelItem
 
-class SeasonNumberRecyclerAdapter( private val listener: SeasonNumberViewModelItem.SeasonNumberViewModelitemCallback) : BaseDataBindingAdapter<ViewDataBinding>() {
+
+class SeasonNumberRecyclerAdapter( private val callback: ( number: Int ) -> Unit) : BaseDataBindingAdapter<ViewDataBinding>() {
 
     internal var seasonList: ArrayList<SeasonNumberViewModelItem> = arrayListOf()
 
     fun setSeasonList(seasonNumberViewmodelList: ArrayList<SeasonNumberViewModelItem>) {
+
+        if (this.seasonList == seasonNumberViewmodelList) {
+            return
+        }
+
         seasonList.clear()
         for( s in seasonNumberViewmodelList)
         {
-            seasonList.add(SeasonNumberViewModelItem(s.number,listener))
+            seasonList.add(SeasonNumberViewModelItem(s.number,callback))
         }
         seasonList.addAll(seasonNumberViewmodelList)
 
         notifyDataSetChanged()
+
+        this.seasonList = seasonNumberViewmodelList
     }
 
 
@@ -27,7 +35,6 @@ class SeasonNumberRecyclerAdapter( private val listener: SeasonNumberViewModelIt
     override fun bindItem(holder: DataBoundViewHolder<ViewDataBinding>?, position: Int, payloads: MutableList<Any>?) {
         if (holder != null) {
             holder.binding.setVariable(BR.viewModel, seasonList[position] )
-            holder.binding.setVariable(BR.listener, listener)
         }
     }
 

@@ -4,13 +4,12 @@ import androidx.databinding.ObservableInt
 import com.vanillax.televisionbingecalculator.app.R
 
 class SeasonNumberViewModelItem(internal var number: Int,
-                                seasonClickListener: SeasonNumberViewModelitemCallback) {
+                                private val callback: ( number: Int ) -> Unit ) {
 
     interface SeasonNumberViewModelitemCallback {
         fun onSeasonTouch(seasonNumber: Int)
     }
 
-    val listener = seasonClickListener
 
     val seasonNumber: String
         get() = if (number == 0) "All" else number.toString()
@@ -28,7 +27,7 @@ class SeasonNumberViewModelItem(internal var number: Int,
     }
 
     fun onItemClicked() {
-        listener.onSeasonTouch(number)
+        callback.invoke(number)
         textColor.set(R.color.material_blue)
     }
 }

@@ -2,7 +2,10 @@ package com.vanillax.televisionbingecalculator.app.kotlin.viewmodels
 
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TVBCLoggerService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
@@ -13,9 +16,7 @@ import com.vanillax.televisionbingecalculator.app.udf.UIEvent
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
 
 /**
  * Created by mitchross on 4/14/18.
@@ -26,7 +27,7 @@ class LandingActivityViewModel(
 ) : ViewModel() {
 
     private val _landingViewState = MediatorLiveData<LandingViewState>()
-            .also {
+            .also { it: MediatorLiveData<LandingViewState> ->
                 it.value = LandingViewState()
             }
 
