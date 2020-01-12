@@ -8,17 +8,9 @@ import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
  */
 
 class PosterThumbnailViewModel(
-    showPosterListing: ShowPosterListing,
-    posterThumbnailListener: PosterThumbnailViewModelCallback
+    private val showPosterListing: ShowPosterListing,
+    private val callback: (id: Int, url: String, title: String) -> Unit
 ) {
-
-    interface PosterThumbnailViewModelCallback {
-        fun onTouch(id: Int, url: String, title: String)
-    }
-
-    val showPosterListing = showPosterListing
-    val listener = posterThumbnailListener
-
 
     val titlez: String
         get() = getTitle()
@@ -43,8 +35,6 @@ class PosterThumbnailViewModel(
     }
 
     fun doSomething() {
-        listener.onTouch(showPosterListing.id, posterUrl, getTitle())
+        callback.invoke(showPosterListing.id, posterUrl, getTitle())
     }
-
-
 }
