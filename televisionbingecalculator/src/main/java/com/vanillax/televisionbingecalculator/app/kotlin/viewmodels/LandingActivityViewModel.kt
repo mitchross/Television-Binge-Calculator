@@ -51,7 +51,7 @@ class LandingActivityViewModel(
                                 _landingViewState.value!!.searchType))
             }
 
-    private val uiEvent = UIEvent<LandingEvent>()
+    private val uiEvent = MutableLiveData<UIEvent<LandingEvent>>()
             .also {
                 _landingViewState.addSource(it) {
                     combineSources()
@@ -118,7 +118,7 @@ class LandingActivityViewModel(
                                     })
                         }
 
-                        uiEvent.postValue(LandingEvent.ShowDetails(action.id, action.url, action.title.orEmpty(), it))
+                        uiEvent.postValue(UIEvent.create(LandingEvent.ShowDetails(action.id, action.url, action.title.orEmpty(), it)))
                     }
                 }
             }
@@ -167,7 +167,7 @@ class LandingActivityViewModel(
                                 val emptyShowVisibility: Int = View.VISIBLE,
                                 val hasShowsVisibility: Int = View.GONE,
                                 val searchQuery: String = "",
-                                val landingEvent: LandingEvent? = null)
+                                val landingEvent: UIEvent<LandingEvent>? = null)
 
     sealed class LandingAction {
         object MovieClicked : LandingAction()

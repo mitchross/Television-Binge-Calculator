@@ -10,9 +10,9 @@ import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewMode
 
 class SeasonNumberRecyclerAdapter( private val callback: ( number: Int ) -> Unit) : BaseDataBindingAdapter<ViewDataBinding>() {
 
-    internal var seasonList: ArrayList<SeasonNumberViewModelItem> = arrayListOf()
+    internal var seasonList: MutableList<SeasonNumberViewModelItem> = mutableListOf()
 
-    fun setSeasonList(seasonNumberViewmodelList: ArrayList<SeasonNumberViewModelItem>) {
+    fun setSeasonList(seasonNumberViewmodelList: MutableList<SeasonNumberViewModelItem>) {
 
         if (this.seasonList == seasonNumberViewmodelList) {
             return

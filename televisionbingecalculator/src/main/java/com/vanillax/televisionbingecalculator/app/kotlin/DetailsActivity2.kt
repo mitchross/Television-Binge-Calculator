@@ -50,6 +50,15 @@ class DetailsActivity2 : AppCompatActivity() {
            seasonNumberRecyclerAdapter.setSeasonList(it.seasonCount)
 
 
+           it.detailsUIEvent?.value?.let { event ->
+
+               when (event) {
+
+                   is DetailsViewModel2.DetailsUIEvent.FakeEvent -> {
+                       // no-op
+                   }
+               }
+           }
 
 
        })
@@ -59,8 +68,6 @@ class DetailsActivity2 : AppCompatActivity() {
         }
 
         binding.seasonsNumberList.adapter = seasonNumberRecyclerAdapter
-
-
 
     }
 }

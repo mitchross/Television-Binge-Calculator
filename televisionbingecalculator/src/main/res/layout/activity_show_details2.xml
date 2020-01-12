@@ -20,7 +20,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{safeUnbox(viewState.isLoading())}"
+            android:visibility="@{safeUnbox(viewState.loadingVisibility)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -147,11 +147,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/category_title" />
-        <!--text_helper="@{object.totalBingeTimeString}"-->
+        <!--text="@{object.totalBingeTimeString}"-->
 
         <TextView
             android:id="@+id/binge_time"
-            android:text_helper="@{viewState.totalBingeTimeString}"
+            android:text="@{viewState.totalBingeTimeString}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/material_gray_800"
@@ -219,7 +219,7 @@
 
         <TextView
             android:id="@+id/episode_total"
-            android:text_helper="@{viewState.episodesCountString}"
+            android:text="@{viewState.episodesCountString}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -228,7 +228,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:visibility="@{safeUnbox(!viewState.isMovie())}"
+            android:visibility="@{safeUnbox(viewState.episodeVisibility)}"
             app:layout_constraintBottom_toTopOf="@id/available_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/episode_runtime"
@@ -236,14 +236,14 @@
 
         <TextView
             android:id="@+id/episode_runtime"
-            android:text_helper="@{viewState.runtimeString}"
+            android:text="@{viewState.runtimeString}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:fontFamily="sans-serif-light"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:visibility="@{safeUnbox(!viewState.isMovie())}"
+            android:visibility="@{safeUnbox(viewState.episodeVisibility)}"
             app:layout_constraintBottom_toBottomOf="@id/episode_total"
             app:layout_constraintStart_toEndOf="@id/episode_total"
             app:layout_constraintEnd_toEndOf="parent"

@@ -34,7 +34,7 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     internal var streamingSourceRecyclerAdapter = StreamingSourceRecyclerAdapter()
     internal var castListRecyclerAdapter = CastListRecyclerAdapter()
-    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter(this)
+//    var seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter(this)
 
     internal var showId: Int = 0
     protected var showTitle: String = ""
@@ -55,7 +55,7 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
             )
         }
 
-        binding.`viewState` = viewModel
+//        binding.`viewState` = viewModel
 
 
         //Intent data from previous activitiy
@@ -92,7 +92,7 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         binding.castRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.castRecyclerView.adapter = castListRecyclerAdapter
-        binding.seasonsNumberList.adapter = seasonNumberRecyclerAdapter
+//        binding.seasonsNumberList.adapter = seasonNumberRecyclerAdapter
 
         // binding.episodeDescription.setMovementMethod(ScrollingMovementMethod())
 
@@ -173,12 +173,12 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         val seasonNumberViewmodelList = arrayListOf<SeasonNumberViewModelItem>()
 
-        // +1 to the seasonCount so that 0 is ALL seasons
-        for (i in 0 until detailsItemViewModel.seasonCount + 1) {
-            seasonNumberViewmodelList.add(SeasonNumberViewModelItem(i, this))
-        }
+//        // +1 to the seasonCount so that 0 is ALL seasons
+//        for (i in 0 until detailsItemViewModel.seasonCount + 1) {
+//            seasonNumberViewmodelList.add(SeasonNumberViewModelItem(i, this))
+//        }
 
-        seasonNumberRecyclerAdapter.setSeasonList(seasonNumberViewmodelList)
+//        seasonNumberRecyclerAdapter.setSeasonList(seasonNumberViewmodelList)
         castListRecyclerAdapter.setCastList(detailsItemViewModel.castResponse)
 
         viewModel.populateView(detailsItemViewModel)
@@ -207,12 +207,12 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         Log.d("test", "" + seasonNumber)
         viewModel.selectSeason(seasonNumber)
 
-        for (item: SeasonNumberViewModelItem in seasonNumberRecyclerAdapter.seasonList) {
-
-            if (item.number != seasonNumber) {
-                item.setColorToDefault()
-            }
-        }
+//        for (item: SeasonNumberViewModelItem in seasonNumberRecyclerAdapter.seasonList) {
+//
+//            if (item.number != seasonNumber) {
+//                item.setColorToDefault()
+//            }
+//        }
     }
 }
 
