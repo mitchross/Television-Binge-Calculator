@@ -1,36 +1,25 @@
 package com.vanillax.televisionbingecalculator.app.tbc.adapters
 
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import com.vanillax.televisionbingecalculator.app.BR
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingAdapter
+import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingListAdapter
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder
 import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewModelItem
 
 
-class SeasonNumberRecyclerAdapter( private val callback: ( number: Int ) -> Unit) : BaseDataBindingAdapter<ViewDataBinding>() {
+class SeasonNumberRecyclerAdapter : BaseDataBindingAdapter<ViewDataBinding>() {
 
-    internal var seasonList: MutableList<SeasonNumberViewModelItem> = mutableListOf()
+    private var seasonList: MutableList<SeasonNumberViewModelItem> = mutableListOf()
 
-    fun setSeasonList(seasonNumberViewmodelList: MutableList<SeasonNumberViewModelItem>) {
-
-        if (this.seasonList == seasonNumberViewmodelList) {
-            return
-        }
-
+    fun setSeasonList(seasonNumberViewmodelList: List<SeasonNumberViewModelItem>) {
         seasonList.clear()
-        for( s in seasonNumberViewmodelList)
-        {
-            seasonList.add(SeasonNumberViewModelItem(s.number,callback))
-        }
         seasonList.addAll(seasonNumberViewmodelList)
 
         notifyDataSetChanged()
-
-        this.seasonList = seasonNumberViewmodelList
     }
-
-
 
     override fun bindItem(holder: DataBoundViewHolder<ViewDataBinding>?, position: Int, payloads: MutableList<Any>?) {
         if (holder != null) {
@@ -38,12 +27,31 @@ class SeasonNumberRecyclerAdapter( private val callback: ( number: Int ) -> Unit
         }
     }
 
-
     override fun getItemCount(): Int {
         return seasonList.size
     }
 
     override fun getItemViewType(position: Int): Int {
         return R.layout.season_number_item2
+    }
+}
+
+class SeasonNumberRecyclerAdapter2 : BaseDataBindingListAdapter<SeasonNumberViewModelItem>(DiffUtilItemCallback()) {
+
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position).viewType
+    }
+
+    class DiffUtilItemCallback: DiffUtil.ItemCallback<SeasonNumberViewModelItem>() {
+
+        override fun areItemsTheSame(oldItem: SeasonNumberViewModelItem,
+                                     newItem: SeasonNumberViewModelItem): Boolean {
+            return oldItem.seasonNumber == newItem.seasonNumber
+        }
+
+        override fun areContentsTheSame(oldItem: SeasonNumberViewModelItem,
+                                        newItem: SeasonNumberViewModelItem): Boolean {
+            return oldItem.textColor == newItem.textColor
+        }
     }
 }

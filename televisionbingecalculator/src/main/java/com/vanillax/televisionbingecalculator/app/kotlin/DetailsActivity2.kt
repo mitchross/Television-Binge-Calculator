@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.vanillax.televisionbingecalculator.app.R
 import com.vanillax.televisionbingecalculator.app.databinding.ActivityShowDetails2Binding
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
@@ -11,16 +12,15 @@ import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPISer
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
 import com.vanillax.televisionbingecalculator.app.kotlin.utils.getViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.DetailsViewModel2
-import com.vanillax.televisionbingecalculator.app.tbc.adapters.SeasonNumberRecyclerAdapter
-
-
-
+import com.vanillax.televisionbingecalculator.app.tbc.adapters.*
 
 class DetailsActivity2 : AppCompatActivity() {
 
-    private lateinit var seasonNumberRecyclerAdapter: SeasonNumberRecyclerAdapter
+    private lateinit var seasonNumberRecyclerAdapter: SeasonNumberRecyclerAdapter2
     private lateinit var viewModel: DetailsViewModel2
     private lateinit var binding: ActivityShowDetails2Binding
+    private lateinit var streamingSourceRecyclerAdapter: StreamingSourceRecyclerAdapter2
+    private lateinit var castListRecyclerAdapter: CastListRecyclerAdapter2
 
     internal var showId: Int = 0
     protected var showTitle: String = ""
@@ -30,13 +30,31 @@ class DetailsActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details2)
+
         //Intent data from previous activitiy
         showId = intent.getIntExtra("tvshow_id", 0)
-        thumbnailUrl = intent.getStringExtra("tvshow_thumbnail")
-        showTitle = intent.getStringExtra("title")
+        thumbnailUrl = intent.getStringExtra("tvshow_thumbnail").orEmpty()
+        showTitle = intent.getStringExtra("title").orEmpty()
         selectedSearchType = intent.getSerializableExtra("show_type") as SearchType
 
-       binding = DataBindingUtil.setContentView(this, R.layout.activity_show_details2 )
+        seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter2().also {
+            binding.seasonsNumberList.adapter = it
+            binding.seasonsNumberList.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        streamingSourceRecyclerAdapter = StreamingSourceRecyclerAdapter2().also {
+            binding.steamingLogoRecyclerView.adapter = it
+            binding.steamingLogoRecyclerView.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        castListRecyclerAdapter = CastListRecyclerAdapter2().also {
+            binding.castRecyclerView.adapter = it
+            binding.castRecyclerView.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        }
 
         viewModel = getViewModel {
             DetailsViewModel2(TheMovieDBService.create(this),
@@ -44,30 +62,27 @@ class DetailsActivity2 : AppCompatActivity() {
             )
         }
 
-       viewModel.detailsViewState.observe(this, Observer {
-           binding.viewState = it
+        viewModel.detailsViewState.observe(this, Observer {
+            binding.viewState = it
 
-           seasonNumberRecyclerAdapter.setSeasonList(it.seasonCount)
+            seasonNumberRecyclerAdapter.submitList(it.seasonNumberItems)
+            castListRecyclerAdapter.submitList(it.castList)
+            streamingSourceRecyclerAdapter.submitList(it.streamingSources)
 
+            it.detailsUIEvent?.value?.let { event ->
 
-           it.detailsUIEvent?.value?.let { event ->
+                when (event) {
 
-               when (event) {
+                    is DetailsViewModel2.DetailsUIEvent.FakeEvent -> {
+                        // no-op
+                    }
+                }
+            }
+        })
+    }
 
-                   is DetailsViewModel2.DetailsUIEvent.FakeEvent -> {
-                       // no-op
-                   }
-               }
-           }
-
-
-       })
-
-        seasonNumberRecyclerAdapter = SeasonNumberRecyclerAdapter { it: Int ->
-            viewModel.onAction(DetailsViewModel2.DetailsAction.SeasonNumberClicked(it))
-        }
-
-        binding.seasonsNumberList.adapter = seasonNumberRecyclerAdapter
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.onAction(DetailsViewModel2.DetailsAction.FetchAllShowDetails(showId, selectedSearchType, showTitle))
     }
 }

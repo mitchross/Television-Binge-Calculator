@@ -1,12 +1,14 @@
 package com.vanillax.televisionbingecalculator.app.viewmodel
 
+import androidx.annotation.DrawableRes
 import com.vanillax.televisionbingecalculator.app.R
+import com.vanillax.televisionbingecalculator.app.kotlin.items.BaseItem
 
 /**
  * Created by mitchross on 3/5/17.
  */
 
-class StreamingSourceViewModelItem(internal var streamSourceMovie: String?) {
+class StreamingSourceViewModelItem(private var videoStream: VideoStream?): BaseItem(R.layout.streaming_source) {
 
 
     //		if( streamSource !=null)
@@ -14,39 +16,13 @@ class StreamingSourceViewModelItem(internal var streamSourceMovie: String?) {
     //			streamingIconName = streamSource.sourceDisplayName.toLowerCase();
     //		}
     val streamingIcon: Int
-        get() {
-            var streamingIconName = ""
-            if (streamSourceMovie != null || !streamSourceMovie!!.isEmpty()) {
-                streamingIconName = streamSourceMovie!!.toLowerCase()
-            }
+        get() = videoStream?.icon ?: 0
 
-
-            if (streamingIconName.contains(NETFLIX)) {
-
-                return R.drawable.netflix
-            }
-            if (streamingIconName.contains(HULU)) {
-                return R.drawable.hulu
-            }
-            if (streamingIconName.contains(AMAZON)) {
-                return R.drawable.amazon
-            }
-            if (streamingIconName.contains(VUDU)) {
-                return R.drawable.vudu
-            }
-            return if (streamingIconName.contains(HBO)) {
-                R.drawable.hbo
-            } else {
-                0
-            }
-
-        }
-
-    companion object {
-        val NETFLIX = "netflix"
-        val HULU = "hulu"
-        val AMAZON = "amazon"
-        val VUDU = "vudu"
-        val HBO = "hbo"
+    enum class VideoStream(@DrawableRes val icon: Int) {
+        NETFLIX(R.drawable.netflix),
+        HULU(R.drawable.hulu),
+        AMAZON(R.drawable.amazon),
+        VUDO(R.drawable.vudu),
+        HBO(R.drawable.hbo)
     }
 }

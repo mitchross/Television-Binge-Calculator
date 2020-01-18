@@ -26,7 +26,7 @@ import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewMode
 import java.util.*
 
 
-class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, SeasonNumberViewModelItem.SeasonNumberViewModelitemCallback {
+class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     private lateinit var viewModel: DetailsViewModel
@@ -203,16 +203,5 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
 //    }
 
-    override fun onSeasonTouch(seasonNumber: Int) {
-        Log.d("test", "" + seasonNumber)
-        viewModel.selectSeason(seasonNumber)
-
-//        for (item: SeasonNumberViewModelItem in seasonNumberRecyclerAdapter.seasonList) {
-//
-//            if (item.number != seasonNumber) {
-//                item.setColorToDefault()
-//            }
-//        }
-    }
 }
 

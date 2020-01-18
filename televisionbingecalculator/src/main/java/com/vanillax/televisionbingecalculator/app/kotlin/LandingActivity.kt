@@ -62,7 +62,7 @@ class LandingActivity : AppCompatActivity() {
                 when (event) {
 
                     is LandingActivityViewModel.LandingEvent.ShowDetails -> {
-                        val intent = Intent(this, DetailsActivity::class.java)
+                        val intent = Intent(this, DetailsActivity2::class.java)
                         intent.putExtra("tvshow_id", event.id)
                         intent.putExtra("tvshow_thumbnail", event.posterUrl)
                         intent.putExtra("title", event.title)

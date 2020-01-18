@@ -37,7 +37,7 @@
             </intent-filter>
         </activity-alias>
         <activity
-            android:name=".kotlin.DetailsActivity"
+            android:name=".kotlin.DetailsActivity2"
             android:label="@string/title_activity_show_details"
             android:parentActivityName=".kotlin.LandingActivity"
             android:screenOrientation="portrait"

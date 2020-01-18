@@ -45,6 +45,7 @@ class CalculatorUtils(internal var tvShowByIdResponse: TVShowByIdResponse) {
         return if (tvShowByIdResponse.seasons?.size == 1) {
             1
         } else {
+
             if ( checkIfSpecial() )
             {
                return tvShowByIdResponse.seasons?.size?.minus(1)

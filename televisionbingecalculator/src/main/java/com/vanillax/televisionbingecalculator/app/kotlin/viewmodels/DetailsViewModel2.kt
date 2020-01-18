@@ -9,14 +9,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vanillax.televisionbingecalculator.app.kotlin.network.JustWatchAPIService
 import com.vanillax.televisionbingecalculator.app.kotlin.network.TheMovieDBService
-import com.vanillax.televisionbingecalculator.app.kotlin.network.response.CastResponse
-import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchResponse
-import com.vanillax.televisionbingecalculator.app.kotlin.network.response.JustWatchSearch
-import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
+import com.vanillax.televisionbingecalculator.app.kotlin.network.response.*
 import com.vanillax.televisionbingecalculator.app.kotlin.utils.CalculatorUtils
 import com.vanillax.televisionbingecalculator.app.udf.Resource
 import com.vanillax.televisionbingecalculator.app.udf.UIEvent
+import com.vanillax.televisionbingecalculator.app.viewmodel.CastViewModelItem
 import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewModelItem
+import com.vanillax.televisionbingecalculator.app.viewmodel.StreamingSourceViewModelItem
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -37,7 +36,7 @@ class DetailsViewModel2(private val movieDBService: TheMovieDBService,
 
     // DetailsViewState can contain other viewStates as well we leave this up to the developer if it makes sense.
 
-    private val detailsItemViewModel = MutableLiveData<Resource<DetailsItemViewModel>>().also {
+    private val detailMergedResponse = MutableLiveData<Resource<DetailMergedResponse>>().also {
         _detailsViewState.addSource(it) {
             combineSources()
         }
@@ -56,9 +55,27 @@ class DetailsViewModel2(private val movieDBService: TheMovieDBService,
     // for consistency sake
 
     private fun combineSources() {
+
+        //TODO Add the episodeVisibility logic into the copy method here. If you do not know exactly how to format paste the logic you want here and I will add later
+
         _detailsViewState.value?.copy(
-                loadingVisibility = if (detailsItemViewModel.value is Resource.Loading) View.VISIBLE else View.GONE,
-                detailsItemViewModel = detailsItemViewModel.value?.data,
+                loadingVisibility = if (detailMergedResponse.value is Resource.Loading) View.VISIBLE else View.GONE,
+                posterUrl = detailMergedResponse.value?.data?.imageUrl.orEmpty(),
+                thumbnailUrl = detailMergedResponse.value?.data?.thumbnailurl.orEmpty(),
+                showTitle = detailMergedResponse.value?.data?.title.orEmpty(),
+                year = detailMergedResponse.value?.data?.year.orEmpty(),
+                category = detailMergedResponse.value?.data?.category.orEmpty(),
+                totalBingeTimeString = detailMergedResponse.value?.data?.bingeTime.orEmpty(),
+                showDescription = detailMergedResponse.value?.data?.showDescription.orEmpty(),
+                episodesCountString = detailMergedResponse.value?.data?.episodeCount.toString(),
+                runtimeString = detailMergedResponse.value?.data?.runtime.toString(),
+                seasonCount = detailMergedResponse.value?.data?.seasonCount
+                        ?: 0,
+                seasonNumberItems = detailMergedResponse.value?.data?.seasonNumberItems.orEmpty(),
+                justWatchResponse = detailMergedResponse.value?.data?.justWatchResponse
+                        ?: JustWatchResponse(emptyList()),
+                castList = detailMergedResponse.value?.data?.castList.orEmpty(),
+                streamingSources = detailMergedResponse.value?.data?.streamingSources.orEmpty(),
                 detailsUIEvent = uiEvent.value
         )?.let {
             _detailsViewState.value = it
@@ -70,11 +87,20 @@ class DetailsViewModel2(private val movieDBService: TheMovieDBService,
         when (action) {
 
             is DetailsAction.FetchAllShowDetails -> {
-
+                fetchAllData(showId = action.showId, searchType = action.searchType, showTitle = action.showTitle)
             }
 
             is DetailsAction.SeasonNumberClicked -> {
 
+                detailMergedResponse.value?.data?.let {
+
+                    it.seasonCount?.let { seasonCount ->
+                        detailMergedResponse.value?.data?.copy(seasonNumberItems = createSeasonNumberItems(seasonCount, action.seasonNumber))
+                                .also { mergeResponse ->
+                                    detailMergedResponse.postValue(Resource.Success(mergeResponse))
+                                }
+                    }
+                }
             }
         }
     }
@@ -113,12 +139,14 @@ class DetailsViewModel2(private val movieDBService: TheMovieDBService,
                 Function3 { tvShowByIDResponse: TVShowByIdResponse, castResponse: CastResponse, streamDetails: JustWatchResponse ->
                     makeDetailsItemViewModel(tvShowByIDResponse, castResponse, streamDetails, searchType, showTitle)
                 })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { result ->
-
+                        {
+                            detailMergedResponse.postValue(Resource.Success(it))
                         },
                         { error ->
+                            detailMergedResponse.postValue(Resource.Failure(detailMergedResponse.value?.data, error))
                             Log.d(this.javaClass.simpleName, error?.message)
                         }
                 ).also {
@@ -129,35 +157,93 @@ class DetailsViewModel2(private val movieDBService: TheMovieDBService,
 
     private fun makeDetailsItemViewModel(tvShowByIdResponse: TVShowByIdResponse,
                                          castResponse: CastResponse,
-                                         streamDetails: JustWatchResponse,
+                                         justWatchResponse: JustWatchResponse,
                                          selectedSearchType: SearchType,
-                                         showTitle: String): DetailsItemViewModel {
+                                         showTitle: String): DetailMergedResponse {
 
-        val calcUtils = CalculatorUtils(tvShowByIdResponse)
+        with(CalculatorUtils(tvShowByIdResponse))
+        {
+            val seasonCount = numberOfSeasons()
 
-        val episodeCount = calcUtils.getEpisodeCount()
-        val runtime = calcUtils.getRunTimeAverage(selectedSearchType)
-        val bingeTime = calcUtils.getTotalBingeTime(selectedSearchType)
-        val imageUrl = calcUtils.getShowPosterThumbnail(tvShowByIdResponse.imageUrl, false)
-        val thumbnailUrl = calcUtils.getShowPosterThumbnail(tvShowByIdResponse.imageUrl, false)
-        val category = calcUtils.getCategory()
-        val year = calcUtils.getYear(selectedSearchType)
-        val seasonsCount = calcUtils.numberOfSeasons()
+            return DetailMergedResponse(
+                    episodeCount = getEpisodeCount(),
+                    runtime = getRunTimeAverage(selectedSearchType),
+                    bingeTime = getTotalBingeTime(selectedSearchType),
+                    imageUrl = getShowPosterThumbnail(tvShowByIdResponse.imageUrl, false),
+                    thumbnailurl = getShowPosterThumbnail(tvShowByIdResponse.imageUrl, false),
+                    justWatchResponse = justWatchResponse,
+                    year = getYear(selectedSearchType),
+                    category = getCategory(),
+                    title = showTitle,
+                    showDescription = tvShowByIdResponse.episodeDescription,
+                    seasonCount = seasonCount,
+                    tvShowByIdResponse = tvShowByIdResponse,
+                    seasonNumberItems = createSeasonNumberItems(seasons = seasonCount
+                            ?: 0, seasonToSelect = 0),
+                    castList = createCastListItems(castResponse),
+                    streamingSources = createStreamingSourceItems(showTitle, justWatchResponse))
 
-        return DetailsItemViewModel(
-                episodeCount,
-                runtime,
-                bingeTime,
-                imageUrl,
-                thumbnailUrl,
-                castResponse,
-                streamDetails,
-                year,
-                category,
-                showTitle,
-                tvShowByIdResponse.episodeDescription,
-                seasonsCount,
-                tvShowByIdResponse)
+        }
+    }
+
+    private fun createSeasonNumberItems(seasons: Int,
+                                        seasonToSelect: Int): List<SeasonNumberViewModelItem> {
+
+        val mutableList = mutableListOf<SeasonNumberViewModelItem>()
+
+        for (i in 0 until seasons + 1) {
+            mutableList.add(SeasonNumberViewModelItem(i, i == seasonToSelect, this::onAction))
+        }
+
+        return mutableList
+    }
+
+    private fun createCastListItems(castResponse: CastResponse): List<CastViewModelItem> {
+        return castResponse.castList?.map {
+            CastViewModelItem(it)
+        }.orEmpty()
+    }
+
+    private fun createStreamingSourceItems(showTitle: String,
+                                           justWatchResponse: JustWatchResponse): List<StreamingSourceViewModelItem> {
+
+        if (justWatchResponse.items != null || justWatchResponse.items!!.size != 0) {
+
+            return justWatchResponse.items.first {
+                it.title?.contains(showTitle) == true
+            }.offers?.distinct()?.map {
+
+                when (it.providerId) {
+
+                    Offer.Streamtype.VUDU -> {
+                        StreamingSourceViewModelItem(StreamingSourceViewModelItem.VideoStream.VUDO)
+                    }
+
+                    Offer.Streamtype.NETFLIX -> {
+                        StreamingSourceViewModelItem(StreamingSourceViewModelItem.VideoStream.NETFLIX)
+                    }
+
+                    Offer.Streamtype.AMAZON -> {
+                        StreamingSourceViewModelItem(StreamingSourceViewModelItem.VideoStream.AMAZON)
+                    }
+
+                    Offer.Streamtype.HBO -> {
+                        StreamingSourceViewModelItem(StreamingSourceViewModelItem.VideoStream.HBO)
+                    }
+
+                    Offer.Streamtype.HULU -> {
+                        StreamingSourceViewModelItem(StreamingSourceViewModelItem.VideoStream.HULU)
+                    }
+
+                    else -> {
+                        StreamingSourceViewModelItem(null)
+                    }
+                }
+
+            }.orEmpty()
+        }
+
+        return emptyList()
     }
 
     data class DetailsViewState(val loadingVisibility: Int = View.GONE,
@@ -171,8 +257,11 @@ class DetailsViewModel2(private val movieDBService: TheMovieDBService,
                                 val episodesCountString: String = "",
                                 val episodeVisibility: Int = View.GONE,
                                 val runtimeString: String = "",
-                                val seasonCount: MutableList<SeasonNumberViewModelItem> = mutableListOf(),
-                                val detailsItemViewModel: DetailsItemViewModel? = null,
+                                val seasonCount: Int = 0,
+                                val seasonNumberItems: List<SeasonNumberViewModelItem> = emptyList(),
+                                val justWatchResponse: JustWatchResponse = JustWatchResponse(emptyList()),
+                                val castList: List<CastViewModelItem> = emptyList(),
+                                val streamingSources: List<StreamingSourceViewModelItem> = emptyList(),
                                 val detailsUIEvent: UIEvent<DetailsUIEvent>? = null)
 
     sealed class DetailsAction {
@@ -199,4 +288,22 @@ class DetailsViewModel2(private val movieDBService: TheMovieDBService,
         object FakeEvent : DetailsUIEvent()
     }
 
+    data class DetailMergedResponse
+    (
+            val episodeCount: Int?,
+            val runtime: Int?,
+            val bingeTime: String?,
+            val imageUrl: String?,
+            val thumbnailurl: String?,
+            val justWatchResponse: JustWatchResponse,
+            val year: String?,
+            val category: String?,
+            val title: String?,
+            val showDescription: String?,
+            val seasonCount: Int?,
+            val tvShowByIdResponse: TVShowByIdResponse?,
+            val seasonNumberItems: List<SeasonNumberViewModelItem>,
+            val castList: List<CastViewModelItem>,
+            val streamingSources: List<StreamingSourceViewModelItem>
+    )
 }
