@@ -2,7 +2,7 @@ package com.vanillax.televisionbingecalculator.app.kotlin.adapters
 
 import androidx.databinding.ViewDataBinding
 import com.vanillax.televisionbingecalculator.app.R
-
+import androidx.databinding.library.baseAdapters.BR;
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.ShowPosterListing
 
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.PosterThumbnailViewModel
