@@ -1,10 +1,10 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.adapters
 
 import androidx.databinding.ViewDataBinding
-import com.vanillax.televisionbingecalculator.app.BR
 import com.vanillax.televisionbingecalculator.app.R
+
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.ShowPosterListing
-import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.LandingActivityViewModel
+
 import com.vanillax.televisionbingecalculator.app.kotlin.viewmodels.PosterThumbnailViewModel
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingAdapter
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder

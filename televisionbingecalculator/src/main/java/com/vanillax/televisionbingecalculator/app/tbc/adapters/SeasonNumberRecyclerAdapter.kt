@@ -1,8 +1,9 @@
 package com.vanillax.televisionbingecalculator.app.tbc.adapters
 
 import androidx.databinding.ViewDataBinding
-import com.vanillax.televisionbingecalculator.app.BR
 import com.vanillax.televisionbingecalculator.app.R
+
+
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.BaseDataBindingAdapter
 import com.vanillax.televisionbingecalculator.app.util.bindingadapter.DataBoundViewHolder
 import com.vanillax.televisionbingecalculator.app.viewmodel.SeasonNumberViewModelItem
@@ -27,6 +28,7 @@ class SeasonNumberRecyclerAdapter( private val listener: SeasonNumberViewModelIt
     override fun bindItem(holder: DataBoundViewHolder<ViewDataBinding>?, position: Int, payloads: MutableList<Any>?) {
         if (holder != null) {
             holder.binding.setVariable(BR.viewModel, seasonList[position] )
+            //todo why wont this compile?
             holder.binding.setVariable(BR.listener, listener)
         }
     }

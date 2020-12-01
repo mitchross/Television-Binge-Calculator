@@ -60,8 +60,8 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         //Intent data from previous activitiy
         showId = intent.getIntExtra("tvshow_id", 0)
-        thumbnailUrl = intent.getStringExtra("tvshow_thumbnail")
-        showTitle = intent.getStringExtra("title")
+        thumbnailUrl = intent.getStringExtra("tvshow_thumbnail").toString()
+        showTitle = intent.getStringExtra("title").toString()
         selectedSearchType = intent.getSerializableExtra("show_type") as SearchType
 
         setUpViews()
@@ -117,7 +117,7 @@ class DetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     }
 
     private fun matchTitleAndGetData(justWatchResponse: JustWatchResponse) {
-        if (justWatchResponse.items != null || justWatchResponse.items!!.size != 0) {
+        if (justWatchResponse.items != null || justWatchResponse.items!! != 0) {
             for (justWatchSearchItem in justWatchResponse.items!!) {
                 if (showTitle.contains(justWatchSearchItem.title!!)) {
                     if (justWatchSearchItem.scoringList != null) {

@@ -1,10 +1,11 @@
 package com.vanillax.televisionbingecalculator.app.kotlin.utils
 
 import android.content.Context
+import android.util.Log
 import com.vanillax.televisionbingecalculator.app.kotlin.enum.SearchType
 import com.vanillax.televisionbingecalculator.app.kotlin.network.response.TVShowByIdResponse
 import com.vanillax.televisionbingecalculator.app.tbc.Constants
-import roboguice.util.Ln
+
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -77,7 +78,7 @@ class CalculatorUtils(internal var tvShowByIdResponse: TVShowByIdResponse) {
 
 
          tvShowByIdResponse.seasons?.forEach { s ->
-             Ln.d("Season " + s.seasonNumber + "Size " + s.episodeCount)
+             Log.d("test","Season " + s.seasonNumber + "Size " + s.episodeCount)
              if (s.seasonNumber != 0) {
                  totalEpisodes += s.episodeCount
              }

@@ -2,9 +2,9 @@ package com.vanillax.televisionbingecalculator.app.tbc
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
-import com.crashlytics.android.Crashlytics
+
 import com.google.firebase.analytics.FirebaseAnalytics
-import io.fabric.sdk.android.Fabric
+
 
 
 
@@ -24,10 +24,10 @@ class TelevisionBingeCalculator : Application() {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        val fabric = Fabric.Builder(this)
-                .kits(Crashlytics())
-                .build()
-        Fabric.with(fabric)
+//        val fabric = Fabric.Builder(this)
+//                .kits(Crashlytics())
+//                .build()
+//        Fabric.with(fabric)
 
 
 

@@ -193,7 +193,7 @@ class DetailsViewModel(
 
                         },
                         { error ->
-                            Log.d(this.javaClass.simpleName,error?.message)
+                            error?.message?.let { Log.d(this.javaClass.simpleName, it) }
                             isLoading.set(false)
                         }
                 )
