@@ -18,7 +18,7 @@ class SeasonNumberRecyclerAdapter( private val listener: SeasonNumberViewModelIt
         {
             seasonList.add(SeasonNumberViewModelItem(s.number,listener))
         }
-        seasonList.addAll(seasonNumberViewmodelList)
+
 
         notifyDataSetChanged()
     }
